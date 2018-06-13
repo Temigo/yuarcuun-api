@@ -1,9 +1,9 @@
 from flask import Flask, send_file
 from flask_restful import Resource, Api, reqparse
 from flask_restful.utils import cors
-import json, os, pydub
+import json, os
 from flask.json import jsonify
-
+from pydub import AudioSegment
 from common.parser.parser import Postbase
 from common.tts.tts_parser import parser
 
