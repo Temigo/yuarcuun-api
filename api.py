@@ -1,14 +1,20 @@
 from flask import Flask
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 from flask_restful.utils import cors
 import json
 from flask.json import jsonify
-#from common.parser
+from common.parser.parser import Postbase
 
 app = Flask(__name__)
 api = Api(app)
 api.decorators=[cors.crossdomain(origin='*', automatic_options=False)]
 api.methods = ['GET', 'OPTIONS', 'POST', 'PUT']
+
+
+# Define parser and request args
+parser = reqparse.RequestParser()
+parser.add_argument('root', type=str)
+parser.add_argument('postbase', type=str)
 
 # Takes a list of dict/json objects and add id field
 def index(l):
@@ -38,7 +44,7 @@ class Verbs(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self):
-        return verbs
+        return jsonify(verbs)
 
 class Postbases(Resource):
     def __init__(self, *args, **kwargs):
@@ -46,7 +52,7 @@ class Postbases(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self):
-        return postbases
+        return jsonify(postbases)
 
 class Endings(Resource):
     def __init__(self, *args, **kwargs):
@@ -54,7 +60,7 @@ class Endings(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self):
-        return endings
+        return jsonify(endings)
 
 class Word(Resource):
     @cors.crossdomain(origin='*')
@@ -62,12 +68,21 @@ class Word(Resource):
         print(word)
         return {'english': 'mother', 'yupik': 'aakaq'}
 
+class Concatenator(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        args = parser.parse_args()
+        p = Postbase(args['postbase'])
+        print(args)
+        print(p.concat(args['root']))
+        return jsonify({'concat': p.concat(args['root'])})
 
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(Nouns, '/noun/all')
 api.add_resource(Verbs, '/verb/all')
 api.add_resource(Postbases, '/postbase/all')
 api.add_resource(Endings, '/ending/all')
+api.add_resource(Concatenator, '/concat')
 
 if __name__ == '__main__':
     app.run(debug=True)
