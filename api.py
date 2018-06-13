@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask, send_file
 from flask_restful import Resource, Api, reqparse
 from flask_restful.utils import cors
-import json
+import json, sox, os
 from flask.json import jsonify
+
 from common.parser.parser import Postbase
+from common.tts.tts_parser import parser
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,9 +14,9 @@ api.methods = ['GET', 'OPTIONS', 'POST', 'PUT']
 
 
 # Define parser and request args
-parser = reqparse.RequestParser()
-parser.add_argument('root', type=str)
-parser.add_argument('postbase', type=str)
+parser_api = reqparse.RequestParser()
+parser_api.add_argument('root', type=str)
+parser_api.add_argument('postbase', type=str)
 
 # Takes a list of dict/json objects and add id field
 def index(l):
@@ -71,11 +73,26 @@ class Word(Resource):
 class Concatenator(Resource):
     @cors.crossdomain(origin='*')
     def get(self):
-        args = parser.parse_args()
+        args = parser_api.parse_args()
         p = Postbase(args['postbase'])
-        print(args)
-        print(p.concat(args['root']))
         return jsonify({'concat': p.concat(args['root'])})
+
+class TTS(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self, word):
+        parsed_output = parser(word)
+        po = range(len(parsed_output))
+        for i,k in enumerate(parsed_output):
+            po[i] = 'assets/audiofiles/'+k+'.wav'
+            if not os.path.isfile(po[i]):
+                print("ERROR %s audio file is missing!" % po[i])
+                return jsonify({'url': ''})
+        print(po)
+        cbn = sox.Combiner()
+        cbn.build(po, 'temp/test.wav', 'concatenate')
+        #return jsonify({'url': 'test.wav'})
+        return send_file('temp/test.wav', mimetype='audio/wav')
+
 
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(Nouns, '/noun/all')
@@ -83,6 +100,7 @@ api.add_resource(Verbs, '/verb/all')
 api.add_resource(Postbases, '/postbase/all')
 api.add_resource(Endings, '/ending/all')
 api.add_resource(Concatenator, '/concat')
+api.add_resource(TTS, '/tts/<string:word>')
 
 if __name__ == '__main__':
     app.run(debug=True)
