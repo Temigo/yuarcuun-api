@@ -92,8 +92,8 @@ class TTS(Resource):
                 final_audio = a
             else:
                 final_audio = final_audio + a
-        final_audio.export('temp/test.wav', format='wav')
-        return send_file('temp/test.wav', mimetype='audio/wav')
+        final_audio.export('/tmp/test.wav', format='wav')
+        return send_file('/tmp/test.wav', mimetype='audio/wav')
 
 
 api.add_resource(Word, '/word/<string:word>')
