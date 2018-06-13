@@ -1,4 +1,4 @@
 Flask>=0.12.2
 Flask-RESTful>=0.3.6
 gunicorn>=19.7.1
-sox
+pydub>=0.22.0

@@ -1,7 +1,7 @@
 from flask import Flask, send_file
 from flask_restful import Resource, Api, reqparse
 from flask_restful.utils import cors
-import json, sox, os
+import json, os, pydub
 from flask.json import jsonify
 
 from common.parser.parser import Postbase
@@ -81,16 +81,18 @@ class TTS(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         parsed_output = parser(word)
-        po = range(len(parsed_output))
+        final_audio = None
         for i,k in enumerate(parsed_output):
-            po[i] = 'assets/audiofiles/'+k+'.wav'
-            if not os.path.isfile(po[i]):
-                print("ERROR %s audio file is missing!" % po[i])
-                return jsonify({'url': ''})
-        print(po)
-        cbn = sox.Combiner()
-        cbn.build(po, 'temp/test.wav', 'concatenate')
-        #return jsonify({'url': 'test.wav'})
+            filename = 'assets/audiofiles/'+k+'.wav'
+            if not os.path.isfile(filename):
+                print("ERROR %s audio file is missing!" % filename)
+                return jsonify({})
+            a = AudioSegment.from_wav(filename)
+            if final_audio is None:
+                final_audio = a
+            else:
+                final_audio = final_audio + a
+        final_audio.export('temp/test.wav', format='wav')
         return send_file('temp/test.wav', mimetype='audio/wav')
 
 
