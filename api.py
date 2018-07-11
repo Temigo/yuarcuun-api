@@ -16,8 +16,9 @@ api.methods = ['GET', 'OPTIONS', 'POST', 'PUT']
 # Define parser and request args
 parser_api = reqparse.RequestParser()
 parser_api.add_argument('root', type=str)
-parser_api.add_argument('postbase', type=str)
+parser_api.add_argument('postbase', type=str, action='append')
 
+# FIXME obsolete
 # Takes a list of dict/json objects and add id field
 def index(l):
     new_l = []
@@ -31,6 +32,15 @@ nouns = index(json.load(open("assets/root_nouns_upd3-18.json")))
 verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
 postbases = index(json.load(open("assets/postbases_upd3-18.json")))
 endings = index(json.load(open("assets/endings_upd3-18.json")))
+
+new_dict0 = json.load(open("assets/a_dict_form_updated_3.json"))
+new_dict = []
+for k, v in new_dict0.iteritems():
+    definitions = [v[key]["definition"] for key in v]
+    v["english"] = ' | '.join(definitions)
+    v["yupik"] = k
+
+    new_dict.append(v)
 
 class Nouns(Resource):
     def __init__(self, *args, **kwargs):
@@ -68,14 +78,23 @@ class Word(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         print(word)
-        return {'english': 'mother', 'yupik': 'aakaq'}
+        return jsonify(new_dict0[word])
+
+class WordsList(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        return jsonify(new_dict)
 
 class Concatenator(Resource):
     @cors.crossdomain(origin='*')
     def get(self):
         args = parser_api.parse_args()
-        p = Postbase(args['postbase'])
-        return jsonify({'concat': p.concat(args['root'])})
+        word = args['root']
+        # FIXME is this conserving the order of parameters?
+        for postbase in args['postbase']:
+            p = Postbase(postbase)
+            word = p.concat(word)
+        return jsonify({'concat': word})
 
 class TTS(Resource):
     @cors.crossdomain(origin='*')
@@ -97,6 +116,8 @@ class TTS(Resource):
 
 
 api.add_resource(Word, '/word/<string:word>')
+api.add_resource(WordsList, '/word/all', '/')
+
 api.add_resource(Nouns, '/noun/all')
 api.add_resource(Verbs, '/verb/all')
 api.add_resource(Postbases, '/postbase/all')
