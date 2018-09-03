@@ -7,7 +7,7 @@ import json
 import os
 from flask.json import jsonify
 from pydub import AudioSegment
-from common.parser.parser import Postbase
+from common.parser.parser import Postbase, deconvert
 from common.parser.tts_parser import parser
 
 app = Flask(__name__)
@@ -105,7 +105,7 @@ class Concatenator(Resource):
         for postbase in args['postbase']:
             p = Postbase(postbase)
             word = p.concat(word)
-        return jsonify({'concat': word})
+        return jsonify({'concat': deconvert(word)})
 
 
 class TTS(Resource):
