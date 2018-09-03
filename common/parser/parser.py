@@ -178,6 +178,7 @@ class DirtyParser(object):
         if self.debug>=1: print("Looking at ", word)
         start_time = time.time()
         matches = self.match(word)
+        #print(matches)
         dict_time = time.time()
         matches = [([m], m) for m in matches]
         # Matches is a list of tuples (tokens, match)
@@ -212,6 +213,9 @@ class DirtyParser(object):
         Final decision: decide which list of root/postbases/endings we should
         keep based on differences with word
         """
+        #print([(m, self.compare(word, m[1])) for m in matches])
+        #d = [m for m in matches if abs(len(m[1]) - len(word)) == 0]
+        #print(matches)
         if len(matches) > 0:
             d = [m for m in matches if m[1] == word]
             if len(d) > 0:
@@ -224,10 +228,19 @@ class DirtyParser(object):
             if len(d) > 0:
                 max_root_length = max([len(m[0][0]) for m in d])
                 d = [m for m in d if len(m[0][0]) == max_root_length]
-
+        #from collections import OrderedDict
+        #sprint(list(OrderedDict.fromkeys(d)))
         if len(matches) == 0 or len(d) == 0:
             return [[word]]
-
+            #raise Exception("No good match found for %s with matches %s" % (word, matches))
+        #elif len(d) > 1:
+        #    Exception("Several matches were found for %s: %s" %(word, d))
+        #root_length = [len(m[0][0]) for m in d]
+        #max_length = max(root_length)
+        #exactmatches = [g for g in d if g[1] == word]
+        #if exactmatches:
+        #    return exactmatches
+        #return [m for m in d if len(m[0][0]) == max_length]
         d = [[str(x) for x in m[0]] + [m[1]] for m in d]
         d_final = []
         for m in d:
@@ -241,6 +254,7 @@ class DirtyParser(object):
         sentence = sentence.lower()
         sentence = re.split(re.compile("(\s|,|\.|;|\?|!|\[|\]|\(|\)|:|\")"), sentence)
 
+        #print(sentence)
         sentence_matches = []
         for word in sentence:
             if len(word) == 0:
@@ -263,13 +277,13 @@ class DirtyParser(object):
 
 if __name__ == '__main__':
     test_words = ["pissullrunrituq", "nerenrituq"]
-    p = DirtyParser(debug=0, postbases_files=['VY'])
+    p = DirtyParser(debug=1, postbases_files=['VY'])
     #for w in test_words:
     #    print p.parse(w)
     #print(p.analyze("pissuryug"))
     #print(p.tokenize("pissuryunriteqatartuq"))
     # cenirte- / @~+yugnaite- / +’(g/t)u:6a
-    #print(p.tokenize("alingullruuq"))
+    print(p.tokenize("pissuryullruuq"))
     # alinge- / -llru- / +'(g/t)uq
     #print(p.tokenize("an'uq"))
     # ane- / +'(g/t)uq
@@ -297,7 +311,7 @@ if __name__ == '__main__':
     #need to print to =llu
 #    STILL BAD
     #print(p.tokenize("atsarturyugyaaqellruunga"))
-    #print(p.tokenize("yugnikekengaq"))
+    #print(p.tokenize("kaigtuq"))
     # still trying to choose the best set so far
     #print(p.tokenize("nallunrilkegci"))
     # fails at being able to find anything like -lkegi
@@ -316,12 +330,12 @@ if __name__ == '__main__':
     for line in text:
         print(p.tokenize(line.rstrip('\n')))"""
     #print(p.tokenize("tua-i nallunritniarciman'a wangkuta-w' angutni canek pitulini pitgaqutulini-llu, aavcaam taum culua, melquq tamana, niitela'arqa perlliniluni."))
-    import sys
-    output = ""
-    with open(sys.argv[1], 'r') as f:
-        text = f.readlines()
-    for line in text:
-        s = p.tokenize(line.rstrip('\n'))
-        print(s)
+    # import sys
+    # output = ""
+    # with open(sys.argv[1], 'r') as f:
+    #     text = f.readlines()
+    # for line in text:
+    #     s = p.tokenize(line.rstrip('\n'))
+    #     print(s)
         #output = output + s + '\n'
     #print(output)

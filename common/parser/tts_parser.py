@@ -14,14 +14,14 @@ def convert(word):
     word = word.replace('gg','4')
     word = word.replace('rr','5')
     word = word.replace('ng','6')
-    word = word.replace(u'μ','7')
-    word = word.replace(u'ń','8')
+    word = word.replace('μ','7')
+    word = word.replace('ń','8')
     word = word.replace('TMg','9')
-    word = word.replace(u'¥r','j')
-    word = word.replace(u'¥rr','z')
-    word = word.replace(u'¥g','x')
-    word = word.replace(u'¥k','h')
-    word = word.replace(u'¥q','d')
+    word = word.replace('¥r','j')
+    word = word.replace('¥rr','z')
+    word = word.replace('¥g','x')
+    word = word.replace('¥k','h')
+    word = word.replace('¥q','d')
     return word
 
 def deconvert(word):
@@ -31,14 +31,14 @@ def deconvert(word):
     word = word.replace('4','gg')
     word = word.replace('5','rr')
     word = word.replace('6','ng')
-    word = word.replace('7',u'μ')
-    word = word.replace('8',u'ń')
+    word = word.replace('7','μ')
+    word = word.replace('8','ń')
     word = word.replace('9','TMg')
-    word = word.replace('j',u'¥r')
-    word = word.replace('z',u'¥rr')
-    word = word.replace('x',u'¥g')
-    word = word.replace('h',u'¥k')
-    word = word.replace('d',u'¥q')
+    word = word.replace('j','¥r')
+    word = word.replace('z','¥rr')
+    word = word.replace('x','¥g')
+    word = word.replace('h','¥k')
+    word = word.replace('d','¥q')
     return word
 
 def process_enclitics(word):
@@ -69,7 +69,7 @@ def assign_stressed_vowels(single_word):
 		for i, letter in enumerate(single_word):
 			if letter in vowels:
 				if first_vowel: #rhythmic stress rule 1
-					if word_length-i > 2 and single_word[i+1] in consonants and (single_word[i+2] in consonants or single_word[i+2] == "'"):
+					if word_length-i > 2 and single_word[i+1] in consonants and (single_word[i+2] in consonants or single_word[i+2] == "'"): 
 						single_word[i] = letter.upper()
 						stress_next_vowel = False
 					elif (word_length-i > 3 and single_word[i+1] in consonants and single_word[i+2] in vowels and single_word[i+3] in vowels) or (word_length-i > 3 and single_word[i+1] in consonants and single_word[i+2] == "'" and single_word[i+3] in vowels): # geminated
@@ -77,14 +77,14 @@ def assign_stressed_vowels(single_word):
 						stress_next_vowel = False
 					else:
 						stress_next_vowel = True
-					first_vowel = False
+					first_vowel = False				
 				elif stress_next_vowel == True and word_length-i > 1 and single_word[i+1] in vowels: #rhythmic stress rule 2
 					single_word[last_vowel_index] = single_word[last_vowel_index].upper()
 				elif stress_next_vowel == True and i > 2 and word_length-i > 2 and single_word[i-3] in vowels and single_word[i-2] in consonants and single_word[i-1] in consonants and single_word[i+1] in consonants and single_word[i+2] in vowels: #rhythmic stress rule 3
 					single_word[last_vowel_index] = single_word[last_vowel_index].upper()
-				elif stress_next_vowel == True:
+				elif stress_next_vowel == True: 
 					single_word[i] = single_word[i].upper()
-					stress_next_vowel = False
+					stress_next_vowel = False					
 				else:
 					stress_next_vowel = True
 				last_vowel_index = i
@@ -100,7 +100,7 @@ def assign_stressed_vowels(single_word):
 		for i, letter in enumerate(single_word):
 			if letter in vowels:
 				if first_vowel: #rhythmic stress rule 1
-					if word_length-i > 2 and single_word[i+1] in consonants and single_word[i+2] in consonants:
+					if word_length-i > 2 and single_word[i+1] in consonants and single_word[i+2] in consonants: 
 						single_word[i] = letter.upper()
 						stress_next_vowel = False
 					elif word_length-i > 3 and single_word[i+1] in consonants and single_word[i+2] in vowels  and single_word[i+3] in vowels: # geminated
@@ -108,14 +108,14 @@ def assign_stressed_vowels(single_word):
 						stress_next_vowel = False
 					else:
 						stress_next_vowel = True
-					first_vowel = False
+					first_vowel = False				
 				elif stress_next_vowel == True and word_length-i > 1 and single_word[i+1] in vowels: #rhythmic stress rule 2
 					single_word[last_vowel_index] = single_word[last_vowel_index].upper()
 				elif stress_next_vowel == True and i > 2 and word_length-i > 2 and single_word[i-3] in vowels and single_word[i-2] in consonants and single_word[i-1] in consonants and single_word[i+1] in consonants and single_word[i+2] in vowels: #rhythmic stress rule 3
 					single_word[last_vowel_index] = single_word[last_vowel_index].upper()
-				elif stress_next_vowel == True:
+				elif stress_next_vowel == True: 
 					single_word[i] = single_word[i].upper()
-					stress_next_vowel = False
+					stress_next_vowel = False					
 				else:
 					stress_next_vowel = True
 				last_vowel_index = i
@@ -203,13 +203,13 @@ def voiceless_shift(syllable_wordform):
 		if syllable_wordform[0][0] == 's':
 			syllable_wordform[0][0] = voiced_converter['s'] #handle the s at beginning and r at end cases
 		if syllable_wordform[-1][-1] == 'r':
-			syllable_wordform[-1][-1] = voiced_converter['r']
+			syllable_wordform[-1][-1] = voiced_converter['r']		
 
 		if "'" in syllable_wordform: #condition if there is an apostrophe within the word
 			double_skip = False
 			skip = False
 			for i, syllable in enumerate(syllable_wordform):
-
+				
 				if syllable_length-i == 1: #if last entry
 					syllable_lookup_format.append(''.join(syllable_wordform[i]))
 				elif double_skip: #assuming the v ' v condition was called
@@ -226,12 +226,12 @@ def voiceless_shift(syllable_wordform):
 							elif syllable_wordform[i][-1] in consonants and syllable_wordform[i+2][0] in vowels: # if c ' v gemination, add the consonant to the right side
 								syllable_lookup_format.append(''.join(syllable_wordform[i]))
 								syllable_wordform[i+2] = [syllable_wordform[i][-1]]+syllable_wordform[i+2]
-								skip = True
+								skip = True	
 							elif syllable_wordform[i][-1] in consonants and syllable_wordform[i+2][0] in consonants: # if c ' c gemination, no effect
 								syllable_lookup_format.append(''.join(syllable_wordform[i]))
-								skip = True
+								skip = True									
 							else:
-								raise ValueError('this is a rogue apostrophe that doesn\'t follow conventions')
+								raise ValueError('this is a rogue apostrophe that doesn\'t follow conventions') 
 						else: #if next entry exists and is not an apostrophe, do the fricative analysis
 							if (syllable_wordform[i][-1] in voiced_fricatives and syllable_wordform[i+1][0] in stops) or (syllable_wordform[i][-1] in voiced_fricatives and syllable_wordform[i+1][0] in voiceless_fricatives):
 								syllable_wordform[i][-1] = voiced_converter[syllable_wordform[i][-1]]
@@ -274,7 +274,7 @@ def parser(word):
 	#print('mark')
 	syllable_lookup_format = voiceless_shift(syllable_wordform)
 	print(syllable_lookup_format)
-	return(syllable_lookup_format)
+	return(syllable_lookup_format)		
 
 if __name__ == "__main__":
 	s = argparse.ArgumentParser(description='parse a given word into separate units.')
