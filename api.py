@@ -9,6 +9,7 @@ from flask.json import jsonify
 from pydub import AudioSegment
 from common.parser.parser import Postbase, deconvert
 from common.parser.tts_parser import parser
+from urllib import unquote_plus
 
 app = Flask(__name__)
 api = Api(app)
@@ -102,6 +103,7 @@ class Concatenator(Resource):
         args = parser_api.parse_args()
         word = args['root']
         # FIXME is this conserving the order of parameters?
+        print(args['postbase'])
         for postbase in args['postbase']:
             p = Postbase(postbase)
             word = p.concat(word)
