@@ -33,7 +33,7 @@ verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
 postbases = index(json.load(open("assets/postbases_upd3-18.json")))
 endings = index(json.load(open("assets/endings_upd3-18.json")))
 
-new_dict0 = json.load(open("assets/dictionary_draft1_noatsymbols_list.json"))
+new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_13.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
