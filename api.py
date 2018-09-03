@@ -8,7 +8,7 @@ import os
 from flask.json import jsonify
 from pydub import AudioSegment
 from common.parser.parser import Postbase
-from common.tts.tts_parser import parser
+from common.parser.tts_parser import parser
 
 app = Flask(__name__)
 api = Api(app)
