@@ -99,9 +99,9 @@ class Postbase(object):
                 self.tokens = ['-','g','u','u']
         for token in self.tokens:
             new_word = self.apply(token, new_word, word)
-            #print(token, new_word)
+            print(token, new_word)
             if self.debug>=2: print(token, new_word)
-        new_word = self.post_apply(new_word)
+        #new_word = self.post_apply(new_word)
         return new_word
 
     def begins_with(self, token):
@@ -296,6 +296,16 @@ class Postbase(object):
                     root = root #+''.join(self.tokens[:position])
                 else:
                     root = root+'r'#+''.join(self.tokens[:position])+'6'
+        elif token == ":a": #A BIT TENTATIVE IF IT'S TRUE THAT E SHOULD BE DROPPED IN THE ELSE: IF: BELOW
+            if root[-1] in vowels:
+                root = root[:-1]+'a'
+            else:
+                if root[-1] in velars and root[-2] =='e' and root[-3] in consonants:
+                    root = root[:-2]+root[-1]+'a'
+                elif root[-1] in velars and root[-2] in vowels and root[-3] in consonants:
+                    root = root[:-1]+'a'
+                else:
+                    root = root + 'a'
         elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels:
             if token == 'g':
                 if root[-1] == 'q' or root[-1] == 'r' or root[-1] == '5':
@@ -330,8 +340,8 @@ class Postbase(object):
             elif token in vowels:
                 if len(root) >= 2 and (root[-2:] == 'er' or root[-2:] == 'eg'):
                     root = root[:-2]+root[-1]+token
-                elif len(root) >= 2 and (root[-2:] == 'e4' or root[-2:] == 'e5'):
-                    root = root[:-2]+root[-1]+token
+                # elif len(root) >= 2 and (root[-2:] == 'e4' or root[-2:] == 'e5'):
+                #     root = root[:-2]+root[-1]+token
                 else:
                     if root[-1] == 'e':
                         root = root[:-1] + token
@@ -550,17 +560,37 @@ class Postbase(object):
             word1 = word
         #COMPLETE IN POSTBASES e drop? tangrrutuk
         #COMPLETE IN POSTBASES yaqulegit -> yaqulgit -- e preceding g or r endings and suffix has initial vowel
-        
-        if 'e' in word1: #removes stressed e unless it is surrounded by similar letters or c and n/t (chapter 1 from grammar book)
-            stressed_vowels = assign_stressed_vowels(word1) #doesn't work perfectly
-            print(stressed_vowels)
-            if 'E' in word1:
-                result = [stressed_vowels.index(i) for i in ['E']]
-                print(result)
-                for index in result:
-                    if stressed_vowels[index-1]!=stressed_vowels[index+1] and not (stressed_vowels[index-1]=='c' and (stressed_vowels[index+1]=='n' or stressed_vowels[index+1]=='t')) and not ((stressed_vowels[index-1]=='n' or stressed_vowels[index+1]=='t') and stressed_vowels[index+1]=='c'):# or ():
-                        stressed_vowels[index]=''
-            word1=''.join(stressed_vowels).lower()
+        stressed_vowels = assign_stressed_vowels(word1)
+        string_word = ''.join(stressed_vowels)
+        # print(stressed_vowels)
+        if '6rp' in string_word:
+            string_list = string_word.split('6rp')
+            if string_list[0][-1].isupper() or string_list[0][-1] in consonants:
+                string_word = string_word.replace("6rp","6erp")
+            else:
+                string_word = string_word.replace("6rp","6'erp")
+        if '6rm' in string_word:
+            string_list = string_word.split('6rm')
+            if string_list[0][-1].isupper() or string_list[0][-1] in consonants:
+                string_word = string_word.replace("6rm","6erm")
+            else:
+                string_word = string_word.replace("6rm","6'erm")
+        stressed_vowels = list(string_word)
+        print(stressed_vowels)
+        # if 'E' in stressed_vowels:  #removes stressed e unless it is surrounded by similar letters or c and n/t (chapter 1 from grammar book)
+        #     chunked = chunk_syllables(stressed_vowels)
+        #     print(chunked)
+        #     for i, group in enumerate(chunked):
+        #         chunked[i]=''.join(group)
+        #         if chunked[i][-1] != 'E':
+        #             chunked[i]=chunked[i].lower()
+        #     stressed_vowels = list(''.join(chunked))
+        #     print(stressed_vowels)
+        #     result = [i for i, x in enumerate(stressed_vowels) if x == 'E']
+        #     for index in result:
+        #         if stressed_vowels[index-1]!=stressed_vowels[index+1] and not (stressed_vowels[index-1]=='c' and (stressed_vowels[index+1]=='n' or stressed_vowels[index+1]=='t')) and not ((stressed_vowels[index-1]=='n' or stressed_vowels[index+1]=='t') and stressed_vowels[index+1]=='c'):# or ():
+        #             stressed_vowels[index]=''
+        word1=''.join(stressed_vowels).lower()
         #switch to voiced/voiceless? gg to rr
         return word1
 

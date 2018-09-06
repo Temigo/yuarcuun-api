@@ -107,6 +107,7 @@ class Concatenator(Resource):
         for postbase in args['postbase']:
             p = Postbase(postbase)
             word = p.concat(word)
+        word = p.post_apply(word)
         return jsonify({'concat': deconvert(word)})
 
 
