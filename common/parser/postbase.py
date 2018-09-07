@@ -235,7 +235,7 @@ class Postbase(object):
             elif root[-1] in ["g", "r"]:
                 root = root[:-1]
             flag = False
-        elif token in [":(6)", ":(e)", ":(u)", "(e)", "(te)"]:
+        elif token in [":(e)", ":(u)", "(e)", "(te)"]:
             if token == ':(u)':
                 if root[-1] == 't' and root[-2] in vowels: #non-special te
                     root = root[:-1]+'yu'
@@ -251,13 +251,16 @@ class Postbase(object):
                 #if : is appended it means that is subject to velar droppint if the first vowel is long
 
             #ADD OTHER CONDITIONS
-        elif token == ":6":
+        elif token == ":6" or token == ":(6)":
             position = self.tokens.index(token)
             #print(self.tokens.index(token))
             #print(self.tokens)
             if position+2 == len(self.tokens):
                 #print('yes')
-                if len(root) >= 2 and self.tokens[position+1] in vowels and root[-1] in vowels and root[-2] not in vowels:
+                if len(root) >= 2 and self.tokens[position+1] == 'a' and root[-1] == 'a' and root[-2] not in vowels:
+                    root = root[:-1]+'i'
+                    self.tokens[position+1] = 'i'
+                elif len(root) >= 2 and self.tokens[position+1] in vowels and root[-1] in vowels and root[-2] not in vowels:
                     root = root #+''.join(self.tokens[:position])
                 else:
                     root = root+'6'#+''.join(self.tokens[:position])+'6'
