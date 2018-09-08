@@ -211,7 +211,7 @@ class Postbase(object):
                 first_letter = l
                 first_letter_index = self.tokens.index(l)
                 break
-
+        print(first_letter)
         flag = False
         if token == '=':
             root = root+'='
@@ -263,12 +263,14 @@ class Postbase(object):
                 elif len(root) >= 2 and self.tokens[position+1] in vowels and root[-1] in vowels and root[-2] not in vowels:
                     root = root #+''.join(self.tokens[:position])
                 else:
-                    root = root+'6'#+''.join(self.tokens[:position])+'6'
+                    if root[-1] == 't':
+                        root = root[:-1]+'s6' #+''.join(self.tokens[:position])+'6'
             elif position+2 < len(self.tokens):
                 if len(root) >= 2 and self.tokens[position+1] in vowels and self.tokens[position+2] not in vowels and root[-1] in vowels and root[-2] not in vowels:
                     root = root #+''.join(self.tokens[:position])
                 else:
-                    root = root+'6'#+''.join(self.tokens[:position])+'6'
+                    if root[-1] == 't':
+                        root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6'
         elif token == ":g":
             position = self.tokens.index(token)
             #print(self.tokens.index(token))
@@ -410,6 +412,9 @@ class Postbase(object):
                         root = root[:-2] + 'es' #assuming that the (e) is a single index and removed
                     elif root[-1] == 't' and root[-2] in consonants:
                         root = root[:-1] + 'es'
+                    elif root[-1] == 't' and first_letter == '6':
+                        if self.tokens[self.tokens.index('6')+1] in consonants:
+                            root = root+'e'
                     elif root[-1] == 't':
                         root = root[:-1] + 's'
                     #elif root[-1] == 't' and special te, then append 'l'
