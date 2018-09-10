@@ -104,11 +104,29 @@ class Concatenator(Resource):
         word = args['root']
         # FIXME is this conserving the order of parameters?
         print(args['postbase'])
+        indexes = [0]
+        breakdown = [word]
         for postbase in args['postbase']:
             p = Postbase(postbase)
-            word = p.concat(word)
+            new_word = p.concat(word)
+            # indexes.append(self.first_index(word, new_word))
+            breakdown.append(new_word)
+            word = new_word
+        for i in range(len(breakdown)-1):
+            indexes.append(self.first_index(breakdown[-1], breakdown[i]))
+
         word = p.post_apply(word)
-        return jsonify({'concat': deconvert(word)})
+        return jsonify({'concat': deconvert(word), 'indexes': indexes})
+
+    def first_index(self, old_word, new_word):
+        """
+        Returns first index different between both words
+        """
+        for i in range(min(len(new_word), len(old_word))):
+            if old_word[i] != new_word[i]:
+                break
+        return i+1
+        # If root is special or nrite in postbases list
 
 
 class TTS(Resource):

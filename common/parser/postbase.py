@@ -494,7 +494,7 @@ class Postbase(object):
                 if conditions[letter]:
                     root += letter
         elif token == 's' and root[-1] == 't':
-            root = root[:-1]+'c'      
+            root = root[:-1]+'c'
         elif token == 'v':
             if root[-1] == 't':
                 root = root[:-1]+'p'
@@ -533,14 +533,14 @@ class Postbase(object):
                 if (word[i] in stops or word[i+2] in stops) or word[i] in voiceless_fricatives: #apply voiceless fricative removal if next to stop or other vf
                     letter=voiceless_converter[letter]
             word1 = word1+letter
-        word = word[0]+word1+word[-1] 
-        word1 = '' 
+        word = word[0]+word1+word[-1]
+        word1 = ''
         for i, letter in enumerate(word[1:-1]):
             if word[i] in vowels and word[i+1] in vowels and word[i+2] in vowels:  #three vowel cluster
                 letter=''
             word1 = word1+letter
         word = word[0]+word1+word[-1]
-        word1 = '' 
+        word1 = ''
         for i, letter in enumerate(word[1:-1]): #three consonant cluster for t only
             if skip:
                 skip = False
@@ -554,8 +554,8 @@ class Postbase(object):
                     skip = True
             word1 = word1+letter
         word = word[0]+word1+word[-1]
-        
-        word1 = '' 
+
+        word1 = ''
         if len(word) > 4: #make sure word is long enough and doesn't get truncated
             for i, letter in enumerate(word[2:-2]): #removal of apostrophe if in geminated form
                 if word[i] in vowels and word[i+1] in consonants and word[i+2] == "'" and word[i+3] in vowels and word[i+4] in vowels:
@@ -619,7 +619,7 @@ if __name__== '__main__':
     w = "nerenrituq"
     #p2.tokens = [':6','a']
     # Check in dictionary
-    #print p1.parse("pissur-", w)
+    print p1.concat("pissur")
     #print(p2.apply("~", "nere"))
     #print(p2.apply("-", "pissur"))
     #print(p2.apply(":6", "pissuru"))
@@ -628,8 +628,8 @@ if __name__== '__main__':
     #print(p2.concat("nere"))
     #print(p3.tokens)
     #print(p3.concat("nere"))
-    p4 = Postbase("@~+yug\\", debug=2)
-    print(p4.concat("ce8irte"))
+    #p4 = Postbase("@~+yug\\", debug=2)
+    #print(p4.concat("ce8irte"))
     # Run docstring tests
     #import doctest
     #doctest.testmod()
