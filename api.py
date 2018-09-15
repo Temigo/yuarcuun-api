@@ -113,7 +113,7 @@ class Concatenator(Resource):
             breakdown.append(new_word)
             word = new_word
         for i in range(len(breakdown)-1):
-            indexes.append(self.first_index(breakdown[-1], breakdown[i]))
+            indexes.append(self.first_index(breakdown[i+1], breakdown[i]))
 
         word = p.post_apply(word)
         return jsonify({'concat': deconvert(word), 'indexes': indexes})
@@ -124,7 +124,7 @@ class Concatenator(Resource):
         """
         for i in range(min(len(new_word), len(old_word))):
             if old_word[i] != new_word[i]:
-                break
+                return i
         return i+1
         # If root is special or nrite in postbases list
 
