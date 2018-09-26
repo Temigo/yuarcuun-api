@@ -178,6 +178,7 @@ def assign_stress(word_list):
  	return(word_list)
 
 def parser(word):
+	word = word.replace('*','')
 	single_word = convert(word)
 	if "-" in single_word:
 		single_word = single_word.split('-')[0]

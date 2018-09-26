@@ -194,9 +194,9 @@ class Postbase(object):
         asterisk = False
         if len(root) == 0:
             return root
-        if root[-2:] == '-*':
-            root = root[:-2]
-            original_root = original_root[:-2]
+        if root[-1:] == '*':
+            root = root[:-1]
+            original_root = original_root[:-1]
             asterisk = True
         if len(root) > 3:
             if root[-3:] == '2er':
@@ -403,38 +403,37 @@ class Postbase(object):
                     root = root[:-1]+'a'
                 else:
                     root = root + 'a'
-        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and self.tokens.index(token) != len(self.tokens)-1:
-
+        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels:
             if token == 'g':
                 if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
-                    root = original_root[:-1]+'r'
+                    root = root[:-1]+'r'
                 else:
-                    root = original_root + 'g'
+                    root = root + 'g'
             elif token == 'k':
                 if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
-                    root = original_root[:-1]+'q'
+                    root = root[:-1]+'q'
                 else:
-                    root = original_root + 'k'
+                    root = root + 'k'
             elif token == '4':
                 if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
-                    root = original_root[:-1]+'5'
+                    root = root[:-1]+'5'
                 else:
-                    root = original_root + '4'
+                    root = root + '4'
             elif token == 'q':
                 if original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
-                    root = original_root[:-1]+'k'
+                    root = root[:-1]+'k'
                 else:
-                    root = original_root + 'q'
+                    root = root + 'q'
             elif token == 'r':
                 if original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
-                    root = original_root[:-1]+'g'
+                    root = root[:-1]+'g'
                 else:
-                    root = original_root + 'r'
+                    root = root + 'r'
             elif token == '5':
                 if original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
-                    root = original_root[:-1]+'4'
+                    root = root[:-1]+'4'
                 else:
-                    root = original_root + '5'
+                    root = root + '5'
             elif token in vowels:
                 if len(root) >= 2 and (root[-2:] == 'er' or root[-2:] == 'eg'):
                     root = root[:-2]+root[-1]+token

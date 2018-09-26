@@ -8,7 +8,7 @@ import os
 from flask.json import jsonify
 from pydub import AudioSegment
 from common.parser.parser import Postbase, deconvert
-from common.parser.tts_parser import parser
+from common.parser.tts_parser_v2 import parser
 from urllib import unquote_plus
 
 app = Flask(__name__)
@@ -110,6 +110,7 @@ class Concatenator(Resource):
             p = Postbase(postbase)
             new_word = p.concat(word)
             # indexes.append(self.first_index(word, new_word))
+            new_word = deconvert(new_word)
             breakdown.append(new_word)
             word = new_word
         for i in range(len(breakdown)-1):
@@ -133,6 +134,7 @@ class TTS(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         parsed_output = parser(word)
+        print(parsed_output)
         final_audio = None
         for i, k in enumerate(parsed_output):
             filename = 'assets/audiofiles/'+k+'.wav'
