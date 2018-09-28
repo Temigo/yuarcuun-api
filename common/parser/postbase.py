@@ -644,124 +644,125 @@ class Postbase(object):
         #     word = word.replace('(ar)','')
         word1 = ''
         # print(word)
-        word_list = process_apostrophe_voicelessness(word)
-        word_list = chunk_syllables(word_list)
-        word_list = assign_stress(word_list)
-        for i, entry in enumerate(word_list):
-            if 'e' in entry and '$' in entry:
-                if not (entry[0]==entry[2] or (entry[0]=='c' and (entry[2]=='n' or entry[2]=='t')) or ((entry[0]=='n' or entry[2]=='t') and entry[2]=='c')):
-                    if entry[-2] == word_list[i+1][0] and entry[-2] != '9':
-                        if word_list[i-1][-1] != '$':
-                            word = word.replace(entry[:-1],entry[0]+entry[2])
-        for i, letter in enumerate(word[1:-1]):
-            if word[i+1] in voiced_fricatives and word[i+2] in voiceless_fricatives:  #accordance rules on page 732 rll becomes rrl
-                letter=voiced_converter[letter]
-            word1 = word1+letter
-        word = word[0]+word1+word[-1]
-        word1 = ''
-        for i, letter in enumerate(word[1:-1]):
-            if letter in voiceless_fricatives:
-                if (word[i] in stops or word[i+2] in stops) or word[i] in voiceless_fricatives: #apply voiceless fricative removal if next to stop or other vf
-                    letter=voiceless_converter[letter]
-            word1 = word1+letter
-        word = word[0]+word1+word[-1]
-        word1 = ''
-        for i, letter in enumerate(word[1:-1]):
-            if word[i] in vowels and word[i+1] in vowels and word[i+2] in vowels:  #three vowel cluster
-                letter=''
-            word1 = word1+letter
-        word = word[0]+word1+word[-1]
-        word1 = ''
-        for i, letter in enumerate(word[1:-1]): #three consonant cluster for t only
-            if skip:
-                skip = False
-                letter = ''
-            else:
-                if word[i] in consonants and word[i+1] =='t' and word[i+2] in consonants:  #three vowel cluster
-                    if word[i+2] in fricatives or word[i+2] in nasals:
-                        letter='te'+voiced_converter[word[i+2]]
-                    else:
-                        letter='te'+word[i+2]
-                    skip = True
-            word1 = word1+letter
-        word = word[0]+word1+word[-1]
-
-        word1 = ''
-        if len(word) > 4: #make sure word is long enough and doesn't get truncated
-            for i, letter in enumerate(word[2:-2]): #removal of apostrophe if in geminated form
-                if word[i] in vowels and word[i+1] in consonants and word[i+2] == "'" and word[i+3] in vowels and word[i+4] in vowels:
+        if word:
+            word_list = process_apostrophe_voicelessness(word)
+            word_list = chunk_syllables(word_list)
+            word_list = assign_stress(word_list)
+            for i, entry in enumerate(word_list):
+                if 'e' in entry and '$' in entry and '%' not in entry:
+                    if not (entry[0]==entry[2] or (entry[0]=='c' and (entry[2]=='n' or entry[2]=='t')) or ((entry[0]=='n' or entry[2]=='t') and entry[2]=='c')):
+                        if entry[-2] == word_list[i+1][0] and entry[-2] != '9':
+                            if word_list[i-1][-1] != '$':
+                                word = word.replace(entry[:-1],entry[0]+entry[2])
+            for i, letter in enumerate(word[1:-1]):
+                if word[i+1] in voiced_fricatives and word[i+2] in voiceless_fricatives:  #accordance rules on page 732 rll becomes rrl
+                    letter=voiced_converter[letter]
+                word1 = word1+letter
+            word = word[0]+word1+word[-1]
+            word1 = ''
+            for i, letter in enumerate(word[1:-1]):
+                if letter in voiceless_fricatives:
+                    if (word[i] in stops or word[i+2] in stops) or word[i] in voiceless_fricatives: #apply voiceless fricative removal if next to stop or other vf
+                        letter=voiceless_converter[letter]
+                word1 = word1+letter
+            word = word[0]+word1+word[-1]
+            word1 = ''
+            for i, letter in enumerate(word[1:-1]):
+                if word[i] in vowels and word[i+1] in vowels and word[i+2] in vowels:  #three vowel cluster
+                    letter=''
+                word1 = word1+letter
+            word = word[0]+word1+word[-1]
+            word1 = ''
+            for i, letter in enumerate(word[1:-1]): #three consonant cluster for t only
+                if skip:
+                    skip = False
                     letter = ''
                 else:
-                    letter = word[i+2]
+                    if word[i] in consonants and word[i+1] =='t' and word[i+2] in consonants:  #three vowel cluster
+                        if word[i+2] in fricatives or word[i+2] in nasals:
+                            letter='te'+voiced_converter[word[i+2]]
+                        else:
+                            letter='te'+word[i+2]
+                        skip = True
                 word1 = word1+letter
-            word1 = word[0]+word[1]+word1+word[-2]+word[-1]
-        else:
-            word1 = word
-        if 'erar' in word1:
-            word1 = word1.replace('erar','er')
-        if 'eraqa' in word1:
-            word1 = word1.replace('eraqa','erqa')
-        #COMPLETE IN POSTBASES e drop? tangrrutuk
-        #COMPLETE IN POSTBASES yaqulegit -> yaqulgit -- e preceding g or r endings and suffix has initial vowel
-        stressed_vowels = assign_stressed_vowels(word1)
-        string_word = ''.join(stressed_vowels)
-        if '6rp' in string_word:
-            string_list = string_word.split('6rp')
-            if string_list[0][-1].isupper() or string_list[0][-1] in consonants:
-                string_word = string_word.replace("6rp","6erp")
+            word = word[0]+word1+word[-1]
+
+            word1 = ''
+            if len(word) > 4: #make sure word is long enough and doesn't get truncated
+                for i, letter in enumerate(word[2:-2]): #removal of apostrophe if in geminated form
+                    if word[i] in vowels and word[i+1] in consonants and word[i+2] == "'" and word[i+3] in vowels and word[i+4] in vowels:
+                        letter = ''
+                    else:
+                        letter = word[i+2]
+                    word1 = word1+letter
+                word1 = word[0]+word[1]+word1+word[-2]+word[-1]
             else:
-                string_word = string_word.replace("6rp","6'erp")
-        if '6rm' in string_word:
-            string_list = string_word.split('6rm')
-            if string_list[0][-1].isupper() or string_list[0][-1] in consonants:
-                string_word = string_word.replace("6rm","6erm")
-            else:
-                string_word = string_word.replace("6rm","6'erm")
-        # if 'age' in string_word:
-        #     word2 = word2.replace('age','ii')
-        # if 'uge' in string_word:
-        #     word2 = word2.replace('uge','uu')
-        # if 'ige' in string_word:
-        #     word2 = word2.replace('ige','ii')
-        # if 'are' in string_word:
-        #     word2 = word2.replace('are','aa')   
-        stressed_vowels = list(string_word)
-        word2=''.join(stressed_vowels)
-        if len(word) > 3:
-            if word[-3:] == '2er':
-                if not word2[-4].isupper():
-                    word2 = word2[:-2]+"'er"
-        if len(word) > 5:
-            if word[-5:] == 'yagaq':
-                if word2[-4].islower():
-                    word2 = word2[:-3]+"ar"
-        # print(stressed_vowels)
-        stressed_vowels = list(word2)
-        # if 'E' in stressed_vowels:  #removes stressed e unless it is surrounded by similar letters or c and n/t (chapter 1 from grammar book)
-            # chunked = chunk_syllables(stressed_vowels)
-            # # print(chunked)
-            # for i, group in enumerate(chunked):
-            #     chunked[i]=''.join(group)
-            #     # if chunked[i][-1] != 'E':
-            #     #     chunked[i]=chunked[i].lower()
-            # print(chunked)
-            # stressed_vowels = list(''.join(chunked))
+                word1 = word
+            if 'erar' in word1:
+                word1 = word1.replace('erar','er')
+            if 'eraqa' in word1:
+                word1 = word1.replace('eraqa','erqa')
+            #COMPLETE IN POSTBASES e drop? tangrrutuk
+            #COMPLETE IN POSTBASES yaqulegit -> yaqulgit -- e preceding g or r endings and suffix has initial vowel
+            stressed_vowels = assign_stressed_vowels(word1)
+            string_word = ''.join(stressed_vowels)
+            if '6rp' in string_word:
+                string_list = string_word.split('6rp')
+                if string_list[0][-1].isupper() or string_list[0][-1] in consonants:
+                    string_word = string_word.replace("6rp","6erp")
+                else:
+                    string_word = string_word.replace("6rp","6'erp")
+            if '6rm' in string_word:
+                string_list = string_word.split('6rm')
+                if string_list[0][-1].isupper() or string_list[0][-1] in consonants:
+                    string_word = string_word.replace("6rm","6erm")
+                else:
+                    string_word = string_word.replace("6rm","6'erm")
+            # if 'age' in string_word:
+            #     word2 = word2.replace('age','ii')
+            # if 'uge' in string_word:
+            #     word2 = word2.replace('uge','uu')
+            # if 'ige' in string_word:
+            #     word2 = word2.replace('ige','ii')
+            # if 'are' in string_word:
+            #     word2 = word2.replace('are','aa')   
+            stressed_vowels = list(string_word)
+            word2=''.join(stressed_vowels)
+            if len(word) > 3:
+                if word[-3:] == '2er':
+                    if not word2[-4].isupper():
+                        word2 = word2[:-2]+"'er"
+            if len(word) > 5:
+                if word[-5:] == 'yagaq':
+                    if word2[-4].islower():
+                        word2 = word2[:-3]+"ar"
             # print(stressed_vowels)
-            # result = [i for i, x in enumerate(stressed_vowels) if x == 'E']
-            # # print(result)
-            # for index in result:
-            #     if not (stressed_vowels[index-1]==stressed_vowels[index+1] or (stressed_vowels[index-1]=='c' and (stressed_vowels[index+1]=='n' or stressed_vowels[index+1]=='t')) or ((stressed_vowels[index-1]=='n' or stressed_vowels[index+1]=='t') and stressed_vowels[index+1]=='c')):# or ():
-            #         stressed_vowels[index]=''
-            #     if index > 2:
-            #         if stressed_vowels[index-2] in vowels:
-            #             if stressed_vowels[index-2].isupper():
-            #                 stressed_vowels[index] = 'E'
-            #         if stressed_vowels[index-3] in vowels:
-            #             if stressed_vowels[index-3].isupper():
-            #                 stressed_vowels[index] = 'E'
-        # print(stressed_vowels)
-        # switch to voiced/voiceless? gg to rr
-        word1=''.join(stressed_vowels).lower()
+            stressed_vowels = list(word2)
+            # if 'E' in stressed_vowels:  #removes stressed e unless it is surrounded by similar letters or c and n/t (chapter 1 from grammar book)
+                # chunked = chunk_syllables(stressed_vowels)
+                # # print(chunked)
+                # for i, group in enumerate(chunked):
+                #     chunked[i]=''.join(group)
+                #     # if chunked[i][-1] != 'E':
+                #     #     chunked[i]=chunked[i].lower()
+                # print(chunked)
+                # stressed_vowels = list(''.join(chunked))
+                # print(stressed_vowels)
+                # result = [i for i, x in enumerate(stressed_vowels) if x == 'E']
+                # # print(result)
+                # for index in result:
+                #     if not (stressed_vowels[index-1]==stressed_vowels[index+1] or (stressed_vowels[index-1]=='c' and (stressed_vowels[index+1]=='n' or stressed_vowels[index+1]=='t')) or ((stressed_vowels[index-1]=='n' or stressed_vowels[index+1]=='t') and stressed_vowels[index+1]=='c')):# or ():
+                #         stressed_vowels[index]=''
+                #     if index > 2:
+                #         if stressed_vowels[index-2] in vowels:
+                #             if stressed_vowels[index-2].isupper():
+                #                 stressed_vowels[index] = 'E'
+                #         if stressed_vowels[index-3] in vowels:
+                #             if stressed_vowels[index-3].isupper():
+                #                 stressed_vowels[index] = 'E'
+            # print(stressed_vowels)
+            # switch to voiced/voiceless? gg to rr
+            word1=''.join(stressed_vowels).lower()
         return word1
 
 # antislash means something comes after
