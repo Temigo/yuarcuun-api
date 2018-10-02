@@ -301,7 +301,7 @@ class Postbase(object):
             #ADD OTHER CONDITIONS
         elif token == ":6" or token == ":(6)":
             position = self.tokens.index(token)
-            if root[-1] in ['g','r','6']: #velar case for g r or ng
+            if root[-1] in ['g','r','6'] and len(root) > 3: #velar case for g r or ng
         #                 if 'age' in string_word:
         #     word2 = word2.replace('age','ii')
         #                            enga 'ii'
@@ -417,7 +417,7 @@ class Postbase(object):
                     root = root[:-1]+'a'
                 else:
                     root = root + 'a'
-        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and counter < 2:
+        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and counter < 2 and root[-1] in consonants:
             if token == 'g':
                 if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'r'
@@ -448,16 +448,16 @@ class Postbase(object):
                     root = original_root[:-1]+'4'
                 else:
                     root = root + '5'
-            elif token in vowels:
-                if len(root) >= 2 and (root[-2:] == 'er' or root[-2:] == 'eg'):
-                    root = root[:-2]+root[-1]+token
-                # elif len(root) >= 2 and (root[-2:] == 'e4' or root[-2:] == 'e5'):
-                #     root = root[:-2]+root[-1]+token
+        elif self.tokens.index(token) == first_letter_index and token in vowels:
+            if len(root) >= 2 and (root[-2:] == 'er' or root[-2:] == 'eg'):
+                root = root[:-2]+root[-1]+token
+            # elif len(root) >= 2 and (root[-2:] == 'e4' or root[-2:] == 'e5'):
+            #     root = root[:-2]+root[-1]+token
+            else:
+                if root[-1] == 'e':
+                    root = root[:-1] + token
                 else:
-                    if root[-1] == 'e':
-                        root = root[:-1] + token
-                    else:
-                        root = root + token
+                    root = root + token
         elif token == "'":
             replace = False
             if '[e]' in root:
@@ -593,7 +593,7 @@ class Postbase(object):
                 "6": root[-1] in vowels,
                 "r": len(root) >= 2 and root[-2:] == "te",
                 "s": root[-1] in vowels,
-                "t": original_root[-1] in consonants,
+                "t": original_root[-1] in consonants or root[-1] in consonants,
                 "u": root[-1] in consonants or original_root[-1] == "e",
                 "g": len(root) >= 2 and root[-2] in vowels and root[-1] in vowels,
                 # FIXME (q)must be used with demonstrative adverb bases,
@@ -648,12 +648,18 @@ class Postbase(object):
             word_list = process_apostrophe_voicelessness(word)
             word_list = chunk_syllables(word_list)
             word_list = assign_stress(word_list)
+            removedindex = -1
+            print(word_list)
             for i, entry in enumerate(word_list):
-                if 'e' in entry and '$' in entry and '%' not in entry:
+                if 'e' in entry and '$' in entry and '%' not in entry and i != 0 and entry[2] not in ['7','8','9']:
                     if not (entry[0]==entry[2] or (entry[0]=='c' and (entry[2]=='n' or entry[2]=='t')) or ((entry[0]=='n' or entry[2]=='t') and entry[2]=='c')):
                         if entry[-2] == word_list[i+1][0] and entry[-2] != '9':
                             if word_list[i-1][-1] != '$':
-                                word = word.replace(entry[:-1],entry[0]+entry[2])
+                                word = word.replace(entry[:-1],entry[0]+'^'+entry[2])
+                                for i, letter in enumerate(word):
+                                    if letter == '^':
+                                        removedindex = i
+                                word = word.replace('^','')
             for i, letter in enumerate(word[1:-1]):
                 if word[i+1] in voiced_fricatives and word[i+2] in voiceless_fricatives:  #accordance rules on page 732 rll becomes rrl
                     letter=voiced_converter[letter]
@@ -763,7 +769,7 @@ class Postbase(object):
             # print(stressed_vowels)
             # switch to voiced/voiceless? gg to rr
             word1=''.join(stressed_vowels).lower()
-        return word1
+        return word1, removedindex
 
 # antislash means something comes after
 postbases = [

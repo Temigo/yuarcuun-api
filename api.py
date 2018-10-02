@@ -5,9 +5,10 @@ from flask_restful import Resource, Api, reqparse
 from flask_restful.utils import cors
 import json
 import os
+import sox
 from flask.json import jsonify
 from pydub import AudioSegment
-from common.parser.parser import Postbase, deconvert
+from common.parser.parser import Postbase, deconvert, convert
 from common.parser.tts_parser_v2 import parser
 from urllib import unquote_plus
 
@@ -38,7 +39,7 @@ verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
 postbases = index(json.load(open("assets/postbases_upd3-18.json")))
 endings = index(json.load(open("assets/endings_upd3-18.json")))
 
-new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_16.json"))
+new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_17.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
@@ -106,6 +107,7 @@ class Concatenator(Resource):
         print(args['postbase'])
         indexes = [0]
         breakdown = [word]
+        word = convert(word)
         for postbase in args['postbase']:
             p = Postbase(postbase)
             new_word = p.concat(word)
@@ -116,7 +118,11 @@ class Concatenator(Resource):
         for i in range(len(breakdown)-1):
             indexes.append(self.first_index(breakdown[i+1], breakdown[i]))
 
-        word = p.post_apply(word)
+        word, removedindex = p.post_apply(word)
+        if removedindex != -1:
+            for k, values in enumerate(indexes):
+                if removedindex < values:
+                    indexes[k] -= 1
         return jsonify({'concat': deconvert(word), 'indexes': indexes})
 
     def first_index(self, old_word, new_word):
@@ -134,21 +140,34 @@ class TTS(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         parsed_output = parser(word)
-        print(parsed_output)
-        final_audio = None
-        for i, k in enumerate(parsed_output):
-            filename = 'assets/audiofiles/'+k+'.wav'
-            if not os.path.isfile(filename):
-                print("ERROR %s audio file is missing!" % filename)
-                return jsonify({})
-            a = AudioSegment.from_wav(filename)
-            if final_audio is None:
-                final_audio = a
-            else:
-                final_audio = final_audio + a
-        final_audio.export('/tmp/test.wav', format='wav')
+        po = range(len(parsed_output))
+        for i,k in enumerate(parsed_output):
+            po[i] = 'assets/audiofiles/'+k+'.wav'
+            if not os.path.isfile(po[i]):
+                print("ERROR %s audio file is missing!" % po[i])
+                return jsonify({'url': ''})
+        print(po)
+        cbn = sox.Combiner()
+        cbn.build(po, '/tmp/test.wav', 'concatenate')
+        #return jsonify({'url': 'test.wav'})
         return send_file('/tmp/test.wav', mimetype='audio/wav')
 
+    # def get(self, word):
+    #     parsed_output = parser(word)
+    #     print(parsed_output)
+    #     final_audio = None
+    #     for i, k in enumerate(parsed_output):
+    #         filename = 'assets/audiofiles/'+k+'.wav'
+    #         if not os.path.isfile(filename):
+    #             print("ERROR %s audio file is missing!" % filename)
+    #             return jsonify({})
+    #         a = AudioSegment.from_wav(filename)
+    #         if final_audio is None:
+    #             final_audio = a
+    #         else:
+    #             final_audio = final_audio + a
+    #     final_audio.export('/tmp/test.wav', format='wav')
+    #     return send_file('/tmp/test.wav', mimetype='audio/wav')
 
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
