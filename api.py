@@ -117,7 +117,6 @@ class Concatenator(Resource):
             word = new_word
         for i in range(len(breakdown)-1):
             indexes.append(self.first_index(breakdown[i+1], breakdown[i]))
-
         word, removedindex = p.post_apply(word)
         if removedindex != -1:
             for k, values in enumerate(indexes):
@@ -125,12 +124,12 @@ class Concatenator(Resource):
                     indexes[k] -= 1
         return jsonify({'concat': deconvert(word), 'indexes': indexes})
 
-    def first_index(self, old_word, new_word):
+    def first_index(self, new_word, old_word):
         """
         Returns first index different between both words
         """
-        for i in range(min(len(new_word), len(old_word))):
-            if old_word[i] != new_word[i]:
+        for i in range(min(len(new_word), len(old_word))): 
+            if old_word[i] != new_word[i] or (len(old_word) == i+1 and old_word[-1] == 'r' and 'rpag' in new_word):
                 return i
         return i+1
         # If root is special or nrite in postbases list
