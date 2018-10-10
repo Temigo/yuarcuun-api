@@ -253,7 +253,7 @@ class Postbase(object):
         elif token == "(ar)":
             root = root+'(ar)'
         elif token == "-":
-            if root[-1] in consonants:
+            if root[-1] in consonants and root[-1] != 't':
                 root = root[:-1]
         elif token == "%":
             if len(root) > 3: #not sure where this came from
@@ -296,6 +296,8 @@ class Postbase(object):
                         root = root[:-1]+'e'
                     else:
                         root = root + 'e'
+                elif root[-1] == 'e':
+                    pass
                 elif root[-1] in vowels and root[-2] not in vowels:
                     root = root+'a'
             #ADD OTHER CONDITIONS
@@ -471,7 +473,7 @@ class Postbase(object):
                     root = root[:-1] + "'"
             elif len(root) == 5:
                 if root[-1] == 'e' and root[-2] in consonants and root[-3] in vowels and root[-4] in consonants and root[-5] == 'e':
-                    root = root[:-1] + "'"
+                    root = root
             if replace:
                 root = '[e]'+root[1:]
         elif token == ".":
