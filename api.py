@@ -128,7 +128,7 @@ class Concatenator(Resource):
         """
         Returns first index different between both words
         """
-        for i in range(min(len(new_word), len(old_word))): 
+        for i in range(min(len(new_word), len(old_word))):
             if old_word[i] != new_word[i] or (len(old_word) == i+1 and old_word[-1] == 'r' and 'rpag' in new_word):
                 return i
         return i+1
@@ -136,37 +136,38 @@ class Concatenator(Resource):
 
 
 class TTS(Resource):
+    # @cors.crossdomain(origin='*')
+    # def get(self, word):
+    #     parsed_output = parser(word)
+    #     po = range(len(parsed_output))
+    #     for i,k in enumerate(parsed_output):
+    #         po[i] = 'assets/audiofiles/'+k+'.wav'
+    #         if not os.path.isfile(po[i]):
+    #             print("ERROR %s audio file is missing!" % po[i])
+    #             return jsonify({'url': ''})
+    #     print(po)
+    #     cbn = sox.Combiner()
+    #     cbn.build(po, '/tmp/test.wav', 'concatenate')
+    #     #return jsonify({'url': 'test.wav'})
+    #     return send_file('/tmp/test.wav', mimetype='audio/wav')
+
     @cors.crossdomain(origin='*')
     def get(self, word):
         parsed_output = parser(word)
-        po = range(len(parsed_output))
-        for i,k in enumerate(parsed_output):
-            po[i] = 'assets/audiofiles/'+k+'.wav'
-            if not os.path.isfile(po[i]):
-                print("ERROR %s audio file is missing!" % po[i])
-                return jsonify({'url': ''})
-        print(po)
-        cbn = sox.Combiner()
-        cbn.build(po, '/tmp/test.wav', 'concatenate')
-        #return jsonify({'url': 'test.wav'})
+        print(parsed_output)
+        final_audio = None
+        for i, k in enumerate(parsed_output):
+            filename = 'assets/audiofiles/'+k+'.wav'
+            if not os.path.isfile(filename):
+                print("ERROR %s audio file is missing!" % filename)
+                return jsonify({})
+            a = AudioSegment.from_wav(filename)
+            if final_audio is None:
+                final_audio = a
+            else:
+                final_audio = final_audio + a
+        final_audio.export('/tmp/test.wav', format='wav')
         return send_file('/tmp/test.wav', mimetype='audio/wav')
-
-    # def get(self, word):
-    #     parsed_output = parser(word)
-    #     print(parsed_output)
-    #     final_audio = None
-    #     for i, k in enumerate(parsed_output):
-    #         filename = 'assets/audiofiles/'+k+'.wav'
-    #         if not os.path.isfile(filename):
-    #             print("ERROR %s audio file is missing!" % filename)
-    #             return jsonify({})
-    #         a = AudioSegment.from_wav(filename)
-    #         if final_audio is None:
-    #             final_audio = a
-    #         else:
-    #             final_audio = final_audio + a
-    #     final_audio.export('/tmp/test.wav', format='wav')
-    #     return send_file('/tmp/test.wav', mimetype='audio/wav')
 
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
