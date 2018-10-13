@@ -39,7 +39,7 @@ verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
 postbases = index(json.load(open("assets/postbases_upd3-18.json")))
 endings = index(json.load(open("assets/endings_upd3-18.json")))
 
-new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_20.json"))
+new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_21.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
@@ -114,7 +114,7 @@ class Concatenator(Resource):
             # indexes.append(self.first_index(word, new_word))
             new_word = deconvert(new_word)
             breakdown.append(new_word)
-            word = new_word
+            word = convert(new_word)
         for i in range(len(breakdown)-1):
             indexes.append(self.first_index(breakdown[i+1], breakdown[i]))
         word, removedindex = p.post_apply(word)

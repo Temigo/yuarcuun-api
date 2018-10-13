@@ -419,7 +419,7 @@ class Postbase(object):
                     root = root[:-1]+'a'
                 else:
                     root = root + 'a'
-        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and counter < 2 and root[-1] in consonants:
+        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and counter < 2:# and root[-1] in consonants: removeed for pissuryuqatartuq
             if token == 'g':
                 if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'r'
@@ -495,20 +495,8 @@ class Postbase(object):
                     pass
             elif first_letter == 'c' and root[-1] == 't': #if firstletter is c then remove te altogether
                 root = root[:-1]
-            # UNSURE OF HOW THIS WORKED, SO REPLACED WITH FUNCTION BELOW
-            # elif self.tokens.index(token) == first_letter_index and token in ['l','g','k','6'] and self.isEnding:
-            #     if token == 'l':
-            #         if root[-1] == 't':
-            #             root = root[:-1] + '2'
-            #         else:
-            #             root = root + 'l'
-            #     else:
-            #         if root[-1] == 't' and '(e)' in self.tokens:
-            #             root = root[:-2] + 'es' #assuming that the (e) is a single index and removed
-            #         elif root[-1] == 't':
-            #             root = root[:-1] + 's'
-            #         else:
-            #             root = root + token
+            elif '(t)' in self.tokens and first_letter == 'v' and root[-1] == 't':
+        		pass
             elif first_letter == 't' and root[-1] == 't':
                 root = root[:-1]
             elif first_letter in ['l','g','k','6']:
@@ -595,7 +583,7 @@ class Postbase(object):
                 "6": root[-1] in vowels,
                 "r": len(root) >= 2 and root[-2:] == "te",
                 "s": root[-1] in vowels,
-                "t": original_root[-1] in consonants or root[-1] in consonants,
+                "t": (original_root[-1] in consonants or root[-1] in consonants) and root[-1] != 't',
                 "u": root[-1] in consonants or original_root[-1] == "e",
                 "g": len(root) >= 2 and root[-2] in vowels and root[-1] in vowels,
                 # FIXME (q)must be used with demonstrative adverb bases,
