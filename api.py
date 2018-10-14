@@ -10,7 +10,6 @@ from flask.json import jsonify
 from pydub import AudioSegment
 from common.parser.parser import Postbase, deconvert, convert
 from common.parser.tts_parser_v2 import parser
-from urllib import unquote_plus
 from flask_compress import Compress
 
 app = Flask(__name__)
@@ -182,4 +181,4 @@ api.add_resource(Concatenator, '/concat')
 api.add_resource(TTS, '/tts/<string:word>')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
