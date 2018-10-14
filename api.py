@@ -193,5 +193,12 @@ api.add_resource(Endings, '/ending/all')
 api.add_resource(Concatenator, '/concat')
 api.add_resource(TTS, '/tts/<string:word>')
 
+
+@app.after_request
+def add_header(response):
+    response.cache_control.max_age = 86400  # 1 day
+    return response
+
+
 if __name__ == '__main__':
     app.run(debug=True)
