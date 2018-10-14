@@ -35,24 +35,28 @@ def index(l):
     return new_l
 
 
-nouns = index(json.load(open("assets/root_nouns_upd3-18.json")))
-verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
-postbases = index(json.load(open("assets/postbases_upd3-18.json")))
-endings = index(json.load(open("assets/endings_upd3-18.json")))
-
+nouns = json.load(open("assets/root_nouns_upd3-18.json"))
+verbs = json.load(open("assets/root_verbs_upd3-18.json"))
+postbases = json.load(open("assets/postbases_upd3-18.json"))
+endings = json.load(open("assets/endings_upd3-18.json"))
+# FIXME index needed only for elasticlunr.js?
+# nouns = index(json.load(open("assets/root_nouns_upd3-18.json")))
+# verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
+# postbases = index(json.load(open("assets/postbases_upd3-18.json")))
+# endings = index(json.load(open("assets/endings_upd3-18.json")))
 new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_21.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
     v["english"] = ' | '.join(definitions)
     v["yupik"] = k
-
     new_dict.append(v)
 
 
 class Nouns(Resource):
     def __init__(self, *args, **kwargs):
         super(Resource, self).__init__(*args, **kwargs)
+        print "Nouns init"
 
     @cors.crossdomain(origin='*')
     def get(self):
@@ -87,6 +91,9 @@ class Endings(Resource):
 
 
 class Word(Resource):
+    def __init__(self, *args, **kwargs):
+        super(Resource, self).__init__(*args, **kwargs)
+
     @cors.crossdomain(origin='*')
     def get(self, word):
         print(word)
@@ -94,6 +101,10 @@ class Word(Resource):
 
 
 class WordsList(Resource):
+    def __init__(self, *args, **kwargs):
+        super(Resource, self).__init__(*args, **kwargs)
+        print "WordsList init"
+
     @cors.crossdomain(origin='*')
     def get(self):
         return jsonify(new_dict)
@@ -169,6 +180,7 @@ class TTS(Resource):
                 final_audio = final_audio + a
         final_audio.export('/tmp/test.wav', format='wav')
         return send_file('/tmp/test.wav', mimetype='audio/wav')
+
 
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
