@@ -12,8 +12,11 @@ from common.parser.parser import Postbase, deconvert, convert
 from common.parser.tts_parser_v2 import parser
 from urllib import unquote_plus
 from flask_compress import Compress
+from whitenoise import WhiteNoise
 
 app = Flask(__name__)
+app.wsgi_app = WhiteNoise(app.wsgi_app)
+app.wsgi_app.add_files('assets/')
 Compress(app)
 api = Api(app)
 api.decorators = [cors.crossdomain(origin='*', automatic_options=False)]
