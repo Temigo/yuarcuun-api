@@ -172,7 +172,7 @@ class TTS(Resource):
         print(parsed_output)
         final_audio = None
         for i, k in enumerate(parsed_output):
-            filename = 'assets/audiofiles/'+k+'.wav'
+            filename = 'https://github.com/Temigo/yuarcuun-api/blob/master/assets/audiofiles/'+k+'.wav'
             if not os.path.isfile(filename):
                 print("ERROR %s audio file is missing!" % filename)
                 return jsonify({})
