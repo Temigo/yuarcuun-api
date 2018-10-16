@@ -10,15 +10,30 @@ from flask.json import jsonify
 from pydub import AudioSegment
 from common.parser.parser import Postbase, deconvert, convert
 from common.parser.tts_parser_v2 import parser
-from urllib import unquote_plus
+import urllib
+from io import BytesIO
 from flask_compress import Compress
 from whitenoise import WhiteNoise
+from flask_s3 import FlaskS3, url_for
+
 
 app = Flask(__name__)
-app.wsgi_app = WhiteNoise(app.wsgi_app)
-app.wsgi_app.add_files('assets/')
+# app.wsgi_app = WhiteNoise(app.wsgi_app)
+# app.wsgi_app.add_files('static/')
+app.config['FLASKS3_BUCKET_NAME'] = 'yugtun-static'
+app.config['FLASKS3_REGION'] = 'DEFAULT'
+app.config['FLASKS3_DEBUG'] = False
+app.config['FLASKS3_HEADERS'] = {
+    'Cache-Control': 'max-age=86400',
+}
+app.config['FLASKS3_ONLY_MODIFIED'] = True
+app.config['FLASKS3_GZIP'] = True
 Compress(app)
+s3 = FlaskS3(app)
 api = Api(app)
+
+
+
 api.decorators = [cors.crossdomain(origin='*', automatic_options=False)]
 api.methods = ['GET', 'OPTIONS', 'POST', 'PUT']
 
@@ -39,16 +54,16 @@ def index(l):
     return new_l
 
 
-nouns = json.load(open("assets/root_nouns_upd3-18.json"))
-verbs = json.load(open("assets/root_verbs_upd3-18.json"))
-postbases = json.load(open("assets/postbases_upd3-18.json"))
-endings = json.load(open("assets/endings_upd3-18.json"))
+nouns = json.load(open("static/root_nouns_upd3-18.json"))
+verbs = json.load(open("static/root_verbs_upd3-18.json"))
+postbases = json.load(open("static/postbases_upd3-18.json"))
+endings = json.load(open("static/endings_upd3-18.json"))
 # FIXME index needed only for elasticlunr.js?
-# nouns = index(json.load(open("assets/root_nouns_upd3-18.json")))
-# verbs = index(json.load(open("assets/root_verbs_upd3-18.json")))
-# postbases = index(json.load(open("assets/postbases_upd3-18.json")))
-# endings = index(json.load(open("assets/endings_upd3-18.json")))
-new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_21.json"))
+# nouns = index(json.load(open("static/root_nouns_upd3-18.json")))
+# verbs = index(json.load(open("static/root_verbs_upd3-18.json")))
+# postbases = index(json.load(open("static/postbases_upd3-18.json")))
+# endings = index(json.load(open("static/endings_upd3-18.json")))
+new_dict0 = json.load(open("static/dictionary_draft3_alphabetical_21.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
@@ -170,18 +185,33 @@ class TTS(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         parsed_output = parser(word)
+        # po = range(len(parsed_output))
+        # for i,k in enumerate(parsed_output):
+        #     po[i] = 'static/audiofiles_mp3_all/'+k+'.mp3'
+        #     if not os.path.isfile(po[i]):
+        #         print("ERROR %s audio file is missing!" % po[i])
+        #         return jsonify({'url': ''})
+        # print(po)
+        # cbn = sox.Combiner()
+        # cbn.build(po, '/tmp/test.mp3', 'concatenate')
+        # #return jsonify({'url': 'test.mp3'})
+        # return send_file('/tmp/test.mp3', mimetype='audio/mp3')
+
         print(parsed_output)
         final_audio = None
         for i, k in enumerate(parsed_output):
-            filename = 'assets/audiofiles_mp3_all/'+k+'.mp3'
-            if not os.path.isfile(filename):
-                print("ERROR %s audio file is missing!" % filename)
-                return jsonify({})
-            a = AudioSegment.from_wav(filename)
+            filename = url_for('static', filename='audiofiles_mp3_all/'+k+'.mp3')
+            mp3 = urllib.urlopen(filename).read()
+            # 'https://github.com/Temigo/yuarcuun-api/blob/master/static/audiofiles_mp3_all/'+k+'.mp3'
+            # if not os.path.isfile(filename):
+            #     print("ERROR %s audio file is missing!" % filename)
+            #     return jsonify({})
+            a = AudioSegment.from_mp3(BytesIO(mp3))
             if final_audio is None:
                 final_audio = a
             else:
                 final_audio = final_audio + a
+        # FIXME use other filename than test.mp3
         final_audio.export('/tmp/test.mp3', format='mp3')
         return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
