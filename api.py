@@ -52,7 +52,7 @@ new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_21.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
-    v["english"] = ' | '.join(definitions)
+    v["english"] = ' OR '.join(definitions)
     v["yupik"] = k
     new_dict.append(v)
 
@@ -152,38 +152,38 @@ class Concatenator(Resource):
 
 
 class TTS(Resource):
-    @cors.crossdomain(origin='*')
-    def get(self, word):
-        parsed_output = parser(word)
-        po = range(len(parsed_output))
-        for i,k in enumerate(parsed_output):
-            po[i] = 'assets/audiofiles_mp3_all/'+k+'.mp3'
-            if not os.path.isfile(po[i]):
-                print("ERROR %s audio file is missing!" % po[i])
-                return jsonify({'url': ''})
-        print(po)
-        cbn = sox.Combiner()
-        cbn.build(po, '/tmp/test.mp3', 'concatenate')
-        #return jsonify({'url': 'test.mp3'})
-        return send_file('/tmp/test.mp3', mimetype='audio/mp3')
-
     # @cors.crossdomain(origin='*')
     # def get(self, word):
     #     parsed_output = parser(word)
-    #     print(parsed_output)
-    #     final_audio = None
-    #     for i, k in enumerate(parsed_output):
-    #         filename = 'assets/audiofiles_mp3/'+k+'.mp3'
-    #         if not os.path.isfile(filename):
-    #             print("ERROR %s audio file is missing!" % filename)
-    #             return jsonify({})
-    #         a = AudioSegment.from_wav(filename)
-    #         if final_audio is None:
-    #             final_audio = a
-    #         else:
-    #             final_audio = final_audio + a
-    #     final_audio.export('/tmp/test.mp3', format='mp3')
+    #     po = range(len(parsed_output))
+    #     for i,k in enumerate(parsed_output):
+    #         po[i] = 'assets/audiofiles_mp3_all/'+k+'.mp3'
+    #         if not os.path.isfile(po[i]):
+    #             print("ERROR %s audio file is missing!" % po[i])
+    #             return jsonify({'url': ''})
+    #     print(po)
+    #     cbn = sox.Combiner()
+    #     cbn.build(po, '/tmp/test.mp3', 'concatenate')
+    #     #return jsonify({'url': 'test.mp3'})
     #     return send_file('/tmp/test.mp3', mimetype='audio/mp3')
+
+    @cors.crossdomain(origin='*')
+    def get(self, word):
+        parsed_output = parser(word)
+        print(parsed_output)
+        final_audio = None
+        for i, k in enumerate(parsed_output):
+            filename = 'assets/audiofiles_mp3_all/'+k+'.mp3'
+            if not os.path.isfile(filename):
+                print("ERROR %s audio file is missing!" % filename)
+                return jsonify({})
+            a = AudioSegment.from_wav(filename)
+            if final_audio is None:
+                final_audio = a
+            else:
+                final_audio = final_audio + a
+        final_audio.export('/tmp/test.mp3', format='mp3')
+        return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
 
 api.add_resource(Word, '/word/<string:word>')
