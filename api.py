@@ -49,7 +49,7 @@ new_dict0 = json.load(open("assets/dictionary_draft3_alphabetical_21.json"))
 new_dict = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
-    v["english"] = ' | '.join(definitions)
+    v["english"] = ' OR '.join(definitions)
     v["yupik"] = k
     new_dict.append(v)
 

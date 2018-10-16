@@ -298,8 +298,10 @@ class Postbase(object):
                         root = root + 'e'
                 elif root[-1] == 'e':
                     pass
-                elif root[-1] in vowels and root[-2] not in vowels:
-                    root = root+'a'
+                elif root[-1] in vowels:
+                    pass
+                # elif root[-1] in vowels and root[-2] not in vowels:
+                #     root = root+'a'
             #ADD OTHER CONDITIONS
         elif token == ":6" or token == ":(6)":
             position = self.tokens.index(token)
