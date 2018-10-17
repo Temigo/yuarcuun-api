@@ -421,7 +421,7 @@ class Postbase(object):
                     root = root[:-1]+'a'
                 else:
                     root = root + 'a'
-        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and counter < 2:# and root[-1] in consonants: removeed for pissuryuqatartuq
+        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] and len(self.tokens)-1 != counter:# and root[-1] in consonants: removeed for pissuryuqatartuq
             if token == 'g':
                 if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'r'
