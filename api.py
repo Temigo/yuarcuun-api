@@ -232,7 +232,7 @@ api.add_resource(Postbases, '/postbase/all')
 api.add_resource(Endings, '/ending/all')
 api.add_resource(Concatenator, '/concat')
 api.add_resource(TTS, '/tts/<string:word>')
-api.add_resource(Verification, '/loaderio-bcf9a69889b63cb4ba0afed3280fbd68')
+api.add_resource(Verification, '/loaderio-a0a6b59c23ca05a56ff044a189dd143a')
 
 
 @app.after_request
