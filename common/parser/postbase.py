@@ -761,6 +761,7 @@ class Postbase(object):
             # print(stressed_vowels)
             # switch to voiced/voiceless? gg to rr
             word1=''.join(stressed_vowels).lower()
+            print(word1)
         return word1, removedindex
 
 # antislash means something comes after

@@ -21,7 +21,7 @@ app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
 # app.wsgi_app.add_files('static/')
 app.config['FLASKS3_BUCKET_NAME'] = 'yugtun-static'
-app.config['FLASKS3_REGION'] = 'DEFAULT'
+# app.config['FLASKS3_REGION'] = 'DEFAULT'
 app.config['FLASKS3_DEBUG'] = True
 app.config['FLASKS3_HEADERS'] = {
     'Cache-Control': 'max-age=86400',
