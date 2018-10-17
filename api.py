@@ -200,8 +200,6 @@ class TTS(Resource):
         print(parsed_output)
         final_audio = None
         for i, k in enumerate(parsed_output):
-
-
             filename = url_for('static', filename='audiofiles_mp3_all_1/'+k+'.mp3')
             print(filename)
             mp3 = urllib.urlopen(filename).read()
@@ -219,6 +217,12 @@ class TTS(Resource):
         return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
 
+class Verification(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        return app.send_static_file('verification.txt')
+
+
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
 
@@ -228,6 +232,7 @@ api.add_resource(Postbases, '/postbase/all')
 api.add_resource(Endings, '/ending/all')
 api.add_resource(Concatenator, '/concat')
 api.add_resource(TTS, '/tts/<string:word>')
+api.add_resource(Verification, '/loaderio-bcf9a69889b63cb4ba0afed3280fbd68')
 
 
 @app.after_request
