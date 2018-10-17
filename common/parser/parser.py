@@ -35,7 +35,7 @@ def deconvert(word):
     word = word.replace('6','ng')
     word = word.replace('7','μ')
     word = word.replace('8','ń')
-    word = word.replace('9','TMg')
+    word = word.replace('9','ńg')
     word = word.replace('j','¥r')
     word = word.replace('z','¥rr')
     word = word.replace('x','¥g')
