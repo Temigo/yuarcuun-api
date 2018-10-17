@@ -200,7 +200,8 @@ class TTS(Resource):
         print(parsed_output)
         final_audio = None
         for i, k in enumerate(parsed_output):
-            filename = url_for('static', filename='audiofiles_mp3_all/'+k+'.mp3')
+            filename = url_for('static', filename='audiofiles_mp3_all_1/'+k+'.mp3')
+            print(filename)
             mp3 = urllib.urlopen(filename).read()
             # 'https://github.com/Temigo/yuarcuun-api/blob/master/static/audiofiles_mp3_all/'+k+'.mp3'
             # if not os.path.isfile(filename):
