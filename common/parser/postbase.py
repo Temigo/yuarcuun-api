@@ -253,7 +253,9 @@ class Postbase(object):
         elif token == "(ar)":
             root = root+'(ar)'
         elif token == "-":
-            if root[-1] in consonants and root[-1] != 't':
+            if len(root) == 3 and root[1] in vowels:
+                pass
+            elif root[-1] in consonants and root[-1] != 't':
                 root = root[:-1]
         elif token == "%":
             if len(root) > 3: #not sure where this came from
@@ -421,9 +423,11 @@ class Postbase(object):
                     root = root[:-1]+'a'
                 else:
                     root = root + 'a'
-        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] + vowels and counter < 2:# and root[-1] in consonants: removeed for pissuryuqatartuq
+        elif self.tokens.index(token) == first_letter_index and token in ['g', 'k', '4', 'q', 'r', '5'] and len(self.tokens)-1 != counter:# and root[-1] in consonants: removeed for pissuryuqatartuq
             if token == 'g':
-                if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
+                if self.tokens == ['%', ':(e)', 'g', 'k', 'a']:
+                    root = root + 'g'
+                elif original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'r'
                 else:
                     root = root + 'g'
@@ -646,7 +650,7 @@ class Postbase(object):
                 if 'e' in entry and '$' in entry and '%' not in entry and i != 0 and entry[2] not in ['7','8','9']:
                     if not (entry[0]==entry[2] or (entry[0]=='c' and (entry[2]=='n' or entry[2]=='t')) or ((entry[0]=='n' or entry[2]=='t') and entry[2]=='c')):
                         if entry[-2] == word_list[i+1][0] and entry[-2] != '9':
-                            if word_list[i-1][-1] != '$':
+                            if word_list[i-1][-1] != '$' and not (word_list[i-1][-1] == 'i' and entry[0] == 't'):
                                 word = word.replace(entry[:-1],entry[0]+'^'+entry[2])
                                 for i, letter in enumerate(word):
                                     if letter == '^':
