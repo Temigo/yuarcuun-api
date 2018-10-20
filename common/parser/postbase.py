@@ -615,7 +615,14 @@ class Postbase(object):
                 root = root[:-1]+'p'
             else:
                 root = root + 'v'
-        elif token == "\\" or token == ":":
+        elif token == ":":
+        	if len(self.tokens) > 2:
+	        	if root[-1] in ['g','r','6'] and root[-2] in prime_vowels and root[-3] not in vowels and self.tokens[self.tokens.index(token)+1] in vowels and self.tokens[self.tokens.index(token)+2] not in vowels:
+	        		root = root[:-1]
+	        else:
+	        	if root[-1] in ['g','r','6'] and root[-2] in prime_vowels and root[-3] not in vowels and self.tokens[self.tokens.index(token)+1] in vowels:
+	        		root = root[:-1]
+        elif token == "\\":
             pass # not an ending
         elif token in vowels or token in consonants:
             if self.debug>=2: print("Default token", token)
