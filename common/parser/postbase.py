@@ -248,14 +248,14 @@ class Postbase(object):
                 root = root[:-1]
         elif token == "+":
             pass
-        elif token == 's' and root[-1] == 't' and root[-2] in consonants:
-            root = root[:-1]+'c'
+        # elif token == 's' and root[-1] == 't' and root[-2] in consonants:
+        #     root = root[:-1]+'c'
         elif token == "(ar)":
             root = root+'(ar)'
         elif token == "-":
             if len(root) == 3 and root[1] in vowels:
                 pass
-            elif root[-1] in consonants and root[-1] != 't':
+            elif root[-1] in ['g','r','4','5']:
                 root = root[:-1]
         elif token == "%":
             if len(root) > 3: #not sure where this came from
@@ -331,6 +331,10 @@ class Postbase(object):
                         self.tokens[position+1] = 'u'
                     elif len(root) >= 2 and self.tokens[position+1] in vowels and root[-2] in prime_vowels and root[-3] not in vowels:
                         root = root[:-1]
+                    elif root[-1] not in vowels:
+                        pass
+                    elif root[-1] in vowels:
+                        root = root + '6'
                 elif position+2 < len(self.tokens):
                     # print(root)
                     # print(self.tokens[position+1])
@@ -345,6 +349,10 @@ class Postbase(object):
                         self.tokens[position+1] = 'u'
                     elif len(root) >= 2 and self.tokens[position+1] in vowels and self.tokens[position+2] not in vowels and root[-2] in prime_vowels and root[-3] not in vowels:
                         root = root[:-1]
+                    elif root[-1] not in vowels:
+                        pass
+                    elif root[-1] in vowels:
+                        root = root + '6'
             elif position+2 == len(self.tokens):
                 if len(root) >= 2 and self.tokens[position+1] == 'i' and root[-1] == 'e' and root[-2] not in vowels:
                     root = root[:-1]+'a'
@@ -363,7 +371,7 @@ class Postbase(object):
                     # elif root[-1] == 't':
                     #     root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6' #not sure about this
                     else:
-                        root = root+'6'
+                        pass
             elif position+2 < len(self.tokens):
                 if len(root) >= 2 and self.tokens[position+1] == 'i' and self.tokens[position+2] not in vowels  and root[-1] == 'e' and root[-2] not in vowels:
                     root = root[:-1]+'a'
@@ -375,14 +383,17 @@ class Postbase(object):
                     root = root[:-1]+'u'
                     self.tokens[position+1] = 'u'
                 elif len(root) >= 2 and self.tokens[position+1] in vowels and self.tokens[position+2] not in vowels  and root[-1] in prime_vowels and root[-2] not in vowels:
-                    root = root #+''.join(self.tokens[:position])
+                    if len(root) > 4:
+                        if root[-4:] == 'gali':
+                            root =  root[:-1] + '6'
+                    #else pass
                 else:
                     if root[-1] in vowels:
                         root = root+'6'
                     # elif root[-1] == 't':
                     #     root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6' #not sure about this
                     else:
-                        root = root+'6'
+                        pass
         elif token == ":g":
             position = self.tokens.index(token)
             #print(self.tokens.index(token))
@@ -432,7 +443,9 @@ class Postbase(object):
                 else:
                     root = root + 'g'
             elif token == 'k':
-                if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
+                if root[-1] in vowels and original_root[-1] == root[-2] and root[-3:] != 'ara':
+                    root = root + 'k'
+                elif original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'q'
                 else:
                     root = root + 'k'
@@ -520,7 +533,15 @@ class Postbase(object):
                         if self.tokens[self.tokens.index('6')+1] in consonants:
                             root = root+'e'
                     elif root[-1] == 't':
-                        root = root[:-1] + 's'
+                        if len(root) > 4:
+                            if root[-4:] == 'nrit':
+                                root = root[:-1]+'l'
+                            elif root[-3:] == 'ait' or root[-3:] == 'uit':
+                                root = root[:-1]+'l'
+                            else:
+                                root = root[:-1] + 's'
+                        else:
+                            root = root[:-1] + 's'
                     #elif root[-1] == 't' and special te, then append 'l'
             # elif first_letter == 't':
             #     if root[-1] == 't':
@@ -608,8 +629,14 @@ class Postbase(object):
                             root += '6' 
                     else:
                         root += letter
-        elif token == 's' and root[-1] == 't':
-            root = root[:-1]+'c'
+        elif token == 's' and root[-1] == 't' and root[-2] in consonants:
+            if len(root) > 3:
+                if root[-1] == 't' and root[-2] == 'q' and root[-3] == 'i' and root[-4] == 'c':
+                    root = root[:-1] + 's'
+                else:
+                    root = root[:-1] + 'c'
+            else:
+                root = root[:-1]+'c'
         elif token == 'v':
             if root[-1] == 't':
                 root = root[:-1]+'p'
@@ -663,6 +690,8 @@ class Postbase(object):
                                     if letter == '^':
                                         removedindex = i
                                 word = word.replace('^','')
+                if 'te2$' == entry and i != 0 and ('$' in word_list[i+1] or '2e' == word_list[i+1] or '2er' == word_list[i+1]): #from pissunritellerpeni
+                    word = word.replace('te2','tl')
             for i, letter in enumerate(word[1:-1]):
                 if word[i+1] in voiced_fricatives and word[i+2] in voiceless_fricatives:  #accordance rules on page 732 rll becomes rrl
                     letter=voiced_converter[letter]
