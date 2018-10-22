@@ -307,7 +307,14 @@ class Postbase(object):
             #ADD OTHER CONDITIONS
         elif token == ":6" or token == ":(6)":
             position = self.tokens.index(token)
-            if root[-1] in ['g','r','6'] and len(root) > 3: #velar case for g r or ng
+            if original_root[-2:] == 'te' and root[-1] == 't':
+                if root[-2] in voiced_fricatives: #cenirrngi... kituggngi...
+                    root = root[:-1] + root[-2] + '6'
+                else:
+                    root = root[:-1] + '6'
+            elif root[-1] in vowels:
+                root = root + '6'
+            elif root[-1] in ['g','r','6'] and len(root) > 3: #velar case for g r or ng
         #                 if 'age' in string_word:
         #     word2 = word2.replace('age','ii')
         #                            enga 'ii'
@@ -370,6 +377,8 @@ class Postbase(object):
                         root = root+'6'
                     # elif root[-1] == 't':
                     #     root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6' #not sure about this
+                    elif original_root[-1] == 'e':
+                        root = root+'6'
                     else:
                         pass
             elif position+2 < len(self.tokens):
@@ -392,6 +401,8 @@ class Postbase(object):
                         root = root+'6'
                     # elif root[-1] == 't':
                     #     root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6' #not sure about this
+                    elif original_root[-1] == 'e':
+                        root = root+'6'
                     else:
                         pass
         elif token == ":g":
@@ -445,7 +456,11 @@ class Postbase(object):
                 else:
                     root = root + 'g'
             elif token == 'k':
-                if root[-1] in vowels and original_root[-1] == root[-2] and root[-3:] != 'ara':
+                if root[-1] == 'k':
+                    pass
+                elif '+' in self.tokens: #for pissuquk -> pissurkuk
+                    root = root + 'k'
+                elif root[-1] in vowels and original_root[-1] == root[-2] and root[-3:] != 'ara':
                     root = root + 'k'
                 elif len(root) > len(original_root) and root[-1] in vowels:
                     root = root + 'k'
@@ -487,7 +502,9 @@ class Postbase(object):
             # elif len(root) >= 2 and (root[-2:] == 'e4' or root[-2:] == 'e5'):
             #     root = root[:-2]+root[-1]+token
             else:
-                if root[-1] == 'e':
+                if token == 'a' and root[-1] == 'e':
+                    root = root[:-1] + 'aa'
+                elif root[-1] == 'e':
                     root = root[:-1] + token
                 else:
                     root = root + token
@@ -622,7 +639,7 @@ class Postbase(object):
                 "6": root[-1] in vowels,
                 "r": len(root) >= 2 and root[-2:] == "te",
                 "s": root[-1] in vowels,
-                "t": (original_root[-1] in consonants or root[-1] in consonants) and root[-1] != 't',
+                "t": (original_root[-1] in consonants or root[-1] in consonants and original_root[-1] != 'e') and root[-1] != 't',
                 "u": root[-1] in consonants or original_root[-1] == "e",
                 "g": len(root) >= 2 and root[-2] in vowels and root[-1] in vowels,
                 # FIXME (q)must be used with demonstrative adverb bases,
@@ -704,6 +721,8 @@ class Postbase(object):
                                 word = word.replace('^','')
                 if 'te2$' == entry and i != 0 and ('$' in word_list[i+1] or '2e' == word_list[i+1] or '2er' == word_list[i+1]): #from pissunritellerpeni
                     word = word.replace('te2','tl')
+                if 'teg$' == entry and i != 0 and (word_list[i+1][0] == 'g'): # maybe more conditions needed?
+                    word = word.replace('teg','tg')
             for i, letter in enumerate(word[1:-1]):
                 if word[i+1] in voiced_fricatives and word[i+2] in voiceless_fricatives:  #accordance rules on page 732 rll becomes rrl
                     letter=voiced_converter[letter]
@@ -752,6 +771,8 @@ class Postbase(object):
                 word1 = word1.replace('erar','er')
             if 'eraqa' in word1:
                 word1 = word1.replace('eraqa','erqa')
+            if 'e6rar' in word1:
+                word1 = word1.replace('e6rar','e6er')
             #COMPLETE IN POSTBASES e drop? tangrrutuk
             #COMPLETE IN POSTBASES yaqulegit -> yaqulgit -- e preceding g or r endings and suffix has initial vowel
             stressed_vowels = assign_stressed_vowels(word1)
