@@ -248,14 +248,14 @@ class Postbase(object):
                 root = root[:-1]
         elif token == "+":
             pass
-        elif token == 's' and root[-1] == 't' and root[-2] in consonants:
-            root = root[:-1]+'c'
+        # elif token == 's' and root[-1] == 't' and root[-2] in consonants:
+        #     root = root[:-1]+'c'
         elif token == "(ar)":
             root = root+'(ar)'
         elif token == "-":
             if len(root) == 3 and root[1] in vowels:
                 pass
-            elif root[-1] in consonants and root[-1] != 't':
+            elif root[-1] in ['g','r','4','5']:
                 root = root[:-1]
         elif token == "%":
             if len(root) > 3: #not sure where this came from
@@ -307,7 +307,14 @@ class Postbase(object):
             #ADD OTHER CONDITIONS
         elif token == ":6" or token == ":(6)":
             position = self.tokens.index(token)
-            if root[-1] in ['g','r','6'] and len(root) > 3: #velar case for g r or ng
+            if original_root[-2:] == 'te' and root[-1] == 't':
+                if root[-2] in voiced_fricatives: #cenirrngi... kituggngi...
+                    root = root[:-1] + root[-2] + '6'
+                else:
+                    root = root[:-1] + '6'
+            # elif root[-1] in vowels:
+            #     root = root + '6'
+            elif root[-1] in ['g','r','6'] and len(root) > 3: #velar case for g r or ng
         #                 if 'age' in string_word:
         #     word2 = word2.replace('age','ii')
         #                            enga 'ii'
@@ -331,6 +338,10 @@ class Postbase(object):
                         self.tokens[position+1] = 'u'
                     elif len(root) >= 2 and self.tokens[position+1] in vowels and root[-2] in prime_vowels and root[-3] not in vowels:
                         root = root[:-1]
+                    elif root[-1] not in vowels:
+                        pass
+                    elif root[-1] in vowels:
+                        root = root + '6'
                 elif position+2 < len(self.tokens):
                     # print(root)
                     # print(self.tokens[position+1])
@@ -345,6 +356,10 @@ class Postbase(object):
                         self.tokens[position+1] = 'u'
                     elif len(root) >= 2 and self.tokens[position+1] in vowels and self.tokens[position+2] not in vowels and root[-2] in prime_vowels and root[-3] not in vowels:
                         root = root[:-1]
+                    elif root[-1] not in vowels:
+                        pass
+                    elif root[-1] in vowels:
+                        root = root + '6'
             elif position+2 == len(self.tokens):
                 if len(root) >= 2 and self.tokens[position+1] == 'i' and root[-1] == 'e' and root[-2] not in vowels:
                     root = root[:-1]+'a'
@@ -362,8 +377,10 @@ class Postbase(object):
                         root = root+'6'
                     # elif root[-1] == 't':
                     #     root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6' #not sure about this
-                    else:
+                    elif original_root[-1] == 'e':
                         root = root+'6'
+                    else:
+                        pass
             elif position+2 < len(self.tokens):
                 if len(root) >= 2 and self.tokens[position+1] == 'i' and self.tokens[position+2] not in vowels  and root[-1] == 'e' and root[-2] not in vowels:
                     root = root[:-1]+'a'
@@ -375,14 +392,26 @@ class Postbase(object):
                     root = root[:-1]+'u'
                     self.tokens[position+1] = 'u'
                 elif len(root) >= 2 and self.tokens[position+1] in vowels and self.tokens[position+2] not in vowels  and root[-1] in prime_vowels and root[-2] not in vowels:
-                    root = root #+''.join(self.tokens[:position])
+                    if len(root) > 4:
+                        if root[-4:] == 'gali':
+                            root =  root[:-1] + '6'
+                    #else pass
                 else:
                     if root[-1] in vowels:
                         root = root+'6'
                     # elif root[-1] == 't':
                     #     root = root[:-1]+'s6'#+''.join(self.tokens[:position])+'6' #not sure about this
-                    else:
+                    elif original_root[-1] == 'e':
                         root = root+'6'
+                    else:
+                        pass
+            else:
+                if root[-1] in vowels:
+                    root = root+'6'
+                elif original_root[-1] == 'e':
+                    root = root+'6'
+                else:
+                    pass      	
         elif token == ":g":
             position = self.tokens.index(token)
             #print(self.tokens.index(token))
@@ -427,32 +456,50 @@ class Postbase(object):
             if token == 'g':
                 if self.tokens == ['%', ':(e)', 'g', 'k', 'a']:
                     root = root + 'g'
+                elif len(root) > len(original_root) and root[-1] in vowels:
+                    root = root + 'g'
                 elif original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'r'
                 else:
                     root = root + 'g'
             elif token == 'k':
-                if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
+                if root[-1] == 'k':
+                    pass
+                elif '+' in self.tokens: #for pissuquk -> pissurkuk
+                    root = root + 'k'
+                elif root[-1] in vowels and original_root[-1] == root[-2] and root[-3:] != 'ara':
+                    root = root + 'k'
+                elif len(root) > len(original_root) and root[-1] in vowels:
+                    root = root + 'k'
+                elif original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'q'
                 else:
                     root = root + 'k'
             elif token == '4':
-                if original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
+            	if len(root) > len(original_root) and root[-1] in vowels:
+                    root = root + '4'
+                elif original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'5'
                 else:
                     root = root + '4'
             elif token == 'q':
-                if original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
+            	if len(root) > len(original_root) and root[-1] in vowels:
+                    root = root + 'q'
+                elif original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
                     root = original_root[:-1]+'k'
                 else:
                     root = root + 'q'
             elif token == 'r':
-                if original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
+            	if len(root) > len(original_root) and root[-1] in vowels:
+                    root = root + 'r'
+                elif original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
                     root = original_root[:-1]+'g'
                 else:
                     root = root + 'r'
             elif token == '5':
-                if original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
+            	if len(root) > len(original_root) and root[-1] in vowels:
+                    root = root + '5'
+                elif original_root[-1] == 'g' or original_root[-1] == 'k' or original_root[-1] == '4':
                     root = original_root[:-1]+'4'
                 else:
                     root = root + '5'
@@ -462,7 +509,9 @@ class Postbase(object):
             # elif len(root) >= 2 and (root[-2:] == 'e4' or root[-2:] == 'e5'):
             #     root = root[:-2]+root[-1]+token
             else:
-                if root[-1] == 'e':
+                if token == 'a' and root[-1] == 'e':
+                    root = root[:-1] + 'aa'
+                elif root[-1] == 'e':
                     root = root[:-1] + token
                 else:
                     root = root + token
@@ -520,7 +569,15 @@ class Postbase(object):
                         if self.tokens[self.tokens.index('6')+1] in consonants:
                             root = root+'e'
                     elif root[-1] == 't':
-                        root = root[:-1] + 's'
+                        if len(root) > 4:
+                            if root[-4:] == 'nrit':
+                                root = root[:-1]+'l'
+                            elif root[-3:] == 'ait' or root[-3:] == 'uit':
+                                root = root[:-1]+'l'
+                            else:
+                                root = root[:-1] + 's'
+                        else:
+                            root = root[:-1] + 's'
                     #elif root[-1] == 't' and special te, then append 'l'
             # elif first_letter == 't':
             #     if root[-1] == 't':
@@ -589,7 +646,7 @@ class Postbase(object):
                 "6": root[-1] in vowels,
                 "r": len(root) >= 2 and root[-2:] == "te",
                 "s": root[-1] in vowels,
-                "t": (original_root[-1] in consonants or root[-1] in consonants) and root[-1] != 't',
+                "t": (original_root[-1] in consonants or root[-1] in consonants and original_root[-1] != 'e') and root[-1] != 't',
                 "u": root[-1] in consonants or original_root[-1] == "e",
                 "g": len(root) >= 2 and root[-2] in vowels and root[-1] in vowels,
                 # FIXME (q)must be used with demonstrative adverb bases,
@@ -608,8 +665,14 @@ class Postbase(object):
                             root += '6' 
                     else:
                         root += letter
-        elif token == 's' and root[-1] == 't':
-            root = root[:-1]+'c'
+        elif token == 's' and root[-1] == 't' and root[-2] in consonants:
+            if len(root) > 3:
+                if root[-1] == 't' and root[-2] == 'q' and root[-3] == 'i' and root[-4] == 'c':
+                    root = root[:-1] + 's'
+                else:
+                    root = root[:-1] + 'c'
+            else:
+                root = root[:-1]+'c'
         elif token == 'v':
             if root[-1] == 't':
                 root = root[:-1]+'p'
@@ -663,6 +726,10 @@ class Postbase(object):
                                     if letter == '^':
                                         removedindex = i
                                 word = word.replace('^','')
+                if 'te2$' == entry and i != 0 and ('$' in word_list[i+1] or '2e' == word_list[i+1] or '2er' == word_list[i+1]): #from pissunritellerpeni
+                    word = word.replace('te2','tl')
+                if 'teg$' == entry and i != 0 and (word_list[i+1][0] == 'g'): # maybe more conditions needed?
+                    word = word.replace('teg','tg')
             for i, letter in enumerate(word[1:-1]):
                 if word[i+1] in voiced_fricatives and word[i+2] in voiceless_fricatives:  #accordance rules on page 732 rll becomes rrl
                     letter=voiced_converter[letter]
@@ -711,6 +778,8 @@ class Postbase(object):
                 word1 = word1.replace('erar','er')
             if 'eraqa' in word1:
                 word1 = word1.replace('eraqa','erqa')
+            if '6rarp' in word1:
+                word1 = word1.replace('6rarp','6erp')
             #COMPLETE IN POSTBASES e drop? tangrrutuk
             #COMPLETE IN POSTBASES yaqulegit -> yaqulgit -- e preceding g or r endings and suffix has initial vowel
             stressed_vowels = assign_stressed_vowels(word1)

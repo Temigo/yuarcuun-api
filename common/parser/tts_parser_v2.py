@@ -178,11 +178,21 @@ def assign_stress(word_list):
  	return(word_list)
 
 def parser(word):
+	print(word)
+	indicative_ending = ''
+	interrogative_start = []
 	word = word.replace('*','')
 	single_word = convert(word)
-	if "-" in single_word:
-		single_word = single_word.split('-')[0]
-		print('Not setup to process hyphen cases yet, returned word only')
+	if '^' in single_word:
+		splitted = single_word.split('^')
+		single_word = splitted[1]
+		interrogative_start.append(splitted[0])
+	elif "-" in single_word:
+		splitted = single_word.split('-')
+		print(splitted)
+		single_word = splitted[0]
+		indicative_ending = splitted[1]
+		# print('Not setup to process hyphen cases yet, returned word only')
 		#single_word = process_enclitics(single_word)
 	word_list = process_apostrophe_voicelessness(single_word)
 	print(word_list)
@@ -190,7 +200,11 @@ def parser(word):
 	print(word_list)
 	word_list = assign_stress(word_list)
 	print(word_list)
-	return(word_list)		
+	if len(indicative_ending) > 0:
+		word_list.append(indicative_ending)
+	elif interrogative_start:
+		word_list = interrogative_start+word_list
+	return word_list
 
 if __name__ == "__main__":
 	s = argparse.ArgumentParser(description='parse a given word into separate units.')
