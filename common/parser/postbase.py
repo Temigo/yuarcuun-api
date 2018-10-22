@@ -312,8 +312,8 @@ class Postbase(object):
                     root = root[:-1] + root[-2] + '6'
                 else:
                     root = root[:-1] + '6'
-            elif root[-1] in vowels:
-                root = root + '6'
+            # elif root[-1] in vowels:
+            #     root = root + '6'
             elif root[-1] in ['g','r','6'] and len(root) > 3: #velar case for g r or ng
         #                 if 'age' in string_word:
         #     word2 = word2.replace('age','ii')
@@ -405,6 +405,13 @@ class Postbase(object):
                         root = root+'6'
                     else:
                         pass
+            else:
+                if root[-1] in vowels:
+                    root = root+'6'
+                elif original_root[-1] == 'e':
+                    root = root+'6'
+                else:
+                    pass      	
         elif token == ":g":
             position = self.tokens.index(token)
             #print(self.tokens.index(token))
@@ -771,8 +778,8 @@ class Postbase(object):
                 word1 = word1.replace('erar','er')
             if 'eraqa' in word1:
                 word1 = word1.replace('eraqa','erqa')
-            if 'e6rar' in word1:
-                word1 = word1.replace('e6rar','e6er')
+            if '6rarp' in word1:
+                word1 = word1.replace('6rarp','6erp')
             #COMPLETE IN POSTBASES e drop? tangrrutuk
             #COMPLETE IN POSTBASES yaqulegit -> yaqulgit -- e preceding g or r endings and suffix has initial vowel
             stressed_vowels = assign_stressed_vowels(word1)
