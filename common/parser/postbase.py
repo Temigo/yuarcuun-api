@@ -438,6 +438,8 @@ class Postbase(object):
             if token == 'g':
                 if self.tokens == ['%', ':(e)', 'g', 'k', 'a']:
                     root = root + 'g'
+                elif len(root) > len(original_root):
+                    root = root + 'g'
                 elif original_root[-1] == 'q' or original_root[-1] == 'r' or original_root[-1] == '5':
                     root = original_root[:-1]+'r'
                 else:
