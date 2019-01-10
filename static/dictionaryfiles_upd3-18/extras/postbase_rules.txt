@@ -1,8 +1,0 @@
-base ! ar- ! ag-
-base ! ar- ! ag-
-base er-
-
-base te-
-end intransitive
-
-
