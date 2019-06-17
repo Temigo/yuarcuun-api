@@ -16,10 +16,10 @@ from flask_compress import Compress
 from whitenoise import WhiteNoise
 from flask_s3 import FlaskS3, url_for
 
-
 app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
 # app.wsgi_app.add_files('static/')
+# app.config['COMPRESS_LEVEL'] = 9
 app.config['FLASKS3_BUCKET_NAME'] = 'yugtun-static'
 # app.config['FLASKS3_REGION'] = 'DEFAULT'
 app.config['FLASKS3_DEBUG'] = True
@@ -31,12 +31,8 @@ app.config['FLASKS3_GZIP'] = True
 Compress(app)
 s3 = FlaskS3(app)
 api = Api(app)
-
-
-
 api.decorators = [cors.crossdomain(origin='*', automatic_options=False)]
 api.methods = ['GET', 'OPTIONS', 'POST', 'PUT']
-
 
 # Define parser and request args
 parser_api = reqparse.RequestParser()
@@ -45,14 +41,13 @@ parser_api.add_argument('postbase', type=str, action='append')
 
 # FIXME obsolete
 # Takes a list of dict/json objects and add id field
-def index(l):
-    new_l = []
-    for i in range(len(l)):
-        new_x = l[i]
-        new_x['id'] = i
-        new_l.append(new_x)
-    return new_l
-
+# def index(l):
+#     new_l = []
+#     for i in range(len(l)):
+#         new_x = l[i]
+#         new_x['id'] = i
+#         new_l.append(new_x)
+#     return new_l
 
 nouns = json.load(open("static/root_nouns_upd3-18.json"))
 verbs = json.load(open("static/root_verbs_upd3-18.json"))
@@ -64,12 +59,20 @@ endings = json.load(open("static/endings_upd3-18.json"))
 # postbases = index(json.load(open("static/postbases_upd3-18.json")))
 # endings = index(json.load(open("static/endings_upd3-18.json")))
 new_dict0 = json.load(open("static/dictionary_draft3_alphabetical_21.json"))
-new_dict = []
+# new_dict = []
+new_dict_light = []
 for k, v in new_dict0.iteritems():
     definitions = [v[key]["definition"] for key in v]
     v["english"] = ' OR '.join(definitions)
     v["yupik"] = k
-    new_dict.append(v)
+    # new_dict.append(v)
+    v2 = {"english": v["english"], "yupik": v["yupik"]}
+    for key in v:
+        if key != "english" and key != "yupik":
+            v2[key] = {}
+            for key2 in ["properties", "descriptor"]:
+                v2[key][key2] = v[key][key2]
+    new_dict_light.append(v2)
 
 
 class Nouns(Resource):
@@ -126,7 +129,7 @@ class WordsList(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self):
-        return jsonify(new_dict)
+        return jsonify(new_dict_light)
 
 
 class Concatenator(Resource):
