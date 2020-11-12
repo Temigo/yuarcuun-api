@@ -239,6 +239,19 @@ class Parser(Resource):
         list_results = self.transducer.lookup(word)
         return jsonify({'parses': [x[0] for x in list_results]})
 
+
+class Segmenter(Resource):
+    def __init__(self, *args, **kwargs):
+        super(Segmenter, self).__init__(*args, **kwargs)
+        self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+        self.transducer = self.input_stream.read()
+
+    @cors.crossdomain(origin='*')
+    def get(self, form):
+        list_results = self.transducer.lookup(word)
+        return jsonify({'words': [x[0] for x in list_results]})
+
+
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
 
@@ -251,6 +264,7 @@ api.add_resource(TTS, '/tts/<string:word>')
 api.add_resource(Verification, '/loaderio-a0a6b59c23ca05a56ff044a189dd143a')
 
 api.add_resource(Parser, '/parse/<string:word>')
+api.add_resource(Segmenter, '/segment/<string:form>')
 
 @app.after_request
 def add_header(response):
