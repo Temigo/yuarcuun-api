@@ -13,7 +13,7 @@ from common.parser.tts_parser_v2 import parser
 import urllib
 from io import BytesIO
 from flask_compress import Compress
-from whitenoise import WhiteNoise
+#from whitenoise import WhiteNoise
 from flask_s3 import FlaskS3, url_for
 import hfst
 
