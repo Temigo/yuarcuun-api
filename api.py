@@ -220,6 +220,12 @@ class TTS(Resource):
         return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
 
+class Verification(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        return app.send_static_file('verification.txt')
+
+
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
 
@@ -229,6 +235,7 @@ api.add_resource(Postbases, '/postbase/all')
 api.add_resource(Endings, '/ending/all')
 api.add_resource(Concatenator, '/concat')
 api.add_resource(TTS, '/tts/<string:word>')
+api.add_resource(Verification, '/loaderio-a0a6b59c23ca05a56ff044a189dd143a')
 
 
 @app.after_request
@@ -238,4 +245,4 @@ def add_header(response):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
