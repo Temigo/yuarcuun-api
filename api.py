@@ -15,6 +15,8 @@ from io import BytesIO
 from flask_compress import Compress
 from whitenoise import WhiteNoise
 from flask_s3 import FlaskS3, url_for
+import hfst
+
 
 app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
