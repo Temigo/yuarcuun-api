@@ -228,6 +228,17 @@ class Verification(Resource):
         return app.send_static_file('verification.txt')
 
 
+class Parser(Resource):
+    def __init__(self, *args, **kwargs):
+        super(Parser, self).__init__(*args, **kwargs)
+        self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
+        self.transducer = self.input_stream.read()
+
+    @cors.crossdomain(origin='*')
+    def get(self, word):
+        list_results = self.transducer.lookup(word)
+        return jsonify({'parses': [x[0] for x in list_results]})
+
 api.add_resource(Word, '/word/<string:word>')
 api.add_resource(WordsList, '/word/all', '/')
 
@@ -239,6 +250,7 @@ api.add_resource(Concatenator, '/concat')
 api.add_resource(TTS, '/tts/<string:word>')
 api.add_resource(Verification, '/loaderio-a0a6b59c23ca05a56ff044a189dd143a')
 
+api.add_resource(Parser, '/parse/<string:word>')
 
 @app.after_request
 def add_header(response):
