@@ -12,8 +12,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Update Ubuntu Software repository
 RUN apt update
 
-RUN apt -y install dpkg-dev g++ gcc binutils git python-dev python-pip python-setuptools wget
-RUN pip --no-cache-dir install
+RUN apt -y install dpkg-dev g++ gcc binutils python-dev python-pip python-setuptools apt-utils
+RUN pip --no-cache-dir install -r requirements.txt
 
 RUN apt install -y ffmpeg
 RUN apt install -y python-libhfst
