@@ -9,6 +9,10 @@ LABEL description="blah"
 # Disable Prompt During Packages Installation
 ARG DEBIAN_FRONTEND=noninteractive
 
+RUN mkdir -p /app
+WORKDIR /app
+COPY . /app
+
 # Update Ubuntu Software repository
 RUN apt update
 
