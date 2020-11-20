@@ -16,7 +16,7 @@ from flask_compress import Compress
 #from whitenoise import WhiteNoise
 from flask_s3 import FlaskS3, url_for
 import hfst
-from urllib import unquote
+
 
 app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
@@ -120,8 +120,8 @@ class Word(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self, word):
-        # print(word)
-        return jsonify(new_dict0[unicode(word).decode('utf8')])
+        print(word)
+        return jsonify(new_dict0[word])
 
 
 class WordsList(Resource):
