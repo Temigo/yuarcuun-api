@@ -120,8 +120,8 @@ class Word(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self, word):
-        print(word)
-        return jsonify(new_dict0[word])
+        print(word.encode("utf-8"))
+        return jsonify(new_dict0[word.encode("utf-8")])
 
 
 class WordsList(Resource):
