@@ -248,7 +248,7 @@ class Segmenter(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self, form):
-        list_results = self.transducer.lookup(word)
+        list_results = self.transducer.lookup(form)
         return jsonify({'words': [x[0] for x in list_results]})
 
 
