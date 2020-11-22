@@ -252,7 +252,7 @@ class Segmenter(Resource):
         return jsonify({'words': [x[0] for x in list_results]})
 
 
-api.add_resource(Word, '/word/<string:word>')
+api.add_resource(Word, '/word/<string:word>'.encode('utf-8'))
 api.add_resource(WordsList, '/word/all', '/')
 
 api.add_resource(Nouns, '/noun/all')
