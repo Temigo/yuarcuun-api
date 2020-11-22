@@ -260,11 +260,11 @@ api.add_resource(Verbs, '/verb/all')
 api.add_resource(Postbases, '/postbase/all')
 api.add_resource(Endings, '/ending/all')
 api.add_resource(Concatenator, '/concat')
-api.add_resource(TTS, '/tts/<string:word>')
+api.add_resource(TTS, '/tts/<string:word>'.encode('utf-8'))
 api.add_resource(Verification, '/loaderio-a0a6b59c23ca05a56ff044a189dd143a')
 
-api.add_resource(Parser, '/parse/<string:word>')
-api.add_resource(Segmenter, '/segment/<string:form>')
+api.add_resource(Parser, '/parse/<string:word>'.encode('utf-8'))
+api.add_resource(Segmenter, '/segment/<string:form>'.encode('utf-8'))
 
 @app.after_request
 def add_header(response):
