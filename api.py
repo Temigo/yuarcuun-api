@@ -43,7 +43,7 @@ parser_api.add_argument('root', type=str)
 parser_api.add_argument('postbase', type=str, action='append')
 
 parser_generator = reqparse.RequestParser()
-parser_generator.add_argument('underlying_form', type=str)
+parser_generator.add_argument('underlying_form', type=unicode)
 parser_generator.add_argument('mood', type=str)
 
 # FIXME obsolete
@@ -267,7 +267,7 @@ class MoodSegmenter(Resource):
     def get(self):
         args = parser_generator.parse_args()
         #print(args)
-        underlying_form = args['underlying_form'].split("[V]", 1)[0] + "[V]"
+        underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
         mood = args['mood']
         if mood not in moodEndings:
             raise Exception("Unknown mood %s" % mood)
