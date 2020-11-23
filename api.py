@@ -16,6 +16,7 @@ from flask_compress import Compress
 #from whitenoise import WhiteNoise
 from flask_s3 import FlaskS3, url_for
 import hfst
+from common.retrieveEndings import moodEndings
 
 
 app = Flask(__name__)
@@ -40,6 +41,10 @@ api.methods = ['GET', 'OPTIONS', 'POST', 'PUT']
 parser_api = reqparse.RequestParser()
 parser_api.add_argument('root', type=str)
 parser_api.add_argument('postbase', type=str, action='append')
+
+parser_generator = reqparse.RequestParser()
+parser_generator.add_argument('underlying_form', type=str)
+parser_generator.add_argument('mood', type=str)
 
 # FIXME obsolete
 # Takes a list of dict/json objects and add id field
@@ -252,6 +257,30 @@ class Segmenter(Resource):
         return jsonify({'words': [x[0] for x in list_results]})
 
 
+class MoodSegmenter(Resource):
+    def __init__(self, *args, **kwargs):
+        super(MoodSegmenter, self).__init__(*args, **kwargs)
+        self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+        self.transducer = self.input_stream.read()
+
+    @cors.crossdomain(origin='*')
+    def get(self):
+        args = parser_generator.parse_args()
+        #print(args)
+        underlying_form = args['underlying_form'].split("[V]", 1)[0] + "[V]"
+        mood = args['mood']
+        if mood not in moodEndings:
+            raise Exception("Unknown mood %s" % mood)
+        underlying_form += mood
+        #print("Underlying form = ", underlying_form)
+        # Compute all moods
+        results = {}
+        for ending in moodEndings[mood]:
+            list_results = self.transducer.lookup(underlying_form + ending)
+            results[ending] = [x[0] for x in list_results]
+        return jsonify({'results': results})
+
+
 api.add_resource(Word, '/word/<string:word>'.encode('utf-8'))
 api.add_resource(WordsList, '/word/all', '/')
 
@@ -265,6 +294,8 @@ api.add_resource(Verification, '/loaderio-a0a6b59c23ca05a56ff044a189dd143a')
 
 api.add_resource(Parser, '/parse/<string:word>'.encode('utf-8'))
 api.add_resource(Segmenter, '/segment/<string:form>'.encode('utf-8'))
+api.add_resource(MoodSegmenter, '/mood')
+
 
 @app.after_request
 def add_header(response):
