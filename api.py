@@ -267,12 +267,15 @@ class MoodSegmenter(Resource):
     def get(self):
         args = parser_generator.parse_args()
         #print(args)
-        underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
+        if "[V]" in args['underlying_form']:
+            underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
+        else:
+            underlying_form = args['underlying_form'].encode('utf-8').split("[N]", 1)[0] + "[N]"            
         mood = args['mood']
         if mood not in moodEndings:
             raise Exception("Unknown mood %s" % mood)
         underlying_form += mood
-        #print("Underlying form = ", underlying_form)
+        print("Underlying form = ", underlying_form)
         # Compute all moods
         results = {}
         for ending in moodEndings[mood]:
