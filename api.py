@@ -238,6 +238,7 @@ class Parser(Resource):
         super(Parser, self).__init__(*args, **kwargs)
         self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
         self.transducer = self.input_stream.read()
+        self.input_stream.close()
 
     @cors.crossdomain(origin='*')
     def get(self, word):
@@ -250,6 +251,7 @@ class Segmenter(Resource):
         super(Segmenter, self).__init__(*args, **kwargs)
         self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
         self.transducer = self.input_stream.read()
+        self.input_stream.close()
 
     @cors.crossdomain(origin='*')
     def get(self, form):
@@ -262,6 +264,7 @@ class MoodSegmenter(Resource):
         super(MoodSegmenter, self).__init__(*args, **kwargs)
         self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
         self.transducer = self.input_stream.read()
+        self.input_stream.close()
 
     @cors.crossdomain(origin='*')
     def get(self):
