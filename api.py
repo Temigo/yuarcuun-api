@@ -253,7 +253,8 @@ class Parser(Resource):
         parses = parses[0:10]
         segments = [self.transducer2.lookup(x) for x in parses]
         print(segments)
-        return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments],'endingrule':endingRules['[N][Abl_Mod][1DuPoss][DuPosd]']})
+        endings = [endingRules[x.split("-")[-1]] for x in parses]
+        return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments],'endingrule':endings})
 
 
 class Segmenter(Resource):
