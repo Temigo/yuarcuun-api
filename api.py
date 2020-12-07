@@ -253,7 +253,7 @@ class Parser(Resource):
         parses = parses[0:10]
         segments = [self.transducer2.lookup(x) for x in parses]
         print(segments)
-        endings = [endingRules[x.split("-")[-1]] for x in parses]
+        endings = [endingRules[x.split("-")[-1]] if x.split("-")[-1] in endingRules else [""] for x in parses]
         return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments],'endingrule':endings})
 
 
