@@ -17,6 +17,7 @@ from flask_compress import Compress
 from flask_s3 import FlaskS3, url_for
 import hfst
 from common.retrieveEndings import moodEndings
+from common.endingRules import endingRules
 
 
 app = Flask(__name__)
@@ -252,7 +253,7 @@ class Parser(Resource):
         parses = parses[0:10]
         segments = [self.transducer2.lookup(x) for x in parses]
         print(segments)
-        return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments]})
+        return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments],'endingrule':endingRules['[N][Abl_Mod][1DuPoss][DuPosd]']})
 
 
 class Segmenter(Resource):
