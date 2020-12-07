@@ -239,6 +239,9 @@ class Parser(Resource):
         self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
         self.transducer = self.input_stream.read()
         self.input_stream.close()
+        self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+        self.transducer2 = self.input_stream2.read()
+        self.input_stream2.close()
 
     @cors.crossdomain(origin='*')
     def get(self, word):
@@ -247,9 +250,9 @@ class Parser(Resource):
         print(parses)
         parses.sort(key=len)
         parses = parses[0:10]
-        segments = [Segmenter().get(x) for x in parses]
+        segments = [self.transducer2.lookup(x) for x in parses]
         print(segments)
-        return jsonify({'parses': parses[0:10], 'segments': segments})
+        return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments]})
 
 
 class Segmenter(Resource):
