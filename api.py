@@ -243,7 +243,15 @@ class Parser(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         list_results = self.transducer.lookup(word)
-        return jsonify({'parses': [x[0] for x in list_results]})
+        parses = [x[0] for x in list_results]
+        print(parses)
+        parses.sort(key=len)
+        print(parses)
+        parses.reverse()
+        print(parses)
+        parses = parses[0:10]
+        print(parses)
+        return jsonify({'parses': parses})
 
 
 class Segmenter(Resource):
