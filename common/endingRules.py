@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 endingRules = {
     "[N][Abl_Mod][1DuPoss][DuPosd]": [
         "%:(e)gmegnek",
