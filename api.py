@@ -246,12 +246,10 @@ class Parser(Resource):
         parses = [x[0] for x in list_results]
         print(parses)
         parses.sort(key=len)
-        print(parses)
-        parses.reverse()
-        print(parses)
         parses = parses[0:10]
-        print(parses)
-        return jsonify({'parses': parses})
+        segments = [Segmenter().get(x) for x in parses]
+        print(segments)
+        return jsonify({'parses': parses[0:10], 'segments': segments})
 
 
 class Segmenter(Resource):
