@@ -237,15 +237,15 @@ class Verification(Resource):
 class Parser(Resource):
     def __init__(self, *args, **kwargs):
         super(Parser, self).__init__(*args, **kwargs)
+
+    @cors.crossdomain(origin='*')
+    def get(self, word):
         self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
         self.transducer = self.input_stream.read()
         self.input_stream.close()
         self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
         self.transducer2 = self.input_stream2.read()
         self.input_stream2.close()
-
-    @cors.crossdomain(origin='*')
-    def get(self, word):
         list_results = self.transducer.lookup(word)
         parses = [x[0] for x in list_results]
         print(parses)
