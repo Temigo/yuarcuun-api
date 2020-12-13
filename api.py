@@ -234,24 +234,30 @@ class Verification(Resource):
         return app.send_static_file('verification.txt')
 
 
+input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
+transducer = input_stream.read()
+input_stream.close()
+input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+transducer2 = input_stream2.read()
+input_stream2.close()
 class Parser(Resource):
     def __init__(self, *args, **kwargs):
         super(Parser, self).__init__(*args, **kwargs)
 
     @cors.crossdomain(origin='*')
     def get(self, word):
-        self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
-        self.transducer = self.input_stream.read()
-        self.input_stream.close()
-        self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        self.transducer2 = self.input_stream2.read()
-        self.input_stream2.close()
-        list_results = self.transducer.lookup(word)
+        # self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
+        # self.transducer = self.input_stream.read()
+        # self.input_stream.close()
+        # self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+        # self.transducer2 = self.input_stream2.read()
+        # self.input_stream2.close()
+        list_results = transducer.lookup(word)
         parses = [x[0] for x in list_results]
         print(parses)
         parses.sort(key=len)
         parses = parses[0:10]
-        segments = [self.transducer2.lookup(x) for x in parses]
+        segments = [transducer2.lookup(x) for x in parses]
         print(segments)
         endings = [endingRules[x.split("-")[-1]] if x.split("-")[-1] in endingRules else [""] for x in parses]
         return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments],'endingrule':endings})
@@ -284,7 +290,7 @@ class MoodSegmenter(Resource):
         if "[V]" in args['underlying_form']:
             underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
         else:
-            underlying_form = args['underlying_form'].encode('utf-8').split("[N]", 1)[0] + "[N]"            
+            underlying_form = args['underlying_form'].encode('utf-8').split("[N]", 1)[0] + "[N]"
         mood = args['mood']
         if mood not in moodEndings:
             raise Exception("Unknown mood %s" % mood)
