@@ -266,22 +266,22 @@ class Parser(Resource):
 class Segmenter(Resource):
     def __init__(self, *args, **kwargs):
         super(Segmenter, self).__init__(*args, **kwargs)
-        self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        self.transducer = self.input_stream.read()
-        self.input_stream.close()
+        # self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+        # self.transducer = self.input_stream.read()
+        # self.input_stream.close()
 
     @cors.crossdomain(origin='*')
     def get(self, form):
-        list_results = self.transducer.lookup(form)
+        list_results = transducer2.lookup(form)
         return jsonify({'words': [x[0] for x in list_results]})
 
 
 class MoodSegmenter(Resource):
     def __init__(self, *args, **kwargs):
         super(MoodSegmenter, self).__init__(*args, **kwargs)
-        self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        self.transducer = self.input_stream.read()
-        self.input_stream.close()
+        # self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
+        # self.transducer = self.input_stream.read()
+        # self.input_stream.close()
 
     @cors.crossdomain(origin='*')
     def get(self):
@@ -299,7 +299,7 @@ class MoodSegmenter(Resource):
         # Compute all moods
         results = {}
         for ending in moodEndings[mood]:
-            list_results = self.transducer.lookup(underlying_form + ending)
+            list_results = transducer2.lookup(underlying_form + ending)
             results[ending] = [x[0] for x in list_results]
         return jsonify({'results': results})
 
