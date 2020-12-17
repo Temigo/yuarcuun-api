@@ -4426,10 +4426,9 @@ endingRules = {
         "@+ki"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_3Sg]": [
-        "u",
+        "+u",
         "~(g)iu",
         "@gu",
-        "[Opt_PRS_A_2Sg_P_3Sg]"
     ],
     "[V][Opt][Trns][PRS][A_3Du][P_1Du]": [
         "@~+ligkuk",
