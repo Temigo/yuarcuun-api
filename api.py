@@ -18,6 +18,7 @@ from flask_s3 import FlaskS3, url_for
 import hfst
 from common.retrieveEndings import moodEndings
 from common.endingRules import endingRules
+import resource
 
 
 app = Flask(__name__)
@@ -245,6 +246,9 @@ input_stream2.close()
 class Parser(Resource):
     def __init__(self, *args, **kwargs):
         super(Parser, self).__init__(*args, **kwargs)
+        soft, hard = resource.getrlimit(resource.RLIMIT_AS)
+        print("resource", soft, hard)
+        resource.setrlimit(resource.RLIMIT_AS, (256000000, hard))
 
     @cors.crossdomain(origin='*')
     def get(self, word):
