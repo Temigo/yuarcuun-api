@@ -86,7 +86,7 @@ for k, v in new_dict0.iteritems():
 class Nouns(Resource):
     def __init__(self, *args, **kwargs):
         super(Resource, self).__init__(*args, **kwargs)
-        print "Nouns init"
+        # print("Nouns init")
 
     @cors.crossdomain(origin='*')
     def get(self):
@@ -133,7 +133,7 @@ class Word(Resource):
 class WordsList(Resource):
     def __init__(self, *args, **kwargs):
         super(Resource, self).__init__(*args, **kwargs)
-        print "WordsList init"
+        # print("WordsList init")
 
     @cors.crossdomain(origin='*')
     def get(self):
@@ -146,7 +146,7 @@ class Concatenator(Resource):
         args = parser_api.parse_args()
         word = args['root']
         # FIXME is this conserving the order of parameters?
-        print(args['postbase'])
+        # print(args['postbase'])
         indexes = [0]
         breakdown = [word]
         word = convert(word)
@@ -208,11 +208,11 @@ class TTS(Resource):
         # #return jsonify({'url': 'test.mp3'})
         # return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
-        print(parsed_output)
+        # print(parsed_output)
         final_audio = None
         for i, k in enumerate(parsed_output):
             filename = url_for('static', filename='audiofiles_mp3_all_1/'+k+'.mp3')
-            print(filename)
+            # print(filename)
             mp3 = urllib.urlopen(filename).read()
             # 'https://github.com/Temigo/yuarcuun-api/blob/master/static/audiofiles_mp3_all/'+k+'.mp3'
             # if not os.path.isfile(filename):
@@ -235,11 +235,13 @@ class Verification(Resource):
 
 
 input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
-transducer = input_stream.read()
+transducer_ana = input_stream.read()
 input_stream.close()
 input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-transducer2 = input_stream2.read()
+transducer_ana_seg_gen = input_stream2.read()
 input_stream2.close()
+
+
 class Parser(Resource):
     def __init__(self, *args, **kwargs):
         super(Parser, self).__init__(*args, **kwargs)
@@ -247,32 +249,51 @@ class Parser(Resource):
     @cors.crossdomain(origin='*')
     def get(self, word):
         # self.input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
-        # self.transducer = self.input_stream.read()
+        # self.transducer_ana = self.input_stream.read()
         # self.input_stream.close()
         # self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        # self.transducer2 = self.input_stream2.read()
+        # self.transducer_ana_seg_gen = self.input_stream2.read()
         # self.input_stream2.close()
-        list_results = transducer.lookup(word)
+        list_results = transducer_ana.lookup(word)
         parses = [x[0] for x in list_results]
-        print(parses)
-        parses.sort(key=len)
-        parses = parses[0:10]
-        segments = [transducer2.lookup(x) for x in parses]
-        print(segments)
-        endings = [endingRules[x.split("-")[-1]] if x.split("-")[-1] in endingRules else [""] for x in parses]
-        return jsonify({'parses': parses[0:10], 'segments': [x[0] for x in segments],'endingrule':endings})
+        # print(parses)
+
+        # parses sort algorithm
+        parses = [x.split('-') for x in parses]
+        parses.sort(key=lambda x: len(x[0]), reverse=True)  # longest length of base
+        parses.sort(key=len)                                # least number of morphemes
+        parses = parses[0:10]                               # get top 10
+        parses = ["-".join(x) for x in parses]
+        # print(parses)
+
+        # segments that match word
+        segments = [list(transducer_ana_seg_gen.lookup(x)) for x in parses]
+        segments = [x[0] for seg in segments for x in seg if x[0].replace(">","") == word]
+        # print(segments)
+
+        # ending rules
+        endings = []
+        for parse in parses:
+            endRule = [""]
+            for x in parse.split("-"):
+                if x in endingRules:
+                    endRule = endingRules[x]
+            endings.append(endRule)
+        # print(endings)
+
+        return jsonify({'parses': parses, 'segments': segments,'endingrule':endings})
 
 
 class Segmenter(Resource):
     def __init__(self, *args, **kwargs):
         super(Segmenter, self).__init__(*args, **kwargs)
         # self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        # self.transducer = self.input_stream.read()
+        # self.transducer_ana = self.input_stream.read()
         # self.input_stream.close()
 
     @cors.crossdomain(origin='*')
     def get(self, form):
-        list_results = transducer2.lookup(form)
+        list_results = transducer_ana_seg_gen.lookup(form)
         return jsonify({'words': [x[0] for x in list_results]})
 
 
@@ -280,7 +301,7 @@ class MoodSegmenter(Resource):
     def __init__(self, *args, **kwargs):
         super(MoodSegmenter, self).__init__(*args, **kwargs)
         # self.input_stream = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        # self.transducer = self.input_stream.read()
+        # self.transducer_ana = self.input_stream.read()
         # self.input_stream.close()
 
     @cors.crossdomain(origin='*')
@@ -295,11 +316,11 @@ class MoodSegmenter(Resource):
         if mood not in moodEndings:
             raise Exception("Unknown mood %s" % mood)
         underlying_form += mood
-        print("Underlying form = ", underlying_form)
+        # print("Underlying form = ", underlying_form)
         # Compute all moods
         results = {}
         for ending in moodEndings[mood]:
-            list_results = transducer2.lookup(underlying_form + ending)
+            list_results = transducer_ana_seg_gen.lookup(underlying_form + ending)
             results[ending] = [x[0] for x in list_results]
         return jsonify({'results': results})
 
