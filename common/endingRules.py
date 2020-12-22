@@ -1,5 +1,48 @@
 # -*- coding:utf-8 -*-
 endingRules = {
+    "[Abl]": [
+        ".ken"
+    ],
+    "[Abl_Mod][DuUnpd]": [
+        ".gnek"
+    ],
+    "[Abl_Mod][PlUnpd]": [
+        ".nek"
+    ],
+    "[Abl_Mod][SgUnpd]": [
+        ".mek"
+    ],
+    "[Abs][DuUnpd]": [
+        ".k"
+    ],
+    "[Abs][PlUnpd]": [
+        ".t"
+    ],
+    "[Abs][SgUnpd]": [
+        "+na",
+        "+n'a"
+    ],
+    "[Equ][DuUnpd]": [
+        ".gcetun"
+    ],
+    "[Equ][PlUnpd]": [
+        ".cetun"
+    ],
+    "[Equ][SgUnpd]": [
+        ".tun"
+    ],
+    "[Loc]": [
+        ".ni"
+    ],
+    "[Loc][DuUnpd]": [
+        ".gni"
+    ],
+    "[Loc][PlUnpd]": [
+        ".ni"
+    ],
+    "[Loc][SgUnpd]": [
+        ".mi"
+    ],
     "[N][Abl_Mod][1DuPoss][DuPosd]": [
         "%:(e)gmegnek",
         "%:(e)gmegneng"
@@ -43,18 +86,18 @@ endingRules = {
     "[N][Abl_Mod][2DuPoss][PlPosd]": [
         "–vtegnek",
         "–vtegneng",
-        "+petegnek",
-        "+petegneng",
         ".vtegnek",
-        ".vtegneng"
+        ".vtegneng",
+        "+petegnek",
+        "+petegneng"
     ],
     "[N][Abl_Mod][2DuPoss][SgPosd]": [
         "–vtegnek",
         "–vtegneng",
-        "+petegnek",
-        "+petegneng",
         ".vtegnek",
-        ".vtegneng"
+        ".vtegneng",
+        "+petegnek",
+        "+petegneng"
     ],
     "[N][Abl_Mod][2PlPoss][DuPosd]": [
         "%:(e)gpecineng",
@@ -63,18 +106,18 @@ endingRules = {
     "[N][Abl_Mod][2PlPoss][PlPosd]": [
         "–vcineng",
         "–vcen̄ek",
-        "+pecineng",
-        "+pecen̄ek",
         ".vcineng",
-        ".vcen̄ek"
+        ".vcen̄ek",
+        "+pecineng",
+        "+pecen̄ek"
     ],
     "[N][Abl_Mod][2PlPoss][SgPosd]": [
         "–vcineng",
         "–vcen̄ek",
-        "+pecineng",
-        "+pecen̄ek",
         ".vcineng",
-        ".vcen̄ek"
+        ".vcen̄ek",
+        "+pecineng",
+        "+pecen̄ek"
     ],
     "[N][Abl_Mod][2SgPoss][DuPosd]": [
         "%:(e)gpenek",
@@ -83,18 +126,18 @@ endingRules = {
     "[N][Abl_Mod][2SgPoss][PlPosd]": [
         "–vnek",
         "–vneng",
-        "+penek",
-        "+peneng",
         ".vnek",
-        ".vneng"
+        ".vneng",
+        "+penek",
+        "+peneng"
     ],
     "[N][Abl_Mod][2SgPoss][SgPosd]": [
         "–vnek",
         "–vneng",
-        "+penek",
-        "+peneng",
         ".vnek",
-        ".vneng"
+        ".vneng",
+        "+penek",
+        "+peneng"
     ],
     "[N][Abl_Mod][3DuPoss][DuPosd]": [
         "%:(e)gkegni",
@@ -188,8 +231,8 @@ endingRules = {
     ],
     "[N][Abs][1DuPoss][SgPosd]": [
         "–puk",
-        "+puk",
-        ".vuk"
+        ".vuk",
+        "+puk"
     ],
     "[N][Abs][1PlPoss][DuPosd]": [
         "%:(e)gput"
@@ -199,8 +242,8 @@ endingRules = {
     ],
     "[N][Abs][1PlPoss][SgPosd]": [
         "–put",
-        "+put",
-        ".vut"
+        ".vut",
+        "+put"
     ],
     "[N][Abs][1SgPoss][DuPosd]": [
         "%:(e)gka"
@@ -230,8 +273,8 @@ endingRules = {
     ],
     "[N][Abs][2PlPoss][SgPosd]": [
         "–ci",
-        ".si",
-        "+ci"
+        "+ci",
+        ".si"
     ],
     "[N][Abs][2SgPoss][DuPosd]": [
         "%:(e)gken"
@@ -341,39 +384,39 @@ endingRules = {
     ],
     "[N][Equ][2DuPoss][PlPosd]": [
         "–vtegtun",
-        "+petegtun",
-        ".vtegtun"
+        ".vtegtun",
+        "+petegtun"
     ],
     "[N][Equ][2DuPoss][SgPosd]": [
         "–vtegtun",
-        "+petegtun",
-        ".vtegtun"
+        ".vtegtun",
+        "+petegtun"
     ],
     "[N][Equ][2PlPoss][DuPosd]": [
         "%:(e)gpecetun"
     ],
     "[N][Equ][2PlPoss][PlPosd]": [
         "–vcetun",
-        "+pecetun",
-        ".vcetun"
+        ".vcetun",
+        "+pecetun"
     ],
     "[N][Equ][2PlPoss][SgPosd]": [
         "–vcetun",
-        "+pecetun",
-        ".vcetun"
+        ".vcetun",
+        "+pecetun"
     ],
     "[N][Equ][2SgPoss][DuPosd]": [
         "%:(e)gpetun"
     ],
     "[N][Equ][2SgPoss][PlPosd]": [
         "–vtun",
-        "+petun",
-        ".vtun"
+        ".vtun",
+        "+petun"
     ],
     "[N][Equ][2SgPoss][SgPosd]": [
         "–vtun",
-        "+petun",
-        ".vtun"
+        ".vtun",
+        "+petun"
     ],
     "[N][Equ][3DuPoss][DuPosd]": [
         "%:(e)gkegtun"
@@ -470,13 +513,13 @@ endingRules = {
     ],
     "[N][Loc][2DuPoss][PlPosd]": [
         "–vtegni",
-        "+petegni",
-        ".vtegni"
+        ".vtegni",
+        "+petegni"
     ],
     "[N][Loc][2DuPoss][SgPosd]": [
         "–vtegni",
-        "+petegni",
-        ".vtegni"
+        ".vtegni",
+        "+petegni"
     ],
     "[N][Loc][2PlPoss][DuPosd]": [
         "%:(e)gpecini",
@@ -485,31 +528,31 @@ endingRules = {
     "[N][Loc][2PlPoss][PlPosd]": [
         "–vcini",
         "–vcen̄i",
-        "+pecini",
-        "+pecen̄i",
         ".vcini",
-        ".vcen̄i"
+        ".vcen̄i",
+        "+pecini",
+        "+pecen̄i"
     ],
     "[N][Loc][2PlPoss][SgPosd]": [
         "–vcini",
         "–vcen̄i",
-        "+pecini",
-        "+pecen̄i",
         ".vcini",
-        ".vcen̄i"
+        ".vcen̄i",
+        "+pecini",
+        "+pecen̄i"
     ],
     "[N][Loc][2SgPoss][DuPosd]": [
         "%:(e)gpeni"
     ],
     "[N][Loc][2SgPoss][PlPosd]": [
         "–vni",
-        "+peni",
-        ".vni"
+        ".vni",
+        "+peni"
     ],
     "[N][Loc][2SgPoss][SgPosd]": [
         "–vni",
-        "+peni",
-        ".vni"
+        ".vni",
+        "+peni"
     ],
     "[N][Loc][3DuPoss][DuPosd]": [
         "%:(e)gkegni"
@@ -608,39 +651,39 @@ endingRules = {
     ],
     "[N][Rel][2DuPoss][PlPosd]": [
         "–vtek",
-        "+petek",
-        ".vtek"
+        ".vtek",
+        "+petek"
     ],
     "[N][Rel][2DuPoss][SgPosd]": [
         "–vtek",
-        "+petek",
-        ".vtek"
+        ".vtek",
+        "+petek"
     ],
     "[N][Rel][2PlPoss][DuPosd]": [
         "%:(e)gpeci"
     ],
     "[N][Rel][2PlPoss][PlPosd]": [
         "–vci",
-        "+peci",
-        ".vci"
+        ".vci",
+        "+peci"
     ],
     "[N][Rel][2PlPoss][SgPosd]": [
         "–vci",
-        "+peci",
-        ".vci"
+        ".vci",
+        "+peci"
     ],
     "[N][Rel][2SgPoss][DuPosd]": [
         "%:(e)gpet"
     ],
     "[N][Rel][2SgPoss][PlPosd]": [
         "–vet",
-        "+pet",
-        ".vet"
+        ".vet",
+        "+pet"
     ],
     "[N][Rel][2SgPoss][SgPosd]": [
         "–vet",
-        "+pet",
-        ".vet"
+        ".vet",
+        "+pet"
     ],
     "[N][Rel][3DuPoss][DuPosd]": [
         "%:(e)gkenka"
@@ -741,13 +784,13 @@ endingRules = {
     ],
     "[N][Ter][2DuPoss][PlPosd]": [
         "–vtegnun",
-        "+petegnun",
-        ".vtegnun"
+        ".vtegnun",
+        "+petegnun"
     ],
     "[N][Ter][2DuPoss][SgPosd]": [
         "–vtegnun",
-        "+petegnun",
-        ".vtegnun"
+        ".vtegnun",
+        "+petegnun"
     ],
     "[N][Ter][2PlPoss][DuPosd]": [
         "%:(e)gpecinun",
@@ -756,31 +799,31 @@ endingRules = {
     "[N][Ter][2PlPoss][PlPosd]": [
         "–vcinun",
         "–vcen̄un",
-        "+pecinun",
-        "+pecen̄un",
         ".vcinun",
-        ".vcen̄un"
+        ".vcen̄un",
+        "+pecinun",
+        "+pecen̄un"
     ],
     "[N][Ter][2PlPoss][SgPosd]": [
         "–vcinun",
         "–vcen̄un",
-        "+pecinun",
-        "+pecen̄un",
         ".vcinun",
-        ".vcen̄un"
+        ".vcen̄un",
+        "+pecinun",
+        "+pecen̄un"
     ],
     "[N][Ter][2SgPoss][DuPosd]": [
         "%:(e)gpenun"
     ],
     "[N][Ter][2SgPoss][PlPosd]": [
         "–vnun",
-        "+penun",
-        ".vnun"
+        ".vnun",
+        "+penun"
     ],
     "[N][Ter][2SgPoss][SgPosd]": [
         "–vnun",
-        "+penun",
-        ".vnun"
+        ".vnun",
+        "+penun"
     ],
     "[N][Ter][3DuPoss][DuPosd]": [
         "%:(e)gkegnun"
@@ -877,13 +920,13 @@ endingRules = {
     ],
     "[N][Via][2DuPoss][PlPosd]": [
         "–vtegnegun",
-        "+petegnegun",
-        ".vtegnegun"
+        ".vtegnegun",
+        "+petegnegun"
     ],
     "[N][Via][2DuPoss][SgPosd]": [
         "–vtegnegun",
-        "+petegnegun",
-        ".vtegnegun"
+        ".vtegnegun",
+        "+petegnegun"
     ],
     "[N][Via][2PlPoss][DuPosd]": [
         "%:(e)gpeciuggun",
@@ -892,18 +935,18 @@ endingRules = {
     "[N][Via][2PlPoss][PlPosd]": [
         "–vciuggun",
         "–vcetgun",
-        "+peciuggun",
-        "+pecetgun",
         ".vciuggun",
-        ".vcetgun"
+        ".vcetgun",
+        "+peciuggun",
+        "+pecetgun"
     ],
     "[N][Via][2PlPoss][SgPosd]": [
         "–vciuggun",
         "–vcetgun",
-        "+peciuggun",
-        "+pecetgun",
         ".vciuggun",
-        ".vcetgun"
+        ".vcetgun",
+        "+peciuggun",
+        "+pecetgun"
     ],
     "[N][Via][2SgPoss][DuPosd]": [
         "%:(e)gpegun"
@@ -981,6 +1024,120 @@ endingRules = {
     ],
     "[N][Via][SgUnpd]": [
         "%kun"
+    ],
+    "[Quant_Qual][A_1Du]": [
+        "–megnuk"
+    ],
+    "[Quant_Qual][A_1Pl]": [
+        "–mta"
+    ],
+    "[Quant_Qual][A_1Sg]": [
+        "+ma"
+    ],
+    "[Quant_Qual][A_2Du]": [
+        ".vtek",
+        "+petek"
+    ],
+    "[Quant_Qual][A_2Pl]": [
+        ".vci",
+        "+peci"
+    ],
+    "[Quant_Qual][A_2Sg]": [
+        ".vet",
+        "+pet"
+    ],
+    "[Quant_Qual][A_4Du]": [
+        "+mek"
+    ],
+    "[Quant_Qual][A_4Pl]": [
+        "+meng"
+    ],
+    "[Quant_Qual][A_4Sg]": [
+        "+mi"
+    ],
+    "[Quant_Qual][P_1Du]": [
+        "–megnuk"
+    ],
+    "[Quant_Qual][P_1Pl]": [
+        "–mta"
+    ],
+    "[Quant_Qual][P_1Sg]": [
+        "+ma"
+    ],
+    "[Quant_Qual][P_2Du]": [
+        ".vtek",
+        "+petek"
+    ],
+    "[Quant_Qual][P_2Pl]": [
+        ".vci",
+        "+peci"
+    ],
+    "[Quant_Qual][P_2Sg]": [
+        ".vet",
+        "+pet"
+    ],
+    "[Quant_Qual][P_3Du]": [
+        "%:(e)gkenka"
+    ],
+    "[Quant_Qual][P_3Pl]": [
+        ":(ng)ita"
+    ],
+    "[Quant_Qual][P_3Sg]": [
+        ":(ng)an"
+    ],
+    "[Quant_Qual][S_1Du]": [
+        "–megnuk"
+    ],
+    "[Quant_Qual][S_1Pl]": [
+        "–mta"
+    ],
+    "[Quant_Qual][S_1Sg]": [
+        "+ma"
+    ],
+    "[Quant_Qual][S_2Du]": [
+        ".vtek",
+        "+petek"
+    ],
+    "[Quant_Qual][S_2Pl]": [
+        ".vci",
+        "+peci"
+    ],
+    "[Quant_Qual][S_2Sg]": [
+        ".vet",
+        "+pet"
+    ],
+    "[Quant_Qual][S_4Du]": [
+        "+mek"
+    ],
+    "[Quant_Qual][S_4Pl]": [
+        "+meng"
+    ],
+    "[Quant_Qual][S_4Sg]": [
+        "+mi"
+    ],
+    "[Rel][DuUnpd]": [
+        ".k"
+    ],
+    "[Rel][PlUnpd]": [
+        ".t"
+    ],
+    "[Rel][SgUnpd]": [
+        ".m"
+    ],
+    "[Sec_Ter]": [
+        ".tmun"
+    ],
+    "[Ter]": [
+        ".vet"
+    ],
+    "[Ter][DuUnpd]": [
+        ".gnun"
+    ],
+    "[Ter][PlUnpd]": [
+        ".nun"
+    ],
+    "[Ter][SgUnpd]": [
+        ".mun"
     ],
     "[V][Cnsq][Intr][S_1Du]": [
         "@%:~(ng)a–megnuk",
@@ -4016,16 +4173,16 @@ endingRules = {
         "@~–kili"
     ],
     "[V][Opt][Intr][PRS][NEG][S_2Du]": [
-        "~viiqnatek",
-        "@+piiqnatek"
+        "@+piiqnatek",
+        "~viiqnatek"
     ],
     "[V][Opt][Intr][PRS][NEG][S_2Pl]": [
-        "~viiqnaci",
-        "@+piiqnaci"
+        "@+piiqnaci",
+        "~viiqnaci"
     ],
     "[V][Opt][Intr][PRS][NEG][S_2Sg]": [
-        "~viiqnak",
-        "@+piiqnak"
+        "@+piiqnak",
+        "~viiqnak"
     ],
     "[V][Opt][Intr][PRS][S_1Du]": [
         "@~+luk"
@@ -4038,19 +4195,19 @@ endingRules = {
         "@~+lii"
     ],
     "[V][Opt][Intr][PRS][S_2Du]": [
-        "~(g)itek",
-        "@+tek"
+        "@+tek",
+        "~(g)itek"
     ],
     "[V][Opt][Intr][PRS][S_2Pl]": [
-        "~(g)ici",
-        "@+ci"
+        "@+ci",
+        "~(g)ici"
     ],
     "[V][Opt][Intr][PRS][S_2Sg]": [
-        "+n",
-        "",
-        "@lu",
         ":a",
-        "~(g)i"
+        "@lu",
+        "",
+        "~(g)i",
+        "+n"
     ],
     "[V][Opt][Intr][PRS][S_3Du]": [
         "@~+lik"
@@ -4406,29 +4563,29 @@ endingRules = {
         "@+ciu"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_1Du]": [
-        "~(g)ikuk",
-        "@+kuk"
+        "@+kuk",
+        "~(g)ikuk"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_1Pl]": [
-        "~(g)ikut",
-        "@+kut"
+        "@+kut",
+        "~(g)ikut"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_1Sg]": [
-        "@+nga",
-        "~(g)ia"
+        "~(g)ia",
+        "@+nga"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_3Du]": [
-        "~(g)ikek",
-        "@+kek"
+        "@+kek",
+        "~(g)ikek"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_3Pl]": [
-        "~(g)iki",
-        "@+ki"
+        "@+ki",
+        "~(g)iki"
     ],
     "[V][Opt][Trns][PRS][A_2Sg][P_3Sg]": [
-        "+u",
-        "~(g)iu",
         "@gu",
+        "u",
+        "~(g)iu"
     ],
     "[V][Opt][Trns][PRS][A_3Du][P_1Du]": [
         "@~+ligkuk",
@@ -4523,637 +4680,637 @@ endingRules = {
         "@~+liu"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Du][P_1Du]": [
-        "~viiqnategkuk",
-        "@+piiqnategkuk"
+        "@+piiqnategkuk",
+        "~viiqnategkuk"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Du][P_1Pl]": [
-        "~viiqnategkut",
-        "@+piiqnategkut"
+        "@+piiqnategkut",
+        "~viiqnategkut"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Du][P_1Sg]": [
-        "~viiqnategnga",
-        "@+piiqnategnga"
+        "@+piiqnategnga",
+        "~viiqnategnga"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Du][P_3Du]": [
-        "~viiqnategkek",
-        "@+piiqnategkek"
+        "@+piiqnategkek",
+        "~viiqnategkek"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Du][P_3Pl]": [
-        "~viiqnategki",
-        "@+piiqnategki"
+        "@+piiqnategki",
+        "~viiqnategki"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Du][P_3Sg]": [
-        "~viiqnategu",
-        "@+piiqnategu"
+        "@+piiqnategu",
+        "~viiqnategu"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Pl][P_1Du]": [
-        "~viiqnacikuk",
-        "@+piiqnacikuk"
+        "@+piiqnacikuk",
+        "~viiqnacikuk"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Pl][P_1Pl]": [
-        "~viiqnacikut",
-        "@+piiqnacikut"
+        "@+piiqnacikut",
+        "~viiqnacikut"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Pl][P_1Sg]": [
-        "~viiqnacia",
-        "@+piiqnacia"
+        "@+piiqnacia",
+        "~viiqnacia"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Pl][P_3Du]": [
-        "~viiqnacikek",
-        "@+piiqnacikek"
+        "@+piiqnacikek",
+        "~viiqnacikek"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Pl][P_3Pl]": [
-        "~viiqnaciki",
-        "@+piiqnaciki"
+        "@+piiqnaciki",
+        "~viiqnaciki"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Pl][P_3Sg]": [
-        "~viiqnaciu",
-        "@+piiqnaciu"
+        "@+piiqnaciu",
+        "~viiqnaciu"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Sg][P_1Du]": [
-        "~viiqnakuk",
-        "@+piiqnakuk"
+        "@+piiqnakuk",
+        "~viiqnakuk"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Sg][P_1Pl]": [
-        "~viiqnakut",
-        "@+piiqnakut"
+        "@+piiqnakut",
+        "~viiqnakut"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Sg][P_1Sg]": [
-        "~viiqna:nga",
-        "@+piiqna:nga"
+        "@+piiqna:nga",
+        "~viiqna:nga"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Sg][P_3Du]": [
-        "~viiqnakek",
-        "@+piiqnakek"
+        "@+piiqnakek",
+        "~viiqnakek"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Sg][P_3Pl]": [
-        "~viiqnaki",
-        "@+piiqnaki"
+        "@+piiqnaki",
+        "~viiqnaki"
     ],
     "[V][Opt][Trns][PRS][NEG][A_2Sg][P_3Sg]": [
-        "~viiqnaku",
-        "@+piiqnaku"
+        "@+piiqnaku",
+        "~viiqnaku"
     ],
     "[V][Prec][Intr][S_1Du]": [
-        "~vaileg–megnuk",
-        "@+paileg–megnuk"
+        "@+paileg–megnuk",
+        "~vaileg–megnuk"
     ],
     "[V][Prec][Intr][S_1Pl]": [
-        "~vaileg–mta",
-        "@+paileg–mta"
+        "@+paileg–mta",
+        "~vaileg–mta"
     ],
     "[V][Prec][Intr][S_1Sg]": [
-        "~vaileg+ma",
-        "@+paileg+ma"
+        "@+paileg+ma",
+        "~vaileg+ma"
     ],
     "[V][Prec][Intr][S_2Du]": [
-        "~vaileg+petek",
-        "@+paileg+petek"
+        "@+paileg+petek",
+        "~vaileg+petek"
     ],
     "[V][Prec][Intr][S_2Pl]": [
-        "~vaileg+peci",
-        "@+paileg+peci"
+        "@+paileg+peci",
+        "~vaileg+peci"
     ],
     "[V][Prec][Intr][S_2Sg]": [
-        "~vaileg+pet",
-        "@+paileg+pet"
+        "@+paileg+pet",
+        "~vaileg+pet"
     ],
     "[V][Prec][Intr][S_3Du]": [
-        "~vaileg:agnek",
-        "@+paileg:agnek"
+        "@+paileg:agnek",
+        "~vaileg:agnek"
     ],
     "[V][Prec][Intr][S_3Pl]": [
-        "~vaileg:ata",
-        "@+paileg:ata"
+        "@+paileg:ata",
+        "~vaileg:ata"
     ],
     "[V][Prec][Intr][S_3Sg]": [
-        "~vaileg:an",
-        "@+paileg:an"
+        "@+paileg:an",
+        "~vaileg:an"
     ],
     "[V][Prec][Intr][S_4Du]": [
-        "~vaileg+mek",
-        "@+paileg+mek"
+        "@+paileg+mek",
+        "~vaileg+mek"
     ],
     "[V][Prec][Intr][S_4Pl]": [
-        "~vaileg+meng",
-        "@+paileg+meng"
+        "@+paileg+meng",
+        "~vaileg+meng"
     ],
     "[V][Prec][Intr][S_4Sg]": [
-        "~vaileg+mi",
-        "@+paileg+mi"
+        "@+paileg+mi",
+        "~vaileg+mi"
     ],
     "[V][Prec][Trns][A_1Du][P_2Du]": [
-        "~vaileg–megtek",
-        "@+paileg–megtek"
+        "@+paileg–megtek",
+        "~vaileg–megtek"
     ],
     "[V][Prec][Trns][A_1Du][P_2Pl]": [
-        "~vaileg–megci",
-        "@+paileg–megci"
+        "@+paileg–megci",
+        "~vaileg–megci"
     ],
     "[V][Prec][Trns][A_1Du][P_2Sg]": [
-        "~vaileg–megten",
-        "@+paileg–megten"
+        "@+paileg–megten",
+        "~vaileg–megten"
     ],
     "[V][Prec][Trns][A_1Du][P_3Du]": [
-        "~vaileg–megkek",
-        "@+paileg–megkek"
+        "@+paileg–megkek",
+        "~vaileg–megkek"
     ],
     "[V][Prec][Trns][A_1Du][P_3Pl]": [
-        "~vaileg–megki",
-        "@+paileg–megki"
+        "@+paileg–megki",
+        "~vaileg–megki"
     ],
     "[V][Prec][Trns][A_1Du][P_3Sg]": [
-        "~vaileg–megnegu",
-        "@+paileg–megnegu"
+        "@+paileg–megnegu",
+        "~vaileg–megnegu"
     ],
     "[V][Prec][Trns][A_1Du][P_4Du]": [
-        "~vaileg–megtek",
-        "@+paileg–megtek"
+        "@+paileg–megtek",
+        "~vaileg–megtek"
     ],
     "[V][Prec][Trns][A_1Du][P_4Pl]": [
-        "~vaileg–megteng",
-        "@+paileg–megteng"
+        "@+paileg–megteng",
+        "~vaileg–megteng"
     ],
     "[V][Prec][Trns][A_1Du][P_4Sg]": [
-        "~vaileg–megni",
-        "@+paileg–megni"
+        "@+paileg–megni",
+        "~vaileg–megni"
     ],
     "[V][Prec][Trns][A_1Pl][P_2Du]": [
-        "~vaileg–mcetek",
-        "@+paileg–mcetek"
+        "@+paileg–mcetek",
+        "~vaileg–mcetek"
     ],
     "[V][Prec][Trns][A_1Pl][P_2Pl]": [
-        "~vaileg–mceci",
-        "@+paileg–mceci"
+        "@+paileg–mceci",
+        "~vaileg–mceci"
     ],
     "[V][Prec][Trns][A_1Pl][P_2Sg]": [
-        "~vaileg–mteggen",
-        "@+paileg–mteggen"
+        "@+paileg–mteggen",
+        "~vaileg–mteggen"
     ],
     "[V][Prec][Trns][A_1Pl][P_3Du]": [
-        "~vaileg–mtekek",
-        "@+paileg–mtekek"
+        "@+paileg–mtekek",
+        "~vaileg–mtekek"
     ],
     "[V][Prec][Trns][A_1Pl][P_3Pl]": [
-        "~vaileg–mteki",
-        "@+paileg–mteki"
+        "@+paileg–mteki",
+        "~vaileg–mteki"
     ],
     "[V][Prec][Trns][A_1Pl][P_3Sg]": [
-        "~vaileg–mteggu",
-        "@+paileg–mteggu"
+        "@+paileg–mteggu",
+        "~vaileg–mteggu"
     ],
     "[V][Prec][Trns][A_1Pl][P_4Du]": [
-        "~vaileg–mcetek",
-        "@+paileg–mcetek"
+        "@+paileg–mcetek",
+        "~vaileg–mcetek"
     ],
     "[V][Prec][Trns][A_1Pl][P_4Pl]": [
-        "~vaileg–mceteng",
-        "@+paileg–mceteng"
+        "@+paileg–mceteng",
+        "~vaileg–mceteng"
     ],
     "[V][Prec][Trns][A_1Pl][P_4Sg]": [
-        "~vaileg–mten̄i",
-        "@+paileg–mten̄i"
+        "@+paileg–mten̄i",
+        "~vaileg–mten̄i"
     ],
     "[V][Prec][Trns][A_1Sg][P_2Du]": [
-        "~vaileg–mtek",
-        "@+paileg–mtek"
+        "@+paileg–mtek",
+        "~vaileg–mtek"
     ],
     "[V][Prec][Trns][A_1Sg][P_2Pl]": [
-        "~vaileg–mci",
-        "@+paileg–mci"
+        "@+paileg–mci",
+        "~vaileg–mci"
     ],
     "[V][Prec][Trns][A_1Sg][P_2Sg]": [
-        "~vaileg–mken",
-        "@+paileg–mken"
+        "@+paileg–mken",
+        "~vaileg–mken"
     ],
     "[V][Prec][Trns][A_1Sg][P_3Du]": [
-        "~vaileg–mkek",
-        "@+paileg–mkek"
+        "@+paileg–mkek",
+        "~vaileg–mkek"
     ],
     "[V][Prec][Trns][A_1Sg][P_3Pl]": [
-        "~vaileg–mki",
-        "@+paileg–mki"
+        "@+paileg–mki",
+        "~vaileg–mki"
     ],
     "[V][Prec][Trns][A_1Sg][P_3Sg]": [
-        "~vaileg–mku",
-        "@+paileg–mku"
+        "@+paileg–mku",
+        "~vaileg–mku"
     ],
     "[V][Prec][Trns][A_1Sg][P_4Du]": [
-        "~vaileg–mtek",
-        "@+paileg–mtek"
+        "@+paileg–mtek",
+        "~vaileg–mtek"
     ],
     "[V][Prec][Trns][A_1Sg][P_4Pl]": [
-        "~vaileg–mteng",
-        "@+paileg–mteng"
+        "@+paileg–mteng",
+        "~vaileg–mteng"
     ],
     "[V][Prec][Trns][A_1Sg][P_4Sg]": [
-        "~vaileg–mni",
-        "@+paileg–mni"
+        "@+paileg–mni",
+        "~vaileg–mni"
     ],
     "[V][Prec][Trns][A_2Du][P_1Du]": [
-        "~vaileg+petegkuk",
-        "@+paileg+petegkuk"
+        "@+paileg+petegkuk",
+        "~vaileg+petegkuk"
     ],
     "[V][Prec][Trns][A_2Du][P_1Pl]": [
-        "~vaileg+petegkut",
-        "@+paileg+petegkut"
+        "@+paileg+petegkut",
+        "~vaileg+petegkut"
     ],
     "[V][Prec][Trns][A_2Du][P_1Sg]": [
-        "~vaileg+petegnga",
-        "@+paileg+petegnga"
+        "@+paileg+petegnga",
+        "~vaileg+petegnga"
     ],
     "[V][Prec][Trns][A_2Du][P_3Du]": [
-        "~vaileg+petegkek",
-        "@+paileg+petegkek"
+        "@+paileg+petegkek",
+        "~vaileg+petegkek"
     ],
     "[V][Prec][Trns][A_2Du][P_3Pl]": [
-        "~vaileg+petegki",
-        "@+paileg+petegki"
+        "@+paileg+petegki",
+        "~vaileg+petegki"
     ],
     "[V][Prec][Trns][A_2Du][P_3Sg]": [
-        "~vaileg+petegnegu",
-        "@+paileg+petegnegu"
+        "@+paileg+petegnegu",
+        "~vaileg+petegnegu"
     ],
     "[V][Prec][Trns][A_2Du][P_4Du]": [
-        "~vaileg+petegtek",
-        "@+paileg+petegtek"
+        "@+paileg+petegtek",
+        "~vaileg+petegtek"
     ],
     "[V][Prec][Trns][A_2Du][P_4Pl]": [
-        "~vaileg+petegteng",
-        "@+paileg+petegteng"
+        "@+paileg+petegteng",
+        "~vaileg+petegteng"
     ],
     "[V][Prec][Trns][A_2Du][P_4Sg]": [
-        "~vaileg+petegni",
-        "@+paileg+petegni"
+        "@+paileg+petegni",
+        "~vaileg+petegni"
     ],
     "[V][Prec][Trns][A_2Pl][P_1Du]": [
-        "~vaileg+pecikuk",
-        "@+paileg+pecikuk"
+        "@+paileg+pecikuk",
+        "~vaileg+pecikuk"
     ],
     "[V][Prec][Trns][A_2Pl][P_1Pl]": [
-        "~vaileg+pecikut",
-        "@+paileg+pecikut"
+        "@+paileg+pecikut",
+        "~vaileg+pecikut"
     ],
     "[V][Prec][Trns][A_2Pl][P_1Sg]": [
-        "~vaileg+pecia",
-        "@+paileg+pecia"
+        "@+paileg+pecia",
+        "~vaileg+pecia"
     ],
     "[V][Prec][Trns][A_2Pl][P_3Du]": [
-        "~vaileg+pecikek",
-        "@+paileg+pecikek"
+        "@+paileg+pecikek",
+        "~vaileg+pecikek"
     ],
     "[V][Prec][Trns][A_2Pl][P_3Pl]": [
-        "~vaileg+peciki",
-        "@+paileg+peciki"
+        "@+paileg+peciki",
+        "~vaileg+peciki"
     ],
     "[V][Prec][Trns][A_2Pl][P_3Sg]": [
-        "~vaileg+peciu",
-        "@+paileg+peciu"
+        "@+paileg+peciu",
+        "~vaileg+peciu"
     ],
     "[V][Prec][Trns][A_2Pl][P_4Du]": [
-        "~vaileg+pecitek",
-        "@+paileg+pecitek"
+        "@+paileg+pecitek",
+        "~vaileg+pecitek"
     ],
     "[V][Prec][Trns][A_2Pl][P_4Pl]": [
-        "~vaileg+peciteng",
-        "@+paileg+peciteng"
+        "@+paileg+peciteng",
+        "~vaileg+peciteng"
     ],
     "[V][Prec][Trns][A_2Pl][P_4Sg]": [
-        "~vaileg+pecini",
-        "@+paileg+pecini"
+        "@+paileg+pecini",
+        "~vaileg+pecini"
     ],
     "[V][Prec][Trns][A_2Sg][P_1Du]": [
-        "~vaileg+pekuk",
-        "@+paileg+pekuk"
+        "@+paileg+pekuk",
+        "~vaileg+pekuk"
     ],
     "[V][Prec][Trns][A_2Sg][P_1Pl]": [
-        "~vaileg+pekut",
-        "@+paileg+pekut"
+        "@+paileg+pekut",
+        "~vaileg+pekut"
     ],
     "[V][Prec][Trns][A_2Sg][P_1Sg]": [
-        "~vaileg+penga",
-        "@+paileg+penga"
+        "@+paileg+penga",
+        "~vaileg+penga"
     ],
     "[V][Prec][Trns][A_2Sg][P_3Du]": [
-        "~vaileg+pekek",
-        "@+paileg+pekek"
+        "@+paileg+pekek",
+        "~vaileg+pekek"
     ],
     "[V][Prec][Trns][A_2Sg][P_3Pl]": [
-        "~vaileg+peki",
-        "@+paileg+peki"
+        "@+paileg+peki",
+        "~vaileg+peki"
     ],
     "[V][Prec][Trns][A_2Sg][P_3Sg]": [
-        "~vaileg+pegu",
-        "@+paileg+pegu"
+        "@+paileg+pegu",
+        "~vaileg+pegu"
     ],
     "[V][Prec][Trns][A_2Sg][P_4Du]": [
-        "~vaileg+petek",
-        "@+paileg+petek"
+        "@+paileg+petek",
+        "~vaileg+petek"
     ],
     "[V][Prec][Trns][A_2Sg][P_4Pl]": [
-        "~vaileg+peteng",
-        "@+paileg+peteng"
+        "@+paileg+peteng",
+        "~vaileg+peteng"
     ],
     "[V][Prec][Trns][A_2Sg][P_4Sg]": [
-        "~vaileg+peni",
-        "@+paileg+peni"
+        "@+paileg+peni",
+        "~vaileg+peni"
     ],
     "[V][Prec][Trns][A_3Du][P_1Du]": [
-        "~vaileg:agkuk",
-        "@+paileg:agkuk"
+        "@+paileg:agkuk",
+        "~vaileg:agkuk"
     ],
     "[V][Prec][Trns][A_3Du][P_1Pl]": [
-        "~vaileg:agkut",
-        "@+paileg:agkut"
+        "@+paileg:agkut",
+        "~vaileg:agkut"
     ],
     "[V][Prec][Trns][A_3Du][P_1Sg]": [
-        "~vaileg:agnga",
-        "@+paileg:agnga"
+        "@+paileg:agnga",
+        "~vaileg:agnga"
     ],
     "[V][Prec][Trns][A_3Du][P_2Du]": [
-        "~vaileg:agtek",
-        "@+paileg:agtek"
+        "@+paileg:agtek",
+        "~vaileg:agtek"
     ],
     "[V][Prec][Trns][A_3Du][P_2Pl]": [
-        "~vaileg:agci",
-        "@+paileg:agci"
+        "@+paileg:agci",
+        "~vaileg:agci"
     ],
     "[V][Prec][Trns][A_3Du][P_2Sg]": [
-        "~vaileg:agten",
-        "@+paileg:agten"
+        "@+paileg:agten",
+        "~vaileg:agten"
     ],
     "[V][Prec][Trns][A_3Du][P_3Du]": [
-        "~vaileg:agkek",
-        "@+paileg:agkek"
+        "@+paileg:agkek",
+        "~vaileg:agkek"
     ],
     "[V][Prec][Trns][A_3Du][P_3Pl]": [
-        "~vaileg:agki",
-        "@+paileg:agki"
+        "@+paileg:agki",
+        "~vaileg:agki"
     ],
     "[V][Prec][Trns][A_3Du][P_3Sg]": [
-        "~vaileg:agnegu",
-        "@+paileg:agnegu"
+        "@+paileg:agnegu",
+        "~vaileg:agnegu"
     ],
     "[V][Prec][Trns][A_3Du][P_4Du]": [
-        "~vaileg:agtek",
-        "@+paileg:agtek"
+        "@+paileg:agtek",
+        "~vaileg:agtek"
     ],
     "[V][Prec][Trns][A_3Du][P_4Pl]": [
-        "~vaileg:agteng",
-        "@+paileg:agteng"
+        "@+paileg:agteng",
+        "~vaileg:agteng"
     ],
     "[V][Prec][Trns][A_3Du][P_4Sg]": [
-        "~vaileg:agni",
-        "@+paileg:agni"
+        "@+paileg:agni",
+        "~vaileg:agni"
     ],
     "[V][Prec][Trns][A_3Pl][P_1Du]": [
-        "~vaileg:atkuk",
-        "@+paileg:atkuk"
+        "@+paileg:atkuk",
+        "~vaileg:atkuk"
     ],
     "[V][Prec][Trns][A_3Pl][P_1Pl]": [
-        "~vaileg:atkut",
-        "@+paileg:atkut"
+        "@+paileg:atkut",
+        "~vaileg:atkut"
     ],
     "[V][Prec][Trns][A_3Pl][P_1Sg]": [
-        "~vaileg:atnga",
-        "@+paileg:atnga"
+        "@+paileg:atnga",
+        "~vaileg:atnga"
     ],
     "[V][Prec][Trns][A_3Pl][P_2Du]": [
-        "~vaileg:acetek",
-        "@+paileg:acetek"
+        "@+paileg:acetek",
+        "~vaileg:acetek"
     ],
     "[V][Prec][Trns][A_3Pl][P_2Pl]": [
-        "~vaileg:aceci",
-        "@+paileg:aceci"
+        "@+paileg:aceci",
+        "~vaileg:aceci"
     ],
     "[V][Prec][Trns][A_3Pl][P_2Sg]": [
-        "~vaileg:atgen",
-        "@+paileg:atgen"
+        "@+paileg:atgen",
+        "~vaileg:atgen"
     ],
     "[V][Prec][Trns][A_3Pl][P_3Du]": [
-        "~vaileg:atkek",
-        "@+paileg:atkek"
+        "@+paileg:atkek",
+        "~vaileg:atkek"
     ],
     "[V][Prec][Trns][A_3Pl][P_3Pl]": [
-        "~vaileg:atki",
-        "@+paileg:atki"
+        "@+paileg:atki",
+        "~vaileg:atki"
     ],
     "[V][Prec][Trns][A_3Pl][P_3Sg]": [
-        "~vaileg:atgu",
-        "@+paileg:atgu"
+        "@+paileg:atgu",
+        "~vaileg:atgu"
     ],
     "[V][Prec][Trns][A_3Pl][P_4Du]": [
-        "~vaileg:acetek",
-        "@+paileg:acetek"
+        "@+paileg:acetek",
+        "~vaileg:acetek"
     ],
     "[V][Prec][Trns][A_3Pl][P_4Pl]": [
-        "~vaileg:aceteng",
-        "@+paileg:aceteng"
+        "@+paileg:aceteng",
+        "~vaileg:aceteng"
     ],
     "[V][Prec][Trns][A_3Pl][P_4Sg]": [
-        "~vaileg:atni",
-        "@+paileg:atni"
+        "@+paileg:atni",
+        "~vaileg:atni"
     ],
     "[V][Prec][Trns][A_3Sg][P_1Du]": [
-        "~vaileg:akuk",
-        "@+paileg:akuk"
+        "@+paileg:akuk",
+        "~vaileg:akuk"
     ],
     "[V][Prec][Trns][A_3Sg][P_1Pl]": [
-        "~vaileg:akut",
-        "@+paileg:akut"
+        "@+paileg:akut",
+        "~vaileg:akut"
     ],
     "[V][Prec][Trns][A_3Sg][P_1Sg]": [
-        "~vaileg:anga",
-        "@+paileg:anga"
+        "@+paileg:anga",
+        "~vaileg:anga"
     ],
     "[V][Prec][Trns][A_3Sg][P_2Du]": [
-        "~vaileg:atek",
-        "@+paileg:atek"
+        "@+paileg:atek",
+        "~vaileg:atek"
     ],
     "[V][Prec][Trns][A_3Sg][P_2Pl]": [
-        "~vaileg:aci",
-        "@+paileg:aci"
+        "@+paileg:aci",
+        "~vaileg:aci"
     ],
     "[V][Prec][Trns][A_3Sg][P_2Sg]": [
-        "~vaileg:aten",
-        "@+paileg:aten"
+        "@+paileg:aten",
+        "~vaileg:aten"
     ],
     "[V][Prec][Trns][A_3Sg][P_3Du]": [
-        "~vaileg:akek",
-        "@+paileg:akek"
+        "@+paileg:akek",
+        "~vaileg:akek"
     ],
     "[V][Prec][Trns][A_3Sg][P_3Pl]": [
-        "~vaileg:aki",
-        "@+paileg:aki"
+        "@+paileg:aki",
+        "~vaileg:aki"
     ],
     "[V][Prec][Trns][A_3Sg][P_3Sg]": [
-        "~vaileg:aku",
-        "@+paileg:aku"
+        "@+paileg:aku",
+        "~vaileg:aku"
     ],
     "[V][Prec][Trns][A_3Sg][P_4Du]": [
-        "~vaileg:atek",
-        "@+paileg:atek"
+        "@+paileg:atek",
+        "~vaileg:atek"
     ],
     "[V][Prec][Trns][A_3Sg][P_4Pl]": [
-        "~vaileg:ateng",
-        "@+paileg:ateng"
+        "@+paileg:ateng",
+        "~vaileg:ateng"
     ],
     "[V][Prec][Trns][A_3Sg][P_4Sg]": [
-        "~vaileg:ani",
-        "@+paileg:ani"
+        "@+paileg:ani",
+        "~vaileg:ani"
     ],
     "[V][Prec][Trns][A_4Du][P_1Du]": [
-        "~vaileg+megnekuk",
-        "@+paileg+megnekuk"
+        "@+paileg+megnekuk",
+        "~vaileg+megnekuk"
     ],
     "[V][Prec][Trns][A_4Du][P_1Pl]": [
-        "~vaileg+megnekut",
-        "@+paileg+megnekut"
+        "@+paileg+megnekut",
+        "~vaileg+megnekut"
     ],
     "[V][Prec][Trns][A_4Du][P_1Sg]": [
-        "~vaileg+megnenga",
-        "@+paileg+megnenga"
+        "@+paileg+megnenga",
+        "~vaileg+megnenga"
     ],
     "[V][Prec][Trns][A_4Du][P_2Du]": [
-        "~vaileg+megnetek",
-        "@+paileg+megnetek"
+        "@+paileg+megnetek",
+        "~vaileg+megnetek"
     ],
     "[V][Prec][Trns][A_4Du][P_2Pl]": [
-        "~vaileg+megneci",
-        "@+paileg+megneci"
+        "@+paileg+megneci",
+        "~vaileg+megneci"
     ],
     "[V][Prec][Trns][A_4Du][P_2Sg]": [
-        "~vaileg+megnegen",
-        "@+paileg+megnegen"
+        "@+paileg+megnegen",
+        "~vaileg+megnegen"
     ],
     "[V][Prec][Trns][A_4Du][P_3Du]": [
-        "~vaileg+megnekek",
-        "@+paileg+megnekek"
+        "@+paileg+megnekek",
+        "~vaileg+megnekek"
     ],
     "[V][Prec][Trns][A_4Du][P_3Pl]": [
-        "~vaileg+megneki",
-        "@+paileg+megneki"
+        "@+paileg+megneki",
+        "~vaileg+megneki"
     ],
     "[V][Prec][Trns][A_4Du][P_3Sg]": [
-        "~vaileg+megnegu",
-        "@+paileg+megnegu"
+        "@+paileg+megnegu",
+        "~vaileg+megnegu"
     ],
     "[V][Prec][Trns][A_4Pl][P_1Du]": [
-        "~vaileg+megtekuk",
-        "@+paileg+megtekuk"
+        "@+paileg+megtekuk",
+        "~vaileg+megtekuk"
     ],
     "[V][Prec][Trns][A_4Pl][P_1Pl]": [
-        "~vaileg+megtekut",
-        "@+paileg+megtekut"
+        "@+paileg+megtekut",
+        "~vaileg+megtekut"
     ],
     "[V][Prec][Trns][A_4Pl][P_1Sg]": [
-        "~vaileg+megtenga",
-        "@+paileg+megtenga"
+        "@+paileg+megtenga",
+        "~vaileg+megtenga"
     ],
     "[V][Prec][Trns][A_4Pl][P_2Du]": [
-        "~vaileg+megcetek",
-        "@+paileg+megcetek"
+        "@+paileg+megcetek",
+        "~vaileg+megcetek"
     ],
     "[V][Prec][Trns][A_4Pl][P_2Pl]": [
-        "~vaileg+megceci",
-        "@+paileg+megceci"
+        "@+paileg+megceci",
+        "~vaileg+megceci"
     ],
     "[V][Prec][Trns][A_4Pl][P_2Sg]": [
-        "~vaileg+megteggen",
-        "@+paileg+megteggen"
+        "@+paileg+megteggen",
+        "~vaileg+megteggen"
     ],
     "[V][Prec][Trns][A_4Pl][P_3Du]": [
-        "~vaileg+megtekek",
-        "@+paileg+megtekek"
+        "@+paileg+megtekek",
+        "~vaileg+megtekek"
     ],
     "[V][Prec][Trns][A_4Pl][P_3Pl]": [
-        "~vaileg+megteki",
-        "@+paileg+megteki"
+        "@+paileg+megteki",
+        "~vaileg+megteki"
     ],
     "[V][Prec][Trns][A_4Pl][P_3Sg]": [
-        "~vaileg+megteggu",
-        "@+paileg+megteggu"
+        "@+paileg+megteggu",
+        "~vaileg+megteggu"
     ],
     "[V][Prec][Trns][A_4Sg][P_1Du]": [
-        "~vaileg+mikuk",
-        "@+paileg+mikuk"
+        "@+paileg+mikuk",
+        "~vaileg+mikuk"
     ],
     "[V][Prec][Trns][A_4Sg][P_1Pl]": [
-        "~vaileg+mikut",
-        "@+paileg+mikut"
+        "@+paileg+mikut",
+        "~vaileg+mikut"
     ],
     "[V][Prec][Trns][A_4Sg][P_1Sg]": [
-        "~vaileg+mia",
-        "@+paileg+mia"
+        "@+paileg+mia",
+        "~vaileg+mia"
     ],
     "[V][Prec][Trns][A_4Sg][P_2Du]": [
-        "~vaileg+mitek",
-        "@+paileg+mitek"
+        "@+paileg+mitek",
+        "~vaileg+mitek"
     ],
     "[V][Prec][Trns][A_4Sg][P_2Pl]": [
-        "~vaileg+mici",
-        "@+paileg+mici"
+        "@+paileg+mici",
+        "~vaileg+mici"
     ],
     "[V][Prec][Trns][A_4Sg][P_2Sg]": [
-        "~vaileg+miten",
-        "@+paileg+miten"
+        "@+paileg+miten",
+        "~vaileg+miten"
     ],
     "[V][Prec][Trns][A_4Sg][P_3Du]": [
-        "~vaileg+mikek",
-        "@+paileg+mikek"
+        "@+paileg+mikek",
+        "~vaileg+mikek"
     ],
     "[V][Prec][Trns][A_4Sg][P_3Pl]": [
-        "~vaileg+miki",
-        "@+paileg+miki"
+        "@+paileg+miki",
+        "~vaileg+miki"
     ],
     "[V][Prec][Trns][A_4Sg][P_3Sg]": [
-        "~vaileg+miu",
-        "@+paileg+miu"
+        "@+paileg+miu",
+        "~vaileg+miu"
     ],
     "[V][Ptcp][Intr][S_1Du]": [
-        "@+ngur*–kuk",
         "–lria–kuk",
-        "–lrii–kuk"
+        "–lrii–kuk",
+        "@+ngur*–kuk"
     ],
     "[V][Ptcp][Intr][S_1Pl]": [
-        "@+ngur*–kut",
         "–lria–kut",
-        "–lrii–kut"
+        "–lrii–kut",
+        "@+ngur*–kut"
     ],
     "[V][Ptcp][Intr][S_1Sg]": [
-        "@+ngur*:(ng)a",
         "–lria:(ng)a",
-        "–lrii:(ng)a"
+        "–lrii:(ng)a",
+        "@+ngur*:(ng)a"
     ],
     "[V][Ptcp][Intr][S_2Du]": [
-        "@+ngur*–tek",
         "–lria–tek",
-        "–lrii–tek"
+        "–lrii–tek",
+        "@+ngur*–tek"
     ],
     "[V][Ptcp][Intr][S_2Pl]": [
-        "@+ngur*–si",
         "–lria–si",
-        "–lrii–si"
+        "–lrii–si",
+        "@+ngur*–si"
     ],
     "[V][Ptcp][Intr][S_2Sg]": [
-        "@+ngur*–ten",
         "–lria–ten",
-        "–lrii–ten"
+        "–lrii–ten",
+        "@+ngur*–ten"
     ],
     "[V][Ptcp][Intr][S_3Du]": [
-        "@+ngur*%:(e)k",
         "–lria%:(e)k",
-        "–lrii%:(e)k"
+        "–lrii%:(e)k",
+        "@+ngur*%:(e)k"
     ],
     "[V][Ptcp][Intr][S_3Pl]": [
-        "@+ngur*%:(e)t",
         "–lria%:(e)t",
-        "–lrii%:(e)t"
+        "–lrii%:(e)t",
+        "@+ngur*%:(e)t"
     ],
     "[V][Ptcp][Intr][S_3Sg]": [
-        "@+ngur*",
         "–lria",
-        "–lrii"
+        "–lrii",
+        "@+ngur*"
     ],
     "[V][Ptcp][Trns][A_1Du][P_2Du]": [
         "@~–kemegtek"
@@ -5421,5 +5578,27 @@ endingRules = {
     "[V][Sbrd][Trns][P_3Sg]": [
         "@naku",
         "@~+luku"
+    ],
+    "[Via]": [
+        ".ggun"
+    ],
+    "[Via][DuUnpd]": [
+        ".negnun"
+    ],
+    "[Via][PlUnpd]": [
+        ".tgun"
+    ],
+    "[Via][SgUnpd]": [
+        ".kun"
+    ],
+    "[Voc][DuUnpd]": [
+        ".uk"
+    ],
+    "[Voc][PlUnpd]": [
+        ".ut"
+    ],
+    "[Voc][SgUnpd]": [
+        "@+yuuq",
+        "@+suuq"
     ]
 }
