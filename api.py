@@ -238,7 +238,7 @@ input_stream = hfst.HfstInputStream('./static/esu.ana.hfstol')
 transducer_ana = input_stream.read()
 input_stream.close()
 input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-transducer_ana_seg_gen = input_stream2.read()
+transducer_seg_gen = input_stream2.read()
 input_stream2.close()
 
 
@@ -266,13 +266,16 @@ class Parser(Resource):
         parses.sort(key=lambda x: len(x[0]), reverse=True)  # longest length of base
         parses.sort(key=len)                                # least number of morphemes
         parses = parses[0:10]                               # get top 10
-        parses = ["-".join(x) for x in parses]
+        parses = ['-'.join(x) for x in parses]
         # print(parses)
 
         # segments that match word
-        segments = [list(transducer_ana_seg_gen.lookup(x)) for x in parses]
-        segments = [x[0] for seg in segments for x in seg if x[0].replace(">","") == word]
-        # print(segments)
+        segments = [list(transducer_seg_gen.lookup(x)) for x in parses]
+        print(segments)
+        print(word.replace("-",""))
+        print(segments[0][0][0].replace(">",""))
+        segments = [x for seg in segments for x,weight in seg if x.replace(">","") == word]
+        print(segments)
 
         # ending rules
         endings = []
