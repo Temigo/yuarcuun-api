@@ -271,11 +271,11 @@ class Parser(Resource):
 
         # segments that match word
         segments = [list(transducer_seg_gen.lookup(x)) for x in parses]
-        print(segments)
-        print(word.replace("-",""))
-        print(segments[0][0][0].replace(">",""))
+        # print(segments)
+        # print(word.replace("-",""))
+        # print(segments[0][0][0].replace(">",""))
         segments = [x for seg in segments for x,weight in seg if x.replace(">","") == word]
-        print(segments)
+        # print(segments)
 
         # ending rules
         endings = []
