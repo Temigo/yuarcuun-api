@@ -255,7 +255,7 @@ class Parser(Resource):
         # self.transducer_ana = self.input_stream.read()
         # self.input_stream.close()
         # self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
-        # self.transducer_ana_seg_gen = self.input_stream2.read()
+        # self.transducer_seg_gen = self.input_stream2.read()
         # self.input_stream2.close()
         list_results = transducer_ana.lookup(word)
         parses = [x[0] for x in list_results]
@@ -299,7 +299,7 @@ class Segmenter(Resource):
 
     @cors.crossdomain(origin='*')
     def get(self, form):
-        list_results = transducer_ana_seg_gen.lookup(form)
+        list_results = transducer_seg_gen.lookup(form)
         return jsonify({'words': [x[0] for x in list_results]})
 
 
@@ -326,7 +326,7 @@ class MoodSegmenter(Resource):
         # Compute all moods
         results = {}
         for ending in moodEndings[mood]:
-            list_results = transducer_ana_seg_gen.lookup(underlying_form + ending)
+            list_results = transducer_seg_gen.lookup(underlying_form + ending)
             results[ending] = [x[0] for x in list_results]
         return jsonify({'results': results})
 
