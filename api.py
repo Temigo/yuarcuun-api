@@ -18,7 +18,7 @@ from flask_s3 import FlaskS3, url_for
 import hfst
 from common.retrieveEndings import moodEndings
 from common.endingRules import endingRules
-
+import resource
 
 app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
@@ -275,9 +275,9 @@ class Parser(Resource):
         endings = []
         for parse in parses:
             endRule = [""]
-            for x in parse.split("-"):
+            for index, x in enumerate(parse.split("-")):
                 if x in endingRules:
-                    endRule = endingRules[x]
+                    endRule = (index, endingRules[x])
             endings.append(endRule)
         # print(endings)
 
