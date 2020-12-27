@@ -1,3 +1,147 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import hfst
+import json
+from collections import defaultdict
+
+
+demonstrativeEndings = {
+"over there or going away":{
+	"extended":(["au͡g[DemPro]"], ["ava[DemAdv]"]),  
+	"restricted":(["ing[DemPro]"], ["yaa[DemAdv]"]),
+	"obscured":(["am[DemPro]"], ["ama[DemAdv]"]),
+},
+"across there":{
+	"extended":(["ag[DemPro]"], ["agaa[DemAdv]", "ii[DemAdv]"]),
+	"restricted":(["ik[DemPro]", "ikegg[DemPro]"], ["ika[DemAdv]"]),  
+	"obscured":(["akem[DemPro]"], ["akma[DemAdv]"]),
+},                                                        
+"up the slope":{
+	"extended":(["pau͡g[DemPro]"], ["pava[DemAdv]"]),  
+	"restricted":(["ping[DemPro]"], ["pia[DemAdv]"]),
+	"obscured":(["pam[DemPro]"], ["pama[DemAdv]"]),
+},
+"up above":{
+	"extended":(["pag[DemPro]"], ["pagaa[DemAdv]", "pii[DemAdv]"]),
+	"restricted":(["pik[DemPro]", "pikegg[DemPro]"], ["pika[DemAdv]"]), 
+	"obscured":(["pakem[DemPro]"], ["pakma[DemAdv]"]),
+},
+"inside, inland, or upriver":{
+	"extended":(["qau͡g[DemPro]"], ["qava[DemAdv]"]),
+	"restricted":(["kiug[DemPro]", "kiu͡g[DemPro]"], ["kia[DemAdv]"]),
+	"obscured":(["qam[DemPro]"], ["qama[DemAdv]"]),  
+},
+"outside":{
+	"extended":(["qag[DemPro]"], ["qagaa[DemAdv]", "qii[DemAdv]"]),
+	"restricted":(["kegg[DemPro]"], ["kegga[DemAdv]"]), 
+	"obscured":(["qakem[DemPro]"], ["qakma[DemAdv]"]),
+},
+"down below or down the slope":{
+	"extended":(["un[DemPro]"], ["una[DemAdv]"]), 
+	"restricted":(["kan[DemPro]"], ["kana[DemAdv]"]),
+	"obscured":(["cam[DemPro]"], ["cama[DemAdv]"]),
+},
+"downriver or near the exit":{
+	"extended":(["uneg[DemPro]"], ["un'ga[DemAdv]", "un'gaa[DemAdv]"]),
+	"restricted":(["ug[DemPro]"], ["ua[DemAdv]"]),
+	"obscured":(["cakem[DemPro]"], ["cakma[DemAdv]"]),
+},
+"here, near speaker":{
+	"extended":(["man[DemPro]"], ["maa[DemAdv]"]),
+	"restricted":(["u[DemPro]"], ["wa[DemAdv]"]), 
+	"obscured":(["im[DemPro]"], ["ima[DemAdv]"]),
+},
+"there, near listener or in context":{
+	"extended":(["tama[DemPro]"], ["tamaa[DemAdv]"]),
+	"restricted":(["tau[DemPro]"], ["tua[DemAdv]", "tava[DemAdv]"]),                        
+},                                               
+"coming this way":{
+	"extended":(["uk[DemPro]"], ["uka[DemAdv]"]), 
+},
+}
+
+pronounForms = [
+	("[Abs][SgUnpd]", "absolutive singular (1)"),
+	("[Abs][DuUnpd]", "absolutive dual (2)"),
+	("[Abs][PlUnpd]", "absolutive plural (3+)"),
+	("[Rel][SgUnpd]", "relative singular (1)"),
+	("[Rel][DuUnpd]", "relative dual (2)"),
+	("[Rel][PlUnpd]", "relative plural (3+)"),
+	("[Abl_Mod][SgUnpd]", "ablative-modalis singular (1)"),
+	("[Abl_Mod][DuUnpd]", "ablative-modalis dual (2)"),
+	("[Abl_Mod][PlUnpd]", "ablative-modalis plural (3+)"),
+	("[Loc][SgUnpd]", "localis singular (1)"),
+	("[Loc][DuUnpd]", "localis dual (2)"),
+	("[Loc][PlUnpd]", "localis plural (3+)"),
+	("[Ter][SgUnpd]", "terminalis singular (1)"),
+	("[Ter][DuUnpd]", "terminalis dual (2)"),
+	("[Ter][PlUnpd]", "terminalis plural (3+)"),
+	("[Via][SgUnpd]", "vialis singular (1)"),
+	("[Via][DuUnpd]", "vialis dual (2)"),
+	("[Via][PlUnpd]", "vialis plural (3+)"),
+	("[Equ][SgUnpd]", "equalis singular (1)"),
+	("[Equ][DuUnpd]", "equalis dual (2)"),
+	("[Equ][PlUnpd]", "equalis plural (3+)"),
+	("[Voc][SgUnpd]", "vocative singular (1)"),
+	("[Voc][DuUnpd]", "vocative dual (2)"),
+	("[Voc][PlUnpd]", "vocative plural (3+)"),
+]
+
+adverbForms = [
+	("[Loc]", "localis"),
+	("[Ter]", "terminalis"),
+	("[Sec_Ter]", "second terminalis"),
+	("[Abl]", "ablative"),
+	("[Via]", "vialis"),
+	("=i[Encl]", "predicative form"),
+]
+
+wang = "wang[PerPro]"
+ell = "ell[PerPro]"
+cases = ["[Abs]","[Rel]","[Abl_Mod]","[Loc]","[Ter]","[Ter]","[Via]","[Equ]"]
+persons = ["[1Sg]","[2Sg]","[3Sg]","[4Sg]","[1Du]","[2Du]","[3Du]","[4Du]","[1Pl]","[2Pl]","[3Pl]","[4Pl]"]
+
+
+input_stream2 = hfst.HfstInputStream('static/esu.seg.gen.hfstol')
+transducer_seg_gen = input_stream2.read()
+input_stream2.close()
+
+
+# demonstrative = {dimension:{extended:{"[Abs][SgUnpd]":["ik>na","ikegg>na"]}}}
+demonstratives = {}
+for dimension, extResObsTypes in demonstrativeEndings.items():
+	demonstratives[dimension] = {}
+	for extendedRestrictedObscured, proAdvTypes in extResObsTypes.items():
+		forms = defaultdict(set)
+		pronouns, adverbs = proAdvTypes
+		for pronoun in pronouns:
+			for pronounForm, endingEnglish in pronounForms:
+				forms[pronounForm] = forms[pronounForm].union(set([x[0] for x in list(transducer_seg_gen.lookup(pronoun+"-"+pronounForm))]))
+		for adverb in adverbs:
+			for adverbForm, endingEnglish in adverbForms:
+				forms[adverbForm] = forms[adverbForm].union(set([x[0] for x in list(transducer_seg_gen.lookup(adverb+"-"+adverbForm))]))
+
+		demonstratives[dimension][extendedRestrictedObscured] = {key:list(value) for key, value in forms.items()}
+
+# def set_default(obj):
+#     if isinstance(obj, set):
+#         return list(obj)
+#     raise TypeError
+
+personalPronouns = defaultdict(list)
+for case in cases:
+	for person in persons:
+		if "1" in person:
+			personalPronouns[case+person] = [x[0] for x in list(transducer_seg_gen.lookup(wang+"-"+case+person))]
+		else:
+			personalPronouns[case+person] = [x[0] for x in list(transducer_seg_gen.lookup(ell+"-"+case+person))]
+
+# print()
+# print(json.dumps(demonstratives, default=set_default))
+# print()
+# print(json.dumps(personalPronouns))
+
 #def retrieveEndings(mood)
 moodType = [
 "[Ind]",
@@ -555,6 +699,21 @@ endingsForConnective = [
 "[Trns][A_2Du][P_4Du]",
 ]
 
+endingsForQuantQual = [
+"[P_3Sg]",
+"[P_3Pl]",
+"[P_3Du]",
+"[S_1Sg]",
+"[S_1Pl]",
+"[S_1Du]",
+"[S_2Sg]",
+"[S_2Pl]",
+"[S_2Du]",
+"[S_4Sg]",
+"[S_4Pl]",
+"[S_4Du]",
+]
+
 moodEndings = {
 	"[Ind]": endingsForIndicativeParticipial,
 	"[Ptcp]": endingsForIndicativeParticipial,
@@ -575,4 +734,5 @@ moodEndings = {
 	"[Cond]": endingsForConnective,
 	"[CtmpI]": endingsForConnective,
 	"[CtmpII]": endingsForConnective,
+	"[Quant_Qual]": endingsForQuantQual,
 }

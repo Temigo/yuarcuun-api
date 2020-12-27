@@ -16,7 +16,7 @@ from flask_compress import Compress
 #from whitenoise import WhiteNoise
 from flask_s3 import FlaskS3, url_for
 import hfst
-from common.retrieveEndings import moodEndings
+from common.retrieveEndings import moodEndings, demonstratives, personalPronouns
 from common.endingRules import endingRules
 import resource
 
@@ -316,8 +316,15 @@ class MoodSegmenter(Resource):
         #print(args)
         if "[V]" in args['underlying_form']:
             underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
-        else:
+        elif "[N]" in args['underlying_form']:
             underlying_form = args['underlying_form'].encode('utf-8').split("[N]", 1)[0] + "[N]"
+        elif "[Quant_Qual]" in args['underlying_form']:
+            underlying_form = args['underlying_form'].encode('utf-8').split("[Quant_Qual]", 1)[0]
+        elif "[DemPro]" in args['underlying_form'] or "[DemAdv]" in args['underlying_form']:
+            return jsonify({'results': demonstratives})
+        elif "[PerPro]" in args['underlying_form']:
+            return jsonify({'results': personalPronouns})
+
         mood = args['mood']
         if mood not in moodEndings:
             raise Exception("Unknown mood %s" % mood)
