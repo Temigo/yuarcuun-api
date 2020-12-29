@@ -284,6 +284,8 @@ class Parser(Resource):
             for index, x in enumerate(parse.split("-")):
                 if x in endingRules:
                     endRule = (index, endingRules[x])
+                else:
+                	endRule = (-1, [""])
             endings.append(endRule)
         # print(endings)
 
