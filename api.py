@@ -315,7 +315,10 @@ class MoodSegmenter(Resource):
         args = parser_generator.parse_args()
         #print(args)
         if "[V]" in args['underlying_form']:
-            underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
+            if "@+paa|~vaa[V][XCLM]" in args['underlying_form'] or "@+pag|~vag[V][XCLM]" in args['underlying_form']:
+                underlying_form = args['underlying_form'].encode('utf-8').split("@+paa", 1)[0] + "[V]"
+            else:
+                underlying_form = args['underlying_form'].encode('utf-8').split("[V]", 1)[0] + "[V]"
         elif "[N]" in args['underlying_form']:
             underlying_form = args['underlying_form'].encode('utf-8').split("[N]", 1)[0] + "[N]"
         elif "[Quant_Qual]" in args['underlying_form']:
