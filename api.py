@@ -245,9 +245,6 @@ input_stream2.close()
 class Parser(Resource):
     def __init__(self, *args, **kwargs):
         super(Parser, self).__init__(*args, **kwargs)
-        soft, hard = resource.getrlimit(resource.RLIMIT_AS)
-        print("resource", soft, hard)
-        resource.setrlimit(resource.RLIMIT_AS, (256000000, hard))
 
     @cors.crossdomain(origin='*')
     def get(self, word):
@@ -257,7 +254,7 @@ class Parser(Resource):
         # self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
         # self.transducer_seg_gen = self.input_stream2.read()
         # self.input_stream2.close()
-        list_results = transducer_ana.lookup(word)
+        list_results = transducer_ana.lookup(word, time_cutoff=10.0)
         parses = [x[0] for x in list_results]
         # print(parses)
 
