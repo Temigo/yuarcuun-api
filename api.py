@@ -19,6 +19,7 @@ import hfst
 from common.retrieveEndings import moodEndings, demonstratives, personalPronouns
 from common.endingRules import endingRules
 import resource
+import enchant
 
 app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
@@ -46,6 +47,8 @@ parser_api.add_argument('postbase', type=str, action='append')
 parser_generator = reqparse.RequestParser()
 parser_generator.add_argument('underlying_form', type=unicode)
 parser_generator.add_argument('mood', type=str)
+
+english_dict = enchant.Dict("en_US")
 
 # FIXME obsolete
 # Takes a list of dict/json objects and add id field
@@ -262,6 +265,7 @@ class Parser(Resource):
         parses = [x.split('-') for x in parses]
         parses.sort(key=lambda x: len(x[0]), reverse=True)  # longest length of base
         parses.sort(key=len)                                # least number of morphemes
+        parses = sorted(parses, key=lambda x: False if "[NonYupik]" not in x[0] else ( False if english_dict.check(x[0].split("[NonYupik]")[0]) else True )) # push non-English [NonYupik] words to the end of the list
         parses = parses[0:10]                               # get top 10
         parses = ['-'.join(x) for x in parses]
         # print(parses)
