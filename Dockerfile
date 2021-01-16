@@ -17,6 +17,7 @@ COPY . /app
 RUN apt update
 
 RUN apt -y install dpkg-dev g++ gcc binutils python-dev python-pip python-setuptools apt-utils
+RUN apt install -y libenchant-dev
 RUN pip --no-cache-dir install -r requirements.txt
 
 RUN apt install -y ffmpeg
