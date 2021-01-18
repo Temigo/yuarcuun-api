@@ -262,7 +262,8 @@ class Parser(Resource):
         # print(parses)
 
         # parses sort algorithm
-        parses = [x.split('-') for x in parses]
+        parses.sort(key=len)                                # shortest to longest string length
+        parses = [x.split('-') for x in parses]             # split into morphemes
         parses.sort(key=lambda x: len(x[0]), reverse=True)  # longest length of base
         parses.sort(key=len)                                # least number of morphemes
         parses = sorted(parses, key=lambda x: False if "[NonYupik]" not in x[0] else ( False if english_dict.check(x[0].split("[NonYupik]")[0]) else True )) # push non-English [NonYupik] words to the end of the list
