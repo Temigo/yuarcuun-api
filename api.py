@@ -257,6 +257,7 @@ class Parser(Resource):
         # self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
         # self.transducer_seg_gen = self.input_stream2.read()
         # self.input_stream2.close()
+        word = word.encode("ascii", "ignore") #TempFix: remove ligature marks for transducer lookup (python2.7 unicode issue??)
         list_results = transducer_ana.lookup(word, time_cutoff=10.0)
         parses = [x[0] for x in list_results]
         # print(parses)
