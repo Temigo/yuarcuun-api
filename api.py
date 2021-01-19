@@ -257,8 +257,8 @@ class Parser(Resource):
         # self.input_stream2 = hfst.HfstInputStream('./static/esu.seg.gen.hfstol')
         # self.transducer_seg_gen = self.input_stream2.read()
         # self.input_stream2.close()
-        word = word.encode("ascii", "ignore") #TempFix: remove ligature marks for transducer lookup (python2.7 unicode issue??)
-        list_results = transducer_ana.lookup(word, time_cutoff=10.0)
+        word_utf8 = word.encode("utf-8")    #convert to bytestring for analyzer lookup
+        list_results = transducer_ana.lookup(word_utf8, time_cutoff=10.0)
         parses = [x[0] for x in list_results]
         # print(parses)
 
@@ -273,11 +273,20 @@ class Parser(Resource):
         # print(parses)
 
         # segments that match word
-        segments = [list(transducer_seg_gen.lookup(x)) for x in parses]
-        # print(segments)
+        segments_all = [list(transducer_seg_gen.lookup(x)) for x in parses]
+        # print(segments_all)
         # print(word.replace("-",""))
         # print(segments[0][0][0].replace(">",""))
-        segments = [x for seg in segments for x,weight in seg if x.replace(">","") == word]
+        # segments = [x for seg in segments for x,weight in seg if]
+        segments = []
+        for seg in segments_all:
+            if len(seg) == 1:
+                segments.append(seg[0][0])
+            else:
+                for x, weight in seg:
+                    # print(str(type(x))+" "+x+"\t"+str(type(word))+" "+word)
+                    if x.replace(">","").decode('utf-8').replace(u"\u0361","").replace(u"\u0304","") == word.replace(u"\u0361","").replace(u"\u0304",""):
+                        segments.append(x)
         # print(segments)
 
         # ending rules
