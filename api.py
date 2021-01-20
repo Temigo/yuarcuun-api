@@ -280,13 +280,17 @@ class Parser(Resource):
         # segments = [x for seg in segments for x,weight in seg if]
         segments = []
         for seg in segments_all:
+            seg_out = ""
             if len(seg) == 1:
-                segments.append(seg[0][0])
+                seg_out = seg[0][0]
             else:
                 for x, weight in seg:
                     # print(str(type(x))+" "+x+"\t"+str(type(word))+" "+word)
-                    if x.replace(">","").decode('utf-8').replace(u"\u0361","").replace(u"\u0304","") == word.replace(u"\u0361","").replace(u"\u0304",""):
-                        segments.append(x)
+                    if x.replace(">","").decode('utf-8').replace(u"\u0361","").replace(u"\u0304","").replace(u"\u035E","") == word.replace(u"\u0361","").replace(u"\u0304","").replace(u"\u035E",""):
+                        seg_out = x
+                if seg_out == "":
+                    seg_out = seg[0][0]
+            segments.append(seg_out)
         # print(segments)
 
         # ending rules
