@@ -259,7 +259,7 @@ class Parser(Resource):
         # self.input_stream2.close()
         word_utf8 = word.encode("utf-8")    #convert to bytestring for analyzer lookup
         list_results = transducer_ana.lookup(word_utf8, time_cutoff=10.0)
-        parses = [x[0] for x in list_results]
+        parses = [x[0].replace("@%:","@:") for x in list_results]
         # print(parses)
 
         # parses sort algorithm
@@ -273,7 +273,7 @@ class Parser(Resource):
         # print(parses)
 
         # segments that match word
-        segments_all = [list(transducer_seg_gen.lookup(x)) for x in parses]
+        segments_all = [list(transducer_seg_gen.lookup(x.replace("@:","@%:"))) for x in parses]
         # print(segments_all)
         # print(word.replace("-",""))
         # print(segments[0][0][0].replace(">",""))
