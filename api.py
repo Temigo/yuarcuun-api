@@ -352,7 +352,7 @@ class MoodSegmenter(Resource):
         # Compute all moods
         results = {}
         for ending in moodEndings[mood]:
-            list_results = transducer_seg_gen.lookup(underlying_form + ending)
+            list_results = transducer_seg_gen.lookup(underlying_form.replace("@:","@%:") + ending)
             results[ending] = [x[0] for x in list_results]
         return jsonify({'results': results})
 
